@@ -31,7 +31,7 @@ public class RoomCreatorEditor : EditorWindow
         // Generate Room button
         if (GUILayout.Button("Generate Room"))
         {
-            GameObject room = RoomCreator.GenerateRoom(planeWidth, planeHeight, planeMaterial);
+            GameObject room = RoomCreator.GenerateRoom(wallMaterial, planeWidth, planeHeight, planeMaterial);
             // Select the created room in the hierarchy
             Selection.activeGameObject = room;
         }

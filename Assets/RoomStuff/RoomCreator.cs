@@ -5,7 +5,7 @@ using UnityEngine;
 
 public static class RoomCreator 
 {
-    public static GameObject GenerateRoom(float planeWidth, float planeHeight, Material planeMaterial)
+    public static GameObject GenerateRoom(Material wallMaterial, float planeWidth, float planeHeight, Material planeMaterial)
     {
         GameObject[] slits; // Array to hold slits
         GameObject[] doors; // Array to hold doors
@@ -13,8 +13,11 @@ public static class RoomCreator
         // Create a parent GameObject for the room
         GameObject room = new GameObject("Room");
 
-        // Load forestMaterial material from Resources folder
-        Material wallMaterial = Resources.Load<Material>("forestMaterial");
+        if (wallMaterial == null)
+        {
+            // Load forestMaterial material from Resources folder
+            wallMaterial = Resources.Load<Material>("forestMaterial");
+        }
         // Get width and height of wallMaterial texture
         Texture2D wallTexture = wallMaterial.mainTexture as Texture2D;
         float wallHeight = wallTexture.height / 25f; // texture height defines wall height
