@@ -12,6 +12,8 @@ public class RoomCreatorEditor : EditorWindow
 
     private GameObject[] slits; // Array to hold slits
 
+    private GameObject[] doors; // Array to hold doors
+
     [MenuItem("Tools/Room Creator")]
     public static void ShowWindow()
     {
@@ -152,7 +154,47 @@ public class RoomCreatorEditor : EditorWindow
         GameObject slit2 = Slit.CreateSlit(room, new Vector2(-1, 0), false);
         this.slits = new GameObject[] { slit1, slit2 };
 
+        // Create exit doors
+        int doorId = Random.Range(0, 4);
+        GameObject door1 = CreateDoor(doorId);
+        doors = new GameObject[] { door1 };
+        door1.transform.parent = room.transform;
+
         // Select the created room in the hierarchy
         Selection.activeGameObject = room;
+    }
+
+    private GameObject CreateDoor(int wallId) {
+        // Load door prefab from Resources folder
+        GameObject doorPrefab = Resources.Load<GameObject>("RoomStuff/Door/Door");
+        GameObject doorInstance = Instantiate(doorPrefab);
+        doorInstance.name = $"Door_{wallId + 1}";
+
+        doorInstance.transform.rotation = Quaternion.Euler(0f, 90f * wallId, 0f); // Reset rotation
+
+        // Random factor between -0.25 and +0.25
+        float randomFactor = Random.Range(-0.25f, 0.25f);
+
+        // Set the position and rotation based on the wall ID
+        switch (wallId)
+        {
+            case 0: // Top wall
+                doorInstance.transform.position = new Vector3(randomFactor * planeWidth, 0, planeHeight / 2f - 0.01f);
+                break;
+            case 1: // Right wall
+                doorInstance.transform.position = new Vector3(planeWidth / 2f - 0.01f, 0, randomFactor * planeHeight);
+                break;
+            case 2: // Bottom wall
+                doorInstance.transform.position = new Vector3(randomFactor * planeWidth, 0, -planeHeight / 2f + 0.01f);
+                break;
+            case 3: // Left wall
+                doorInstance.transform.position = new Vector3(-planeWidth / 2f + 0.01f, 0, randomFactor * planeHeight);
+                break;
+            default:
+                Debug.LogError("Invalid wall ID for door creation.");
+                return null;
+        }
+
+        return doorInstance;
     }
 }
