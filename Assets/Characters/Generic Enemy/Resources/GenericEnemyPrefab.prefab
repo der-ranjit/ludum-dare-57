@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 1279135384231389063}
   - component: {fileID: 4676909607491438125}
   m_Layer: 0
-  m_Name: GenericEnemy
+  m_Name: GenericEnemyPrefab
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

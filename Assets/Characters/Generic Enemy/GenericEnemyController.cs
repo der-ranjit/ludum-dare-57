@@ -37,7 +37,17 @@ public class GenericEnemyController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (playerTransform == null || rb == null) return;
+        if (GameManager.Instance.CurrentState != GameManager.GameState.LevelStart)
+        {
+            return;
+        }
+
+        MoveTowardsPlayer();
+    }
+
+    private void MoveTowardsPlayer()
+    {
+       if (playerTransform == null || rb == null) return;
 
         // Calculate the direction to the player
         Vector3 directionToPlayer = (playerTransform.position - transform.position).normalized;

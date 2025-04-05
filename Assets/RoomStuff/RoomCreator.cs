@@ -117,7 +117,7 @@ public static class RoomCreator
 
         // Create exit doors
         int doorId = Random.Range(0, 4);
-        GameObject door1 = RoomCreator.CreateDoor(doorId, planeWidth, planeHeight);
+        GameObject door1 = CreateDoor(doorId, planeWidth, planeHeight);
         doors = new GameObject[] { door1 };
         door1.transform.parent = room.transform;
 

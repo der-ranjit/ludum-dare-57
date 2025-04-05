@@ -30,6 +30,11 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance.CurrentState != GameManager.GameState.LevelStart)
+        {
+            return;
+        }
+    
         // Movement
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveZ = Input.GetAxisRaw("Vertical");
