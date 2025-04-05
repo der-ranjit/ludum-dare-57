@@ -69,11 +69,11 @@ public class PlayerController : MonoBehaviour
         }
 
         // Smoothly rotate player in 90-degree increments
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.JoystickButton4))
         {
             targetRotationY -= 90f; // Rotate counterclockwise
         }
-        else if (Input.GetKeyDown(KeyCode.E))
+        else if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.JoystickButton5))
         {
             targetRotationY += 90f; // Rotate clockwise
         }
@@ -82,6 +82,27 @@ public class PlayerController : MonoBehaviour
         float currentY = transform.eulerAngles.y;
         float newY = Mathf.LerpAngle(currentY, targetRotationY, rotationSpeed * Time.deltaTime);
         transform.rotation = Quaternion.Euler(0f, newY, 0f);
+
+        // Log all key presses
+        // foreach (KeyCode key in System.Enum.GetValues(typeof(KeyCode)))
+        // {
+        //     if (Input.GetKey(key))
+        //     {
+        //         Debug.Log($"Key Pressed: {key}");
+        //     }
+        // }
+
+        // // Log all Unity Input axes
+        // string[] axes = { "Horizontal", "Vertical", "Jump", "Fire1", "Fire2", "Fire3" }; // Add more axes as needed
+        // foreach (string axis in axes)
+        // {
+        //     float value = Input.GetAxis(axis);
+        //     if (Mathf.Abs(value) > 0.01f) // Log only if there's input
+        //     {
+        //         Debug.Log($"Axis: {axis}, Value: {value}");
+        //     }
+        // }
+
     }
 
     void Jump()
