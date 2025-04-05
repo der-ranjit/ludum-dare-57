@@ -20,6 +20,7 @@ public class CameraController : MonoBehaviour
 
     void LateUpdate()
     {
+        target = GameObject.FindGameObjectWithTag("Player")?.transform; // Find the player object by tag
         if (target == null)
         {
             Debug.LogWarning("CameraController: No target assigned!");
