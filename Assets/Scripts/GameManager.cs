@@ -42,23 +42,54 @@ public class GameManager : MonoBehaviour
         StartCoroutine(TransitionToLevelStart());
     }
 
-    private static void SpawnEnemies(GameObject room, int enemyCount, float noSpawnRadius)
+    private static void SpawnEnemies(GameObject room, int spawnCount, float noSpawnRadius)
     {
+        GameObject player = GameObject.FindGameObjectWithTag("Player"); // Find the player object
         GameObject genericEnemyPrefab = Resources.Load<GameObject>("GenericEnemyPrefab"); // Load the enemy prefab from Resources
-        for (int i = 0; i < enemyCount; i++)
+        GameObject plane = room.transform.Find("Floor").gameObject; // Find the plane in the room
+        Vector3 planeCenter = plane.transform.position;
+        Vector3 planeSize = plane.transform.localScale * 10f; // Unity's default plane is 10x10 units
+        int spawned = 0;
+        int attempts = 0;
+        int maxAttempts = spawnCount * 10;
+        while (spawned < spawnCount && attempts < maxAttempts)
         {
-            Vector3 spawnPosition = Random.insideUnitSphere * noSpawnRadius;
+            attempts++;
+
+            // Generate random position within plane bounds
+            float randX = Random.Range(-planeSize.x / 2f, planeSize.x / 2f);
+            float randZ = Random.Range(-planeSize.z / 2f, planeSize.z / 2f);
             // TODO change based on floating or grounded enemy 
-            spawnPosition.y = 0.3f;
+            float spawnOffsetY = 0.3f;
+            Vector3 spawnPosition = new Vector3(planeCenter.x + randX, planeCenter.y + spawnOffsetY, planeCenter.z + randZ);
 
-            GameObject enemy = Object.Instantiate(genericEnemyPrefab, spawnPosition, Quaternion.identity);
-            enemy.name = $"Enemy_{i + 1}";
-            enemy.transform.parent = room.transform;
+            // Avoid player radius
+            if (Vector3.Distance(spawnPosition, player.transform.position) >= noSpawnRadius)
+            {
+                GameObject enemy = Object.Instantiate(genericEnemyPrefab, spawnPosition, Quaternion.identity);
+                enemy.name = $"Enemy_{spawned + 1}";
+                enemy.transform.parent = room.transform;
 
-            // Set initial rotation (90 degrees left or right)
-            float randomAngle = Random.value > 0.5f ? 90f : -90f;
-            enemy.transform.Rotate(Vector3.up, randomAngle);
+                // Set the enemy's rotation to face away from the camera, essentially making it invisible
+                // Calculate the direction from the enemy to the camera
+                Vector3 directionToCamera = (Camera.main.transform.position - enemy.transform.position).normalized;
+                // Randomly decide whether to invert the rotation
+                bool invertRotation = Random.value > 0.5f;
+
+                // Align the enemy's right vector to point at the camera (or its inverse)
+                Vector3 rightVector = Vector3.Cross(Vector3.up, directionToCamera);
+                if (invertRotation)
+                {
+                    rightVector = -rightVector; // Invert the right vector
+                }
+
+                Quaternion invisibleRotation = Quaternion.LookRotation(rightVector, Vector3.up);
+                enemy.transform.rotation = invisibleRotation;
+
+                spawned++;
+            }
         }
+
     }
 
     private IEnumerator TransitionToLevelStart()

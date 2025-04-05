@@ -400,10 +400,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 869822201966934144, guid: e058780438713364baecb8a224201b51, type: 3}
-      propertyPath: enemyCount
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 4200267296355481176, guid: e058780438713364baecb8a224201b51, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -473,6 +469,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5858ad342acea0242a8891777d11a677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <CurrentState>k__BackingField: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

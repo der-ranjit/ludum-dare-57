@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class GenericEnemyController : MonoBehaviour
@@ -10,6 +11,9 @@ public class GenericEnemyController : MonoBehaviour
     private Transform playerTransform; // Reference to the player's transform
     private float initialY; // The initial Y position of the enemy
     private Rigidbody rb; // Reference to the Rigidbody component
+    private SpriteRenderer spriteRenderer; // Reference to the enemy's SpriteRenderer
+
+    public bool spriteIsActivating = false;
 
     void Start()
     {
@@ -33,6 +37,14 @@ public class GenericEnemyController : MonoBehaviour
         {
             Debug.LogError("GenericEnemyController: No Rigidbody component found on the enemy!");
         }
+
+        // Get the SpriteRenderer component
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        if (spriteRenderer != null)
+        {
+            // Make the enemy invisible initially
+            spriteRenderer.enabled = false;
+        }
     }
 
     void FixedUpdate()
@@ -42,12 +54,31 @@ public class GenericEnemyController : MonoBehaviour
             return;
         }
 
-        MoveTowardsPlayer();
+        // Make the enemy visible when the level starts
+        if (spriteRenderer != null && !spriteRenderer.enabled && !spriteIsActivating)
+        {
+            spriteIsActivating = true; // Prevent multiple calls to the coroutine
+            StartCoroutine(EnableSpriteRendererWithDelay());
+        }
+        if (spriteRenderer.enabled)
+        {
+            MoveTowardsPlayer();
+        }
+    }
+    
+    private IEnumerator EnableSpriteRendererWithDelay()
+    {
+        // Wait for a random delay between 0 and 1 second
+        float randomDelay = Random.Range(0f, 1f);
+        yield return new WaitForSeconds(randomDelay);
+
+        // Enable the SpriteRenderer
+        spriteRenderer.enabled = true;
     }
 
     private void MoveTowardsPlayer()
     {
-       if (playerTransform == null || rb == null) return;
+        if (playerTransform == null || rb == null) return;
 
         // Calculate the direction to the player
         Vector3 directionToPlayer = (playerTransform.position - transform.position).normalized;
