@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 3442655677162083075}
   - component: {fileID: 2071727208587892129}
   - component: {fileID: 1279135384231389063}
+  - component: {fileID: 4676909607491438125}
   m_Layer: 0
   m_Name: GenericEnemy
   m_TagString: Enemy
@@ -203,5 +204,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 0.5
   rotationSpeed: 5
-  wobbleAmplitude: 0.2
-  wobbleFrequency: 5
+  wobbleAmplitude: 0
+  wobbleFrequency: 0
+--- !u!114 &4676909607491438125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6117496558057403177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edd5f1f110ac2d84b912f3c7e098e464, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

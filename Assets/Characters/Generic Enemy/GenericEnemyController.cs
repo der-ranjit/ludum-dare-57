@@ -9,6 +9,7 @@ public class GenericEnemyController : MonoBehaviour
 
     private Transform playerTransform; // Reference to the player's transform
     private float initialY; // The initial Y position of the enemy
+    private Rigidbody rb; // Reference to the Rigidbody component
 
     void Start()
     {
@@ -25,24 +26,32 @@ public class GenericEnemyController : MonoBehaviour
 
         // Store the initial Y position
         initialY = transform.position.y;
+
+        // Get the Rigidbody component
+        rb = GetComponent<Rigidbody>();
+        if (rb == null)
+        {
+            Debug.LogError("GenericEnemyController: No Rigidbody component found on the enemy!");
+        }
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        if (playerTransform == null) return;
+        if (playerTransform == null || rb == null) return;
 
-        // Move toward the player
+        // Calculate the direction to the player
         Vector3 directionToPlayer = (playerTransform.position - transform.position).normalized;
-        Vector3 targetPosition = transform.position + directionToPlayer * moveSpeed * Time.deltaTime;
 
         // Add wobble effect to the Y position
-        targetPosition.y = initialY + Mathf.Sin(Time.time * wobbleFrequency) * wobbleAmplitude;
+        float wobbleOffset = Mathf.Sin(Time.time * wobbleFrequency) * wobbleAmplitude;
+        Vector3 velocity = directionToPlayer * moveSpeed;
+        velocity.y = wobbleOffset;
 
-        // Update the enemy's position
-        transform.position = targetPosition;
+        // Apply velocity to the Rigidbody
+        rb.velocity = velocity;
 
         // Smoothly rotate to face the same direction as the player
         Quaternion targetRotation = playerTransform.rotation;
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime));
     }
 }
