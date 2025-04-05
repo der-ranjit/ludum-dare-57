@@ -9,7 +9,6 @@ public class RoomCreatorEditor : EditorWindow
 
     private Material planeMaterial; // Material for the plane
     private Material wallMaterial; // Material for the walls
-    private GameObject playerPrefab; // Player prefab to spawn
 
     private GameObject[] slits; // Array to hold slits
 
@@ -31,9 +30,6 @@ public class RoomCreatorEditor : EditorWindow
         // Material fields
         planeMaterial = (Material)EditorGUILayout.ObjectField("Plane Material", planeMaterial, typeof(Material), false);
         wallMaterial = (Material)EditorGUILayout.ObjectField("Wall Material", wallMaterial, typeof(Material), false);
-
-        // Player prefab field
-        playerPrefab = (GameObject)EditorGUILayout.ObjectField("Player Prefab", playerPrefab, typeof(GameObject), false);
 
         // Generate Room button
         if (GUILayout.Button("Generate Room"))
@@ -138,6 +134,7 @@ public class RoomCreatorEditor : EditorWindow
         // Disable the collider on the spawner indicator
         DestroyImmediate(spawnerIndicator.GetComponent<Collider>());
 
+        GameObject playerPrefab = Resources.Load<GameObject>("TessaPrefab");
         // Instantiate the player prefab at the spawner's position
         if (playerPrefab != null)
         {
