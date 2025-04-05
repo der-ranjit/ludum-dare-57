@@ -11,6 +11,8 @@ public class RoomCreatorEditor : EditorWindow
     private Material wallMaterial; // Material for the walls
     private GameObject playerPrefab; // Player prefab to spawn
 
+    private GameObject[] slits; // Array to hold slits
+
     [MenuItem("Tools/Room Creator")]
     public static void ShowWindow()
     {
@@ -125,6 +127,11 @@ public class RoomCreatorEditor : EditorWindow
             // Remove the spawner and its indicator after spawning the player
             DestroyImmediate(spawner);
         }
+
+        // Create slits
+        GameObject slit1 = Slit.CreateSlit(room, new Vector2(30, 20), true);
+        GameObject slit2 = Slit.CreateSlit(room, new Vector2(0, 0), false);
+        this.slits = new GameObject[] { slit1, slit2 };
 
         // Select the created room in the hierarchy
         Selection.activeGameObject = room;
