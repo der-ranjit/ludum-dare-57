@@ -95,7 +95,7 @@ public static class RoomCreator
 
         // Create the player spawner
         GameObject spawner = new GameObject("PlayerSpawner");
-        spawner.transform.position = new Vector3(0f, 1f, 0f); // Place it slightly above the floor
+        spawner.transform.position = new Vector3(0f, 0.5f, 0f);
         spawner.transform.parent = room.transform;
 
         GameObject playerPrefab = Resources.Load<GameObject>("PlayerPrefab");

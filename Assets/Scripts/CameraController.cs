@@ -7,6 +7,12 @@ public class CameraController : MonoBehaviour
 
     void LateUpdate()
     {
+        if (GameManager.Instance.CurrentState != GameManager.GameState.LevelStart)
+        {
+            // let level camera transition control the camera
+            return;
+        }
+
         target = GameObject.FindGameObjectWithTag("Player")?.transform; // Find the player object by tag
         if (target == null)
         {

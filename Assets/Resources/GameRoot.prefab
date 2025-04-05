@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2c3f6b7f8857834da76c0c2e5675d72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  preStartDuration: 3.5
+  preStartDuration: 2
   enemyCount: 6
   noSpawnRadius: 4
+  cameraHeightOffset: 10
+  cameraTransitionDuration: 3
