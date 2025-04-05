@@ -203,9 +203,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 1.1
-  rotationSpeed: 5
+  rotationSpeed: 1.5
   wobbleAmplitude: 0.27
   wobbleFrequency: 4
+  spriteIsActivating: 0
 --- !u!114 &4676909607491438125
 MonoBehaviour:
   m_ObjectHideFlags: 0
