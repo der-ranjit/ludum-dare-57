@@ -8,41 +8,52 @@ public class PlayerController : MonoBehaviour
 {
     public float moveSpeed = 2f;
     public float jumpForce = 5f;
+    public float rotationSpeed = 5f; // Speed of smooth rotation
     private bool isGrounded = true;
     private bool canDoubleJump = false;
-    private float lastMoveX = 0f; 
+    private float lastMoveX = 0f;
+    private float targetRotationY = 0f; // Target Y rotation for smooth rotation
     private Rigidbody rigidBody;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
+    private Transform cameraTransform; // Reference to the camera's transform
+
 
     void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        targetRotationY = transform.eulerAngles.y; // Initialize target rotation
+        cameraTransform = Camera.main.transform; // Get the main camera's transform
     }
 
     void Update()
     {
-        // movement
+        // Movement
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveZ = Input.GetAxisRaw("Vertical");
-        Vector3 moveDirection = new Vector3(moveX, 0f, moveZ).normalized;
+        // Get the camera's forward and right vectors
+        Vector3 cameraForward = cameraTransform.forward;
+        Vector3 cameraRight = cameraTransform.right;
+        cameraForward.Normalize();
+        cameraRight.Normalize();
+        // Calculate the movement direction relative to the camera
+        Vector3 moveDirection = (cameraForward * moveZ + cameraRight * moveX).normalized;
         rigidBody.velocity = new Vector3(moveDirection.x * moveSpeed, rigidBody.velocity.y, moveDirection.z * moveSpeed);
 
-        // set animator parameters
+        // Set animator parameters
         bool isWalking = moveX != 0 || moveZ != 0;
         animator.SetBool("isWalking", isWalking);
 
-        // flip sprite based on direction
+        // Flip sprite based on direction
         if (moveX != 0)
         {
             lastMoveX = moveX;
-            // TODO fix tessa sprite direction
             spriteRenderer.flipX = lastMoveX > 0;
         }
 
-        // jumping
+        // Jumping
         if (Input.GetButtonDown("Jump"))
         {
             if (isGrounded)
@@ -56,6 +67,21 @@ public class PlayerController : MonoBehaviour
                 canDoubleJump = false;
             }
         }
+
+        // Smoothly rotate player in 90-degree increments
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            targetRotationY -= 90f; // Rotate counterclockwise
+        }
+        else if (Input.GetKeyDown(KeyCode.E))
+        {
+            targetRotationY += 90f; // Rotate clockwise
+        }
+
+        // Smoothly interpolate to the target rotation
+        float currentY = transform.eulerAngles.y;
+        float newY = Mathf.LerpAngle(currentY, targetRotationY, rotationSpeed * Time.deltaTime);
+        transform.rotation = Quaternion.Euler(0f, newY, 0f);
     }
 
     void Jump()
