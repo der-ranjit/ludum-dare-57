@@ -185,7 +185,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
@@ -202,10 +202,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d19536b8ca552f14d851103f66d97215, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0.5
+  moveSpeed: 1.1
   rotationSpeed: 5
-  wobbleAmplitude: 0
-  wobbleFrequency: 0
+  wobbleAmplitude: 0.27
+  wobbleFrequency: 4
 --- !u!114 &4676909607491438125
 MonoBehaviour:
   m_ObjectHideFlags: 0
