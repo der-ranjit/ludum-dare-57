@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+
 [ExecuteInEditMode]
 public class Slit : MonoBehaviour
 {
 
-    public int width = 10; // Width of the slit
-    public int height = 1; // Height of the slit
+    private const float defaultLength = 1.4f;
+    private const float defaultWidth = 0.14f;
+
+    public float width = defaultLength; // Width of the slit
+    public float height = defaultWidth; // Height of the slit
 
     
     // Factory method to create a Slit
@@ -21,8 +25,8 @@ public class Slit : MonoBehaviour
         // Get the Slit component
         Slit slit = slitInstance.GetComponent<Slit>();
         // Set the slit dimensions
-        slit.width = horizontal ? 10 : 1;
-        slit.height = horizontal ? 1 : 10;
+        slit.width = horizontal ? defaultLength : defaultWidth;
+        slit.height = horizontal ? defaultWidth : defaultLength;
 
         return slitInstance;
     }

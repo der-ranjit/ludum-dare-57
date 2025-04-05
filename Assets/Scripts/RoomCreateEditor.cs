@@ -129,8 +129,8 @@ public class RoomCreatorEditor : EditorWindow
         }
 
         // Create slits
-        GameObject slit1 = Slit.CreateSlit(room, new Vector2(30, 20), true);
-        GameObject slit2 = Slit.CreateSlit(room, new Vector2(0, 0), false);
+        GameObject slit1 = Slit.CreateSlit(room, new Vector2(2, 1), true);
+        GameObject slit2 = Slit.CreateSlit(room, new Vector2(-1, 0), false);
         this.slits = new GameObject[] { slit1, slit2 };
 
         // Select the created room in the hierarchy
