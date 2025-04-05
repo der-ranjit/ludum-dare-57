@@ -47,6 +47,13 @@ public class RoomCreatorEditor : EditorWindow
         // Create a parent GameObject for the room
         GameObject room = new GameObject("Room");
 
+        // Load forestMaterial material from Resources folder
+        Material wallMaterial = Resources.Load<Material>("RoomStuff/forest/forestMaterial");
+        // Get width and height of wallMaterial texture
+        Texture2D wallTexture = wallMaterial.mainTexture as Texture2D;
+        wallHeight = wallTexture.height / 25f; // texture height defines wall height
+
+
         // Create the floor plane
         GameObject plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
         plane.transform.localScale = new Vector3(planeWidth / 10f, 1f, planeHeight / 10f);
@@ -63,27 +70,28 @@ public class RoomCreatorEditor : EditorWindow
         Vector3[] wallPositions = new Vector3[]
         {
         new Vector3(0f, wallHeight / 2f, planeHeight / 2f), // Top wall
-        new Vector3(0f, wallHeight / 2f, -planeHeight / 2f), // Bottom wall
         new Vector3(planeWidth / 2f, wallHeight / 2f, 0f), // Right wall
+        new Vector3(0f, wallHeight / 2f, -planeHeight / 2f), // Bottom wall
         new Vector3(-planeWidth / 2f, wallHeight / 2f, 0f) // Left wall
         };
 
         Quaternion[] wallRotations = new Quaternion[]
         {
         Quaternion.Euler(90f, 180f, 0f), // Top wall (rotated to face inward)
-        Quaternion.Euler(90f, 0f, 0f), // Bottom wall (rotated to face inward)
         Quaternion.Euler(90f, -90f, 0f), // Right wall (rotated to face inward)
+        Quaternion.Euler(90f, 0f, 0f), // Bottom wall (rotated to face inward)
         Quaternion.Euler(90f, 90f, 0f) // Left wall (rotated to face inward)
         };
 
         Vector3[] wallScales = new Vector3[]
         {
         new Vector3(planeWidth / 10f, 1f, wallHeight / 10f), // Top wall
-        new Vector3(planeWidth / 10f, 1f, wallHeight / 10f), // Bottom wall
         new Vector3(planeHeight / 10f, 1f, wallHeight / 10f), // Right wall
+        new Vector3(planeWidth / 10f, 1f, wallHeight / 10f), // Bottom wall
         new Vector3(planeHeight / 10f, 1f, wallHeight / 10f) // Left wall
         };
 
+        float textureOffsetX = 0f; // Texture offset for the wall material to match on edges
         for (int i = 0; i < 4; i++)
         {
             GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Plane);
@@ -95,9 +103,23 @@ public class RoomCreatorEditor : EditorWindow
             wall.name = $"Wall_{i + 1}";
             wall.transform.parent = room.transform;
 
+
+            // Adjust tiling.x value of wallMaterial
             if (wallMaterial != null)
             {
-                wall.GetComponent<Renderer>().material = wallMaterial;
+                // Clone the wall material
+                Material tempWallMaterial = new Material(wallMaterial);
+                float expectedWidth = wallTexture.width / 25f;
+                float texScale = 10 * wallScales[i].x / expectedWidth;
+                tempWallMaterial.mainTextureScale = new Vector2(texScale, 1);
+                // Adjust material texture offset
+                tempWallMaterial.mainTextureOffset = new Vector2(textureOffsetX, 0);
+                float offsetX = texScale % 1f;
+                // Adjust the offset for the next wall
+                textureOffsetX += offsetX;
+                textureOffsetX %= 1f; // Keep it within 0-1 range
+                Debug.Log($"Wall {i + 1} Texture Offset: {textureOffsetX} due to added offset {offsetX} based on scale {texScale}");
+                wall.GetComponent<Renderer>().material = tempWallMaterial;
             }
         }
 
