@@ -1,55 +1,23 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class RoomCreatorEditor : EditorWindow
+public static class RoomCreator 
 {
-    private float planeWidth = 10f; // Width of the plane
-    private float planeHeight = 10f; // Height of the plane
-    private float wallHeight = 2f; // Height of the walls
-
-    private Material planeMaterial; // Material for the plane
-    private Material wallMaterial; // Material for the walls
-
-    private GameObject[] slits; // Array to hold slits
-
-    private GameObject[] doors; // Array to hold doors
-
-    [MenuItem("Tools/Room Creator")]
-    public static void ShowWindow()
+    public static GameObject GenerateRoom(float planeWidth, float planeHeight, Material planeMaterial)
     {
-        GetWindow<RoomCreatorEditor>("Room Creator");
-    }
-
-    private void OnGUI()
-    {
-        GUILayout.Label("Room Settings", EditorStyles.boldLabel);
-
-        // Input fields for room dimensions
-        planeWidth = EditorGUILayout.FloatField("Plane Width", planeWidth);
-        planeHeight = EditorGUILayout.FloatField("Plane Height", planeHeight);
-        wallHeight = EditorGUILayout.FloatField("Wall Height", wallHeight);
-
-        // Material fields
-        planeMaterial = (Material)EditorGUILayout.ObjectField("Plane Material", planeMaterial, typeof(Material), false);
-        wallMaterial = (Material)EditorGUILayout.ObjectField("Wall Material", wallMaterial, typeof(Material), false);
-
-        // Generate Room button
-        if (GUILayout.Button("Generate Room"))
-        {
-            GenerateRoom();
-        }
-    }
-
-    private void GenerateRoom()
-    {
+        GameObject[] slits; // Array to hold slits
+        GameObject[] doors; // Array to hold doors
+    
         // Create a parent GameObject for the room
         GameObject room = new GameObject("Room");
 
         // Load forestMaterial material from Resources folder
-        Material wallMaterial = Resources.Load<Material>("RoomStuff/forest/forestMaterial");
+        Material wallMaterial = Resources.Load<Material>("forestMaterial");
         // Get width and height of wallMaterial texture
         Texture2D wallTexture = wallMaterial.mainTexture as Texture2D;
-        wallHeight = wallTexture.height / 25f; // texture height defines wall height
+        float wallHeight = wallTexture.height / 25f; // texture height defines wall height
 
 
         // Create the floor plane
@@ -61,7 +29,8 @@ public class RoomCreatorEditor : EditorWindow
 
         if (planeMaterial != null)
         {
-            plane.GetComponent<Renderer>().material = planeMaterial;
+             plane.GetComponent<Renderer>().material = planeMaterial;
+
         }
 
         // Create walls
@@ -126,48 +95,37 @@ public class RoomCreatorEditor : EditorWindow
         spawner.transform.position = new Vector3(0f, 1f, 0f); // Place it slightly above the floor
         spawner.transform.parent = room.transform;
 
-        // Add a visual indicator for the spawner (e.g., a sphere)
-        GameObject spawnerIndicator = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        spawnerIndicator.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f); // Make the sphere smaller
-        spawnerIndicator.transform.position = spawner.transform.position;
-        spawnerIndicator.name = "SpawnerIndicator";
-        spawnerIndicator.transform.parent = spawner.transform;
-
-        // Disable the collider on the spawner indicator
-        DestroyImmediate(spawnerIndicator.GetComponent<Collider>());
-
-        GameObject playerPrefab = Resources.Load<GameObject>("TessaPrefab");
+        GameObject playerPrefab = Resources.Load<GameObject>("PlayerPrefab");
         // Instantiate the player prefab at the spawner's position
         if (playerPrefab != null)
         {
-            GameObject player = (GameObject)PrefabUtility.InstantiatePrefab(playerPrefab);
-            player.transform.position = spawner.transform.position;
+            GameObject player = Object.Instantiate(playerPrefab, spawner.transform);
             player.name = "Player";
             player.transform.parent = room.transform;
 
             // Remove the spawner and its indicator after spawning the player
-            DestroyImmediate(spawner);
+            Object.DestroyImmediate(spawner);
         }
 
         // Create slits
         GameObject slit1 = Slit.CreateSlit(room, new Vector2(2, 1), true);
         GameObject slit2 = Slit.CreateSlit(room, new Vector2(-1, 0), false);
-        this.slits = new GameObject[] { slit1, slit2 };
+        slits = new GameObject[] { slit1, slit2 };
 
         // Create exit doors
         int doorId = Random.Range(0, 4);
-        GameObject door1 = CreateDoor(doorId);
+        GameObject door1 = RoomCreator.CreateDoor(doorId, planeWidth, planeHeight);
         doors = new GameObject[] { door1 };
         door1.transform.parent = room.transform;
 
-        // Select the created room in the hierarchy
-        Selection.activeGameObject = room;
+        return room;
     }
 
-    private GameObject CreateDoor(int wallId) {
+    private static GameObject CreateDoor(int wallId, float planeWidth, float planeHeight)
+    {
         // Load door prefab from Resources folder
-        GameObject doorPrefab = Resources.Load<GameObject>("RoomStuff/Door/Door");
-        GameObject doorInstance = Instantiate(doorPrefab);
+        GameObject doorPrefab = Resources.Load<GameObject>("DoorPrefab");
+        GameObject doorInstance = Object.Instantiate(doorPrefab);
         doorInstance.name = $"Door_{wallId + 1}";
 
         doorInstance.transform.rotation = Quaternion.Euler(0f, 90f * wallId, 0f); // Reset rotation

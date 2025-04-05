@@ -20,7 +20,7 @@ public class Slit : MonoBehaviour
     public static GameObject CreateSlit(GameObject parent, Vector2 pos, bool horizontal)
     {
         // Slit prefab exists, instantiate it
-        GameObject slitPrefab = Resources.Load<GameObject>("RoomStuff/Slit/Slit"); // Load the prefab from Resources folder
+        GameObject slitPrefab = Resources.Load<GameObject>("SlitPrefab"); // Load the prefab from Resources folder
         GameObject slitInstance = Instantiate(slitPrefab, parent.transform);
         slitInstance.transform.localPosition = new Vector3(pos.x, 0.01f, pos.y); // Set the position of the slit
         // Get the Slit component
