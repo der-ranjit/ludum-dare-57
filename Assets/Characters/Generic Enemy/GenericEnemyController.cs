@@ -103,11 +103,14 @@ public class GenericEnemyController : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(Random.Range(fireInterval, fireInterval + 1f));
-
             if (GameManager.Instance.CurrentState == GameManager.GameState.LevelStart)
             {
+                yield return new WaitForSeconds(Random.Range(fireInterval, fireInterval + 1f));
                 FireBullet();
+            }
+            else
+            {
+                yield return null; // Wait for the next frame if the game is not in the correct state
             }
         }
     }
