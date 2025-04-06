@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using UnityEngine;
+
 
 public class RoomConfig 
 {
@@ -74,7 +76,7 @@ public static class RoomConfigs
                     "forestFloorMaterial",
                     7,
                     10,
-                    1, // door pos
+                    3, // door pos
                     0, // slit count
                     0, // fire count
                     0, // tree count
@@ -86,6 +88,18 @@ public static class RoomConfigs
                         bedInstance.transform.position = new Vector3(2f, 0f, -2f);
                         bedInstance.transform.parent = room.transform;
                         bedInstance.name = "Bed";
+
+                        DialogManager.Instance.StartDialog(new string[] {
+                            "!wait 3",
+                            "1: Ahhhhh!",
+                            "1: Something is off.",
+                            "1: Just yesterday, I was a regular 3-dimensional person.",
+                            "1: And now it somehow appears I have lost my depth.",
+                            "1: This is unacceptable!",
+                            "1: There is only one possible cause for this madness!",
+                            "1: My neighbor Kevin!!! Any time something strange happens, you can be sure he's at fault.",
+                            "1: I will go over and demand my depth back."
+                        });
                     }
                 );
             case 2:
@@ -147,5 +161,19 @@ public static class RoomConfigs
                     UnityEngine.Random.Range(1, 10) // enemy count
                 );
         }
+    }
+}
+
+public class DelayedAction : MonoBehaviour 
+{
+    public void ExecuteAfterDelay(float seconds, System.Action callback)
+    {
+        StartCoroutine(DelayRoutine(seconds, callback));
+    }
+    
+    private IEnumerator DelayRoutine(float seconds, System.Action callback)
+    {
+        yield return new WaitForSeconds(seconds);
+        callback?.Invoke();
     }
 }
