@@ -124,7 +124,6 @@ public class EnemyController : MonoBehaviour, IDamageable
         {
             if (GameManager.Instance?.CurrentState == GameManager.GameState.Playing)
             {
-                Debug.Log("Enemy is attacking the player!");
                 Vector3 direction = (playerTransform.position - transform.position).normalized;
                 weapon?.Attack(direction);
                 yield return new WaitForSeconds(weapon.baseStats.fireRate); // Wait for the specified fire interval before firing again
