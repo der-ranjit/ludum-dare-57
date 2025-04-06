@@ -98,7 +98,7 @@ SphereCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -118,6 +118,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10234cebcfa6a364fa2dcbd780533065, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  pushForce: 5
+  speed: 15
+  pushForce: 10
   lifetime: 5
