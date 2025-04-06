@@ -91,7 +91,6 @@ public class Weapon : MonoBehaviour
             {
                 firePoint = transform.parent;
             }
-            Debug.Log("FirePoint: " + firePoint);
 
             // Instantiate the bullet
             GameObject bullet = Instantiate(upgradedStats.bulletPrefab, firePoint.position, Quaternion.LookRotation(direction));

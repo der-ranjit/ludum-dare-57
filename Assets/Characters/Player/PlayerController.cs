@@ -74,7 +74,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         }
 
         // Fire weapon
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButton("Fire1"))
         {
             if (currentWeapon != null)
             {

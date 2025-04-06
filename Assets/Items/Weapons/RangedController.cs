@@ -33,7 +33,8 @@ public class RangedController : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        if(other.gameObject == shooter)
+        bool isCharacter = other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Enemy");
+        if (other.gameObject == shooter || !isCharacter)
         {
             return; // Ignore collision with the shooter
         }
