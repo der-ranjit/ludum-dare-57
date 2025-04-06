@@ -24,7 +24,7 @@ public class DialogManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        textComponent.text = "Test.";
+        textComponent.text = "";
         // this.StartDialog(new string[] { "1: Hello, how are you?", "1: I'm fine, thank you!", "1: What about you?" });
         // Hide the dialog UI here by setting this canvas's opacity to 0 (the game object)
         SetUIOpacity(0);
