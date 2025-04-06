@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public static class RoomCreator 
 {
+    private static bool startInBedroom = true; // Flag to indicate if the game starts in the bedroom    
+    private static int roomsCreated = startInBedroom ? 0 : -1; // Counter for the number of rooms created
     public static GameObject DeleteAndGenerateRoom(Material wallMaterial, float planeWidth, float planeHeight, Material planeMaterial)
     {
         // Check if a room already exists and delete it
@@ -20,6 +23,13 @@ public static class RoomCreator
 
     public static GameObject GenerateRoom(Material wallMaterial, float planeWidth, float planeHeight, Material planeMaterial)
     {
+        
+        roomsCreated++; // Increment the room counter
+
+        RoomConfig info = RoomConfigs.GetBasicRoomInfo(roomsCreated); // Get room info based on the number of rooms created
+        planeWidth = info.width;
+        planeHeight = info.height;
+
         GameObject[] slits; // Array to hold slits
         GameObject[] doors; // Array to hold doors
 
@@ -29,17 +39,16 @@ public static class RoomCreator
         if (wallMaterial == null)
         {
             // Load forestMaterial material from Resources folder
-            wallMaterial = Resources.Load<Material>("forestMaterial");
+            wallMaterial = Resources.Load<Material>(info.wallMaterialName);
         }
         if (planeMaterial == null)
         {
             // Load forestMaterial material from Resources folder
-            planeMaterial = Resources.Load<Material>("forestFloorMaterial");
+            planeMaterial = Resources.Load<Material>(info.floorMaterialName);
         }
         // Get width and height of wallMaterial texture
         Texture2D wallTexture = wallMaterial.mainTexture as Texture2D;
         float wallHeight = wallTexture.height / 25f; // texture height defines wall height
-
 
         // Create the floor plane
         GameObject plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
@@ -51,7 +60,6 @@ public static class RoomCreator
         if (planeMaterial != null)
         {
             plane.GetComponent<Renderer>().material = planeMaterial;
-
         }
 
         // Create walls
@@ -113,7 +121,7 @@ public static class RoomCreator
             }
         }
 
-        // Create the player spawner
+        // Create the player spawner. TODO: spawn location in RoomConfig
         GameObject spawner = new GameObject("PlayerSpawner");
         spawner.transform.position = new Vector3(0f, 0.5f, 0f);
         spawner.transform.parent = room.transform;
@@ -131,7 +139,7 @@ public static class RoomCreator
         }
 
         // Create slits
-        int slit_count = Random.Range(1, 10);
+        int slit_count = info.slitCount;
         slits = new GameObject[slit_count];
         for (int i = 0; i < slit_count; i++)
         {
@@ -147,15 +155,15 @@ public static class RoomCreator
             slit.name = $"Slit_{i + 1}";
         }
 
-        // Create exit doors
-        int doorId = Random.Range(0, 4);
-        GameObject door1 = CreateDoor(doorId, planeWidth, planeHeight);
-        doors = new GameObject[] { door1 };
-        door1.transform.parent = room.transform;
+        // Create exit door
+        int doorPos = info.doorPos;
+        GameObject door = CreateDoor(doorPos, planeWidth, planeHeight);
+        doors = new GameObject[] { door };
+        door.transform.parent = room.transform;
 
         // Create game objects
         // Create Trees
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < info.treeCount; i++)
         {
             GameObject treePrefab = Resources.Load<GameObject>("TreePrefab");
             GameObject treeInstance = Object.Instantiate(treePrefab);
@@ -164,7 +172,7 @@ public static class RoomCreator
             treeInstance.name = $"Tree_{i + 1}";
         }
         // Create Stones
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < info.stoneCount; i++)
         {
             GameObject stonePrefab = Resources.Load<GameObject>("StonePrefab");
             GameObject stoneInstance = Object.Instantiate(stonePrefab);
@@ -173,15 +181,24 @@ public static class RoomCreator
             stoneInstance.name = $"Stone_{i + 1}";
         }
         // Fire
-        GameObject firePrefab = Resources.Load<GameObject>("campfirePrefab");
-        GameObject fireInstance = Object.Instantiate(firePrefab);
-        fireInstance.transform.position = GetRandomPosition(2f, planeWidth, planeHeight);
-        fireInstance.transform.parent = room.transform;
-        fireInstance.name = $"Fire_{1}";
+        for (int i = 0; i < info.fireCount; i++)
+        {
+            GameObject firePrefab = Resources.Load<GameObject>("campfirePrefab");
+            GameObject fireInstance = Object.Instantiate(firePrefab);
+            fireInstance.transform.position = GetRandomPosition(2f, planeWidth, planeHeight);
+            fireInstance.transform.parent = room.transform;
+            fireInstance.name = $"Fire_{i + 1}";
+        }
 
+        // Room finalization of info object, if present
+        if (info.finalizeRoom != null)
+        {
+            info.finalizeRoom(room);
+        }
 
         return room;
     }
+
 
     private static GameObject CreateDoor(int wallId, float planeWidth, float planeHeight)
     {
@@ -224,3 +241,5 @@ public static class RoomCreator
         return new Vector3(x, 0, z);
     }
 }
+
+
