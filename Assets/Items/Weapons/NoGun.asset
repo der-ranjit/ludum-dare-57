@@ -19,10 +19,10 @@ MonoBehaviour:
   fireRate: 2
   piercing: 0
   size: 1
-  attackAngle: 0
+  attackAngle: 50
   pushForce: 0
   bulletPrefab: {fileID: 4950493522696737308, guid: 734a96f17a98b23448921c5ec4e5ac82, type: 3}
   bulletLifetime: 5
   bulletSpeed: 10
   bulletRange: 500
-  bulletBounce: 0
+  bulletBounce: 2
