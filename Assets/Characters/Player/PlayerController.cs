@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.Instance.CurrentState != GameManager.GameState.LevelStart)
+        if (GameManager.Instance.CurrentState != GameManager.GameState.Playing)
         {
             return;
         }

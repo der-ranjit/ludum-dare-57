@@ -15,4 +15,15 @@ public class Door : MonoBehaviour
     {
         
     }
+    void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            // Check if game is done
+            if (GameManager.Instance.IsRoomComplete()) {
+                Debug.Log("Room is complete, proceeding to next room");
+                GameManager.Instance.ProceedToNextRoom();
+            }
+        }       
+    }
 }

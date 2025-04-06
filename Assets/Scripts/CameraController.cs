@@ -7,7 +7,7 @@ public class CameraController : MonoBehaviour
 
     void LateUpdate()
     {
-        if (GameManager.Instance.CurrentState != GameManager.GameState.LevelStart)
+        if (GameManager.Instance.CurrentState != GameManager.GameState.Playing)
         {
             // let level camera transition control the camera
             return;

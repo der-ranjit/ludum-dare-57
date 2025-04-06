@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -7,7 +8,7 @@ public class GameManager : MonoBehaviour
     public enum GameState
     {
         PreStart, // Enemies are turned and cannot move
-        LevelStart // Normal gameplay begins
+        Playing // Normal gameplay begins
     }
 
     public GameState CurrentState { get; private set; } = GameState.PreStart;
@@ -48,15 +49,24 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        // Generate the room
-        GameObject room = RoomCreator.DeleteAndGenerateRoom(null, 20f, 20f, null);
-        SpawnEnemies(room, enemyCount, noSpawnRadius);
+        StartCoroutine(CreateNextRoom());
+    }
+
+    private IEnumerator CreateNextRoom() {
+        SetState(GameState.PreStart);
+
+        float width = Random.Range(10f, 25f);
+        float height = Random.Range(10f, 25f);
+        Debug.Log($"Creating room with dimensions: {width} x {height}");
+        int enemies = 1; // Random.Range(1, 10);
+        GameObject room = RoomCreator.DeleteAndGenerateRoom(null, width, height, null);
+        SpawnEnemies(room, enemies, noSpawnRadius);
 
         // Set the camera to a top-down view
         SetCameraToTopDownView(room);
 
         // Start the transition to LevelStart
-        StartCoroutine(TransitionToLevelStart());
+        yield return StartCoroutine(TransitionToLevelStart());
     }
 
     private static void SpawnEnemies(GameObject room, int spawnCount, float noSpawnRadius)
@@ -109,36 +119,64 @@ public class GameManager : MonoBehaviour
 
     }
 
-   private IEnumerator TransitionToLevelStart()
-{
-    Transform player = GameObject.FindGameObjectWithTag("Player")?.transform; // Find the player object by tag
-    Vector3 offset = mainCamera.GetComponent<CameraController>().offset;
-
-    Vector3 playerPositionAfterSpwan = player.position - (player.up * 0.5f); // Adjust the player's position to account for the spawn offset 
-    // Calculate the target camera position and rotation
-    Vector3 targetPlayerCameraPosition = playerPositionAfterSpwan 
-        + (player.right * offset.x) // Horizontal offset
-        + (player.up * offset.y) // Vertical offset + initial player spawn offset
-        + (player.forward * offset.z); // Depth offset
-    // log
-    Debug.Log($"Target Camera Position: {targetPlayerCameraPosition}");
-
-    Quaternion targetPlayerCameraRotation = Quaternion.LookRotation(playerPositionAfterSpwan - targetPlayerCameraPosition);
-
-    // Transition the camera to the player's position
-    yield return StartCoroutine(TransitionCameraToPlayer(targetPlayerCameraPosition, targetPlayerCameraRotation));
-    yield return new WaitForSeconds(preStartDuration);
-
-    // Change the game state to LevelStart
-    SetState(GameState.LevelStart);
-
-    // Enable enemy movement
-    GenericEnemyController[] enemies = FindObjectsOfType<GenericEnemyController>();
-    foreach (var enemy in enemies)
-    {
-        enemy.enabled = true;
+    public bool IsRoomComplete() {
+        if (CurrentState != GameState.Playing)
+        {
+            return false;
+        }
+        // Count the number of enemies in the scene
+        GenericEnemyController[] enemies = FindObjectsOfType<GenericEnemyController>();
+        int enemyCount = enemies.Length;
+        // Check if all enemies are defeated
+        return enemyCount < 2;
     }
-}
+
+    // Regular method that can be called directly
+    public void ProceedToNextRoom()
+    {
+        StartCoroutine(ProceedToNextRoomCoroutine());
+    }
+
+    // Internal coroutine that handles the actual work
+    private IEnumerator ProceedToNextRoomCoroutine()
+    {
+        // Delay to next frame
+        yield return null;
+        
+        // Then create the next room
+        yield return StartCoroutine(CreateNextRoom());
+    }
+
+    private IEnumerator TransitionToLevelStart()
+    {
+        Transform player = GameObject.FindGameObjectWithTag("Player")?.transform; // Find the player object by tag
+        Vector3 offset = mainCamera.GetComponent<CameraController>().offset;
+
+        Vector3 playerPositionAfterSpwan = player.position - (player.up * 0.5f); // Adjust the player's position to account for the spawn offset 
+                                                                                 // Calculate the target camera position and rotation
+        Vector3 targetPlayerCameraPosition = playerPositionAfterSpwan
+            + (player.right * offset.x) // Horizontal offset
+            + (player.up * offset.y) // Vertical offset + initial player spawn offset
+            + (player.forward * offset.z); // Depth offset
+                                           // log
+        Debug.Log($"Target Camera Position: {targetPlayerCameraPosition}");
+
+        Quaternion targetPlayerCameraRotation = Quaternion.LookRotation(playerPositionAfterSpwan - targetPlayerCameraPosition);
+
+        // Transition the camera to the player's position
+        yield return StartCoroutine(TransitionCameraToPlayer(targetPlayerCameraPosition, targetPlayerCameraRotation));
+        yield return new WaitForSeconds(preStartDuration);
+
+        // Change the game state to LevelStart
+        SetState(GameState.Playing);
+
+        // Enable enemy movement
+        GenericEnemyController[] enemies = FindObjectsOfType<GenericEnemyController>();
+        foreach (var enemy in enemies)
+        {
+            enemy.enabled = true;
+        }
+    }
 
     private void SetCameraToTopDownView(GameObject room)
     {
@@ -162,7 +200,7 @@ public class GameManager : MonoBehaviour
         // Rotate the camera to look straight down
         mainCamera.transform.rotation = Quaternion.Euler(90f, 0f, 0f);
     }
-    
+
     private IEnumerator TransitionCameraToPlayer(Vector3 targetPosition, Quaternion targetRotation)
     {
         float elapsedTime = 0f;

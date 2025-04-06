@@ -90,6 +90,8 @@ public static class RoomCreator
             wall.transform.rotation = wallRotations[i];
             wall.name = $"Wall_{i + 1}";
             wall.transform.parent = room.transform;
+            // Two-sided shadow casting
+            wall.GetComponent<Renderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.TwoSided;
 
 
             // Adjust tiling.x value of wallMaterial
@@ -129,9 +131,21 @@ public static class RoomCreator
         }
 
         // Create slits
-        GameObject slit1 = Slit.CreateSlit(room, new Vector2(2, 1), true);
-        GameObject slit2 = Slit.CreateSlit(room, new Vector2(-1, 0), false);
-        slits = new GameObject[] { slit1, slit2 };
+        int slit_count = Random.Range(1, 10);
+        slits = new GameObject[slit_count];
+        for (int i = 0; i < slit_count; i++)
+        {
+            GameObject slit = Slit.CreateSlit(
+                room,
+                new Vector2(Random.Range(-planeWidth / 2f, planeWidth / 2f),
+                Random.Range(-planeHeight / 2f, planeHeight / 2f)),
+                Random.Range(0, 2) == 0
+            );
+            slit.transform.parent = room.transform;
+            // Store in slits array
+            slits[i] = slit;
+            slit.name = $"Slit_{i + 1}";
+        }
 
         // Create exit doors
         int doorId = Random.Range(0, 4);

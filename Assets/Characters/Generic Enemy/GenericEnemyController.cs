@@ -52,7 +52,7 @@ public class GenericEnemyController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (GameManager.Instance.CurrentState != GameManager.GameState.LevelStart)
+        if (GameManager.Instance.CurrentState != GameManager.GameState.Playing)
         {
             return;
         }
@@ -103,7 +103,7 @@ public class GenericEnemyController : MonoBehaviour
     {
         while (true)
         {
-            if (GameManager.Instance.CurrentState == GameManager.GameState.LevelStart)
+            if (GameManager.Instance.CurrentState == GameManager.GameState.Playing)
             {
                 yield return new WaitForSeconds(Random.Range(fireInterval, fireInterval + 1f));
                 FireBullet();
