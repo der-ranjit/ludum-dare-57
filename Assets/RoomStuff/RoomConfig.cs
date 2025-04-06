@@ -88,7 +88,48 @@ public static class RoomConfigs
                         bedInstance.name = "Bed";
                     }
                 );
-            // Cases 2-4 remain the same
+            case 2:
+                return new RoomConfig(
+                    "KevinRoom",
+                    "forestMaterial",
+                    "forestFloorMaterial",
+                    11,
+                    7,
+                    3, // door pos
+                    0, // slit count
+                    0, // fire count
+                    0, // tree count
+                    0, // stone count
+                    0 // enemy count
+                );
+            case 3:
+                return new RoomConfig(
+                    "WarmupRoom",
+                    "forestMaterial",
+                    "forestFloorMaterial",
+                    15,
+                    10,
+                    2, // door pos
+                    0, // slit count
+                    1, // fire count
+                    5, // tree count
+                    4, // stone count
+                    0 // enemy count
+                );
+            case 4:
+                return new RoomConfig(
+                    "SlitTutorialRoom",
+                    "forestMaterial",
+                    "forestFloorMaterial",
+                    12,
+                    8,
+                    2, // door pos
+                    8, // slit count
+                    0, // fire count
+                    0, // tree count
+                    0, // stone count
+                    0 // enemy count
+                );
             
             default:
                 Debug.LogError("Invalid room number. Creating default room.");
