@@ -91,6 +91,8 @@ public static class RoomConfigs
 
                         DialogManager.Instance.StartDialog(new string[] {
                             "!wait 3",
+                            "!cam 3 6 2.5",
+                            // "!move Player 2 5",
                             "1: Ahhhhh!",
                             "1: Something is off.",
                             "1: Just yesterday, I was a regular 3-dimensional person.",
