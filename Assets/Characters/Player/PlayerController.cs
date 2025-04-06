@@ -115,6 +115,11 @@ public class PlayerController : MonoBehaviour
         rigidBody.velocity = new Vector3(rigidBody.velocity.x, jumpForce, rigidBody.velocity.z);
     }
 
+    public void JumpFromEnemy()
+    {
+        rigidBody.velocity = new Vector3(rigidBody.velocity.x, jumpForce * 1.3f, rigidBody.velocity.z);
+    }
+
     public void SetGroundedState(bool grounded)
     {
         isGrounded = grounded;

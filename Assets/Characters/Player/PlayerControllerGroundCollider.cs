@@ -9,11 +9,18 @@ public class GroundCollider : MonoBehaviour
         playerController = GetComponentInParent<PlayerController>();
     }
 
-    void OnTriggerEnter(Collider other)
+    void OnTriggerStay(Collider other)
     {
         if (other.gameObject != transform.parent.gameObject) // Ignore collisions with the player itself
         {
             playerController.SetGroundedState(true);
+            // Check if the other object has GenericEnemyController script, if so, auto jump
+            GenericEnemyController enemyController = other.GetComponent<GenericEnemyController>();
+            if (enemyController != null)
+            {
+                playerController.JumpFromEnemy();
+                // TODO: damage enemy
+            }
         }
     }
 
