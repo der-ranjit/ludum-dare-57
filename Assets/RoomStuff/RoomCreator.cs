@@ -5,11 +5,24 @@ using UnityEngine;
 
 public static class RoomCreator 
 {
+    public static GameObject DeleteAndGenerateRoom(Material wallMaterial, float planeWidth, float planeHeight, Material planeMaterial)
+    {
+        // Check if a room already exists and delete it
+        GameObject existingRoom = GameObject.Find("Room");
+        if (existingRoom != null)
+        {
+            Object.DestroyImmediate(existingRoom);
+        }
+
+        // Generate a new room
+        return GenerateRoom(wallMaterial, planeWidth, planeHeight, planeMaterial);
+    }
+
     public static GameObject GenerateRoom(Material wallMaterial, float planeWidth, float planeHeight, Material planeMaterial)
     {
         GameObject[] slits; // Array to hold slits
         GameObject[] doors; // Array to hold doors
-    
+
         // Create a parent GameObject for the room
         GameObject room = new GameObject("Room");
 
@@ -32,7 +45,7 @@ public static class RoomCreator
 
         if (planeMaterial != null)
         {
-             plane.GetComponent<Renderer>().material = planeMaterial;
+            plane.GetComponent<Renderer>().material = planeMaterial;
 
         }
 

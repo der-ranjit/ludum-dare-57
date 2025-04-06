@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
         }
 
         // Generate the room
-        GameObject room = RoomCreator.GenerateRoom(null, 20f, 20f, null);
+        GameObject room = RoomCreator.DeleteAndGenerateRoom(null, 20f, 20f, null);
         SpawnEnemies(room, enemyCount, noSpawnRadius);
 
         // Set the camera to a top-down view
