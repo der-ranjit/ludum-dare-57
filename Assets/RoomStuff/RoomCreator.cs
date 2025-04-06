@@ -23,7 +23,12 @@ public static class RoomCreator
 
     public static GameObject GenerateRoom(Material wallMaterial, float planeWidth, float planeHeight, Material planeMaterial)
     {
-        
+        Sprite[] allSprites = Resources.LoadAll<Sprite>("Rooms/Forest/Walls");
+        foreach (Sprite sprite in allSprites)
+        {
+            Debug.Log($"Sprite name: {sprite.name}");
+        }
+
         roomsCreated++; // Increment the room counter
 
         RoomConfig info = RoomConfigs.GetBasicRoomInfo(roomsCreated); // Get room info based on the number of rooms created
@@ -126,7 +131,7 @@ public static class RoomCreator
         spawner.transform.position = new Vector3(0f, 0.5f, 0f);
         spawner.transform.parent = room.transform;
 
-        GameObject playerPrefab = Resources.Load<GameObject>("PlayerPrefab");
+        GameObject playerPrefab = Resources.Load<GameObject>("Characters/PlayerPrefab");
         // Instantiate the player prefab at the spawner's position
         if (playerPrefab != null)
         {
@@ -165,7 +170,7 @@ public static class RoomCreator
         // Create Trees
         for (int i = 0; i < info.treeCount; i++)
         {
-            GameObject treePrefab = Resources.Load<GameObject>("TreePrefab");
+            GameObject treePrefab = Resources.Load<GameObject>("Rooms/Forest/Deco/TreePrefab");
             GameObject treeInstance = Object.Instantiate(treePrefab);
             treeInstance.transform.position = GetRandomPosition(2f, planeWidth, planeHeight);
             treeInstance.transform.parent = room.transform;
@@ -174,7 +179,7 @@ public static class RoomCreator
         // Create Stones
         for (int i = 0; i < info.stoneCount; i++)
         {
-            GameObject stonePrefab = Resources.Load<GameObject>("StonePrefab");
+            GameObject stonePrefab = Resources.Load<GameObject>("Rooms/All/Deco/StonePrefab");
             GameObject stoneInstance = Object.Instantiate(stonePrefab);
             stoneInstance.transform.position = GetRandomPosition(2f, planeWidth, planeHeight);
             stoneInstance.transform.parent = room.transform;
@@ -183,7 +188,7 @@ public static class RoomCreator
         // Fire
         for (int i = 0; i < info.fireCount; i++)
         {
-            GameObject firePrefab = Resources.Load<GameObject>("campfirePrefab");
+            GameObject firePrefab = Resources.Load<GameObject>("Lights/CampfirePrefab");
             GameObject fireInstance = Object.Instantiate(firePrefab);
             fireInstance.transform.position = GetRandomPosition(2f, planeWidth, planeHeight);
             fireInstance.transform.parent = room.transform;
@@ -203,7 +208,7 @@ public static class RoomCreator
     private static GameObject CreateDoor(int wallId, float planeWidth, float planeHeight)
     {
         // Load door prefab from Resources folder
-        GameObject doorPrefab = Resources.Load<GameObject>("DoorPrefab");
+        GameObject doorPrefab = Resources.Load<GameObject>("Rooms/Forest/Doors/ForestDoorArchPrefab");
         GameObject doorInstance = Object.Instantiate(doorPrefab);
         doorInstance.name = $"Door_{wallId + 1}";
 

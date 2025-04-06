@@ -87,7 +87,7 @@ public class GameManager : MonoBehaviour
     private static void SpawnEnemies(GameObject room, int spawnCount, float noSpawnRadius)
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player"); // Find the player object
-        GameObject genericEnemyPrefab = Resources.Load<GameObject>("GenericEnemyPrefab"); // Load the enemy prefab from Resources
+        GameObject genericEnemyPrefab = Resources.Load<GameObject>("Characters/GenericEnemyPrefab"); // Load the enemy prefab from Resources
         GameObject plane = room.transform.Find("Floor").gameObject; // Find the plane in the room
         Vector3 planeCenter = plane.transform.position;
         Vector3 planeSize = plane.transform.localScale * 10f; // Unity's default plane is 10x10 units

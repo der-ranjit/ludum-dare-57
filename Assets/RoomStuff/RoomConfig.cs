@@ -58,8 +58,8 @@ public static class RoomConfigs
             case 0:
                 return new RoomConfig(
                     "DefaultRoom",
-                    "forestMaterial",
-                    "forestFloorMaterial",
+                    "Rooms/Forest/forestMaterial",
+                    "Rooms/Forest/forestFloorMaterial",
                     UnityEngine.Random.Range(10f, 25f), // width
                     UnityEngine.Random.Range(10f, 25f), // height
                     UnityEngine.Random.Range(1, 4), // door pos
@@ -72,8 +72,8 @@ public static class RoomConfigs
             case 1:
                 return new RoomConfig(
                     "Bedroom",
-                    "forestMaterial",
-                    "forestFloorMaterial",
+                    "Rooms/Forest/forestMaterial",
+                    "Rooms/Forest/forestFloorMaterial",
                     7,
                     10,
                     3, // door pos
@@ -83,7 +83,7 @@ public static class RoomConfigs
                     0, // stone count
                     0, // enemy count
                     room => {
-                        GameObject bedPrefab = Resources.Load<GameObject>("BedPrefab");
+                        GameObject bedPrefab = Resources.Load<GameObject>("Rooms/Bedroom/Deco/BedPrefab");
                         GameObject bedInstance = UnityEngine.Object.Instantiate(bedPrefab);
                         bedInstance.transform.position = new Vector3(2f, 0f, -2f);
                         bedInstance.transform.parent = room.transform;
@@ -107,8 +107,8 @@ public static class RoomConfigs
             case 2:
                 return new RoomConfig(
                     "KevinRoom",
-                    "forestMaterial",
-                    "forestFloorMaterial",
+                    "Rooms/Forest/forestMaterial",
+                    "Rooms/Forest/forestMaterial",
                     11,
                     7,
                     3, // door pos
@@ -121,8 +121,8 @@ public static class RoomConfigs
             case 3:
                 return new RoomConfig(
                     "WarmupRoom",
-                    "forestMaterial",
-                    "forestFloorMaterial",
+                    "Rooms/Forest/forestMaterial",
+                    "Rooms/Forest/forestFloorMaterial",
                     15,
                     10,
                     2, // door pos
@@ -135,8 +135,22 @@ public static class RoomConfigs
             case 4:
                 return new RoomConfig(
                     "SlitTutorialRoom",
-                    "forestMaterial",
-                    "forestFloorMaterial",
+                    "Rooms/Forest/forestMaterial",
+                    "Rooms/Forest/forestFloorMaterial",
+                    12,
+                    8,
+                    2, // door pos
+                    8, // slit count
+                    0, // fire count
+                    0, // tree count
+                    0, // stone count
+                    0 // enemy count
+                );
+            case 5:
+                return new RoomConfig(
+                    "DungeonRoom",
+                    "Rooms/Forest/forestMaterial",
+                    "Rooms/Forest/forestMaterial",
                     12,
                     8,
                     2, // door pos
@@ -151,8 +165,8 @@ public static class RoomConfigs
                 Debug.LogError("Invalid room number. Creating default room.");
                 return new RoomConfig(
                     "RandomRoom",
-                    "forestMaterial",
-                    "forestFloorMaterial",
+                    "Rooms/Forest/forestMaterial",
+                    "Rooms/Forest/forestFloorMaterial",
                     UnityEngine.Random.Range(10f, 25f), // width
                     UnityEngine.Random.Range(10f, 25f), // height
                     UnityEngine.Random.Range(0, 4), // door pos
