@@ -49,9 +49,9 @@ public class LightFlicker : MonoBehaviour
         if (positionWobbleAmount > 0)
         {
             Vector3 wobbleOffset = new Vector3(
-                GetWobble(time, positionWobbleSpeed, 0),
-                GetWobble(time, positionWobbleSpeed, 1),
-                GetWobble(time, positionWobbleSpeed, 2)
+                GetWobble(time, positionWobbleSpeed, 0) * 0.5f,
+                GetWobble(time, positionWobbleSpeed * 1.3f, 1) * 2f,
+                GetWobble(time, positionWobbleSpeed * 1.543f, 2) * 0.5f
             ) * positionWobbleAmount;
             
             transform.localPosition = originalPosition + wobbleOffset;

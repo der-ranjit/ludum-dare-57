@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteInEditMode]
 public class CameraFacer : MonoBehaviour
 {
+
+    public float leanBackAngle = 15f; // Angle to lean back when facing the camera
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +23,7 @@ public class CameraFacer : MonoBehaviour
             directionToCamera.y = 0; // Ignore the y-axis to keep the object upright
             Quaternion rotation = Quaternion.LookRotation(directionToCamera);
             transform.rotation = rotation;
+            transform.Rotate(-leanBackAngle, 0, 0); // Lean back by the specified angle
         }
     }
 }
