@@ -31,6 +31,11 @@ public static class RoomCreator
             // Load forestMaterial material from Resources folder
             wallMaterial = Resources.Load<Material>("forestMaterial");
         }
+        if (planeMaterial == null)
+        {
+            // Load forestMaterial material from Resources folder
+            planeMaterial = Resources.Load<Material>("forestFloorMaterial");
+        }
         // Get width and height of wallMaterial texture
         Texture2D wallTexture = wallMaterial.mainTexture as Texture2D;
         float wallHeight = wallTexture.height / 25f; // texture height defines wall height
