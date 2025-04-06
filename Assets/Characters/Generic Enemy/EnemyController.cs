@@ -4,7 +4,7 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour, IDamageable
 {
 
-    public float maxHealth = 100f;
+    public float maxHealth = 1f;
     private float currentHealth;
     public float moveSpeed = 2f; // Speed at which the enemy moves
     public float rotationSpeed = 5f; // Speed at which the enemy rotates to face the player
@@ -20,7 +20,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     void Start()
     {
         currentHealth = maxHealth;
-    
+
         // Find the player by tag
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
@@ -73,7 +73,7 @@ public class EnemyController : MonoBehaviour, IDamageable
         }
     }
 
-     public void TakeDamage(float damage)
+    public void TakeDamage(float damage)
     {
         currentHealth -= damage;
         if (currentHealth <= 0)
@@ -117,7 +117,7 @@ public class EnemyController : MonoBehaviour, IDamageable
         Quaternion targetRotation = playerTransform.rotation;
         rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime));
     }
-    
+
     private IEnumerator AttackForever()
     {
         while (true)
@@ -125,7 +125,8 @@ public class EnemyController : MonoBehaviour, IDamageable
             if (GameManager.Instance.CurrentState == GameManager.GameState.Playing)
             {
                 Debug.Log("Enemy is attacking the player!");
-                weapon?.Attack(playerTransform.gameObject); 
+                Vector3 direction = (playerTransform.position - transform.position).normalized;
+                weapon?.Attack(direction);
                 yield return new WaitForSeconds(weapon.baseStats.fireRate); // Wait for the specified fire interval before firing again
             }
             else

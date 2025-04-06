@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
 
     public float preStartDuration = 5f; // Duration of the PreStart state
     public int enemyCount = 5; // Number of enemies to spawn
-    public int killedEnemies;
+    public int killedEnemies = 0;
 
     public float noSpawnRadius = 10f; // Radius around the center of the room to spawn enemies
 

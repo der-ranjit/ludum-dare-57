@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour, IDamageable
 {
     public PlayerStats playerStats;
-    public Weapon currentWeapon;
+    private Weapon currentWeapon;
     public float moveSpeed = 2f;
     public float jumpForce = 5f;
     public float rotationSpeed = 5f; // Speed of smooth rotation
@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         targetRotationY = transform.eulerAngles.y; // Initialize target rotation
         cameraTransform = Camera.main.transform; // Get the main camera's transform
-
+        currentWeapon = GetComponentInChildren<Weapon>(); // Get the weapon component
         // make sure player has a weapon holder transform
     }
 
@@ -73,6 +73,15 @@ public class PlayerController : MonoBehaviour, IDamageable
             }
         }
 
+        // Fire weapon
+        if (Input.GetButtonDown("Fire1"))
+        {
+            if (currentWeapon != null)
+            {
+                currentWeapon.Attack(transform.forward);
+            }
+        }
+
         // Smoothly rotate player in 90-degree increments
         if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.JoystickButton4))
         {
@@ -114,8 +123,8 @@ public class PlayerController : MonoBehaviour, IDamageable
             currentWeapon.Initialize(playerStats);
         }
     }
-    
-    
+
+
     public void EquipWeapon(Weapon newWeapon)
     {
         // Equip a new weapon and update its adjusted stats
@@ -135,7 +144,8 @@ public class PlayerController : MonoBehaviour, IDamageable
         }
         lastTextTime = Time.time;
         string randomString = jumpTexts[UnityEngine.Random.Range(0, jumpTexts.Length)];
-        if (UnityEngine.Random.Range(0, 200) < 1) {
+        if (UnityEngine.Random.Range(0, 200) < 1)
+        {
             randomString = "We have no sound effects!";
         }
         TextParticleSystem.ShowEffect(transform.position + Vector3.up * 0.1f, randomString);

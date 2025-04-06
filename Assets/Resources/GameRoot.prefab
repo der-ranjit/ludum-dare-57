@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4200267296355481176}
   - component: {fileID: 869822201966934144}
+  - component: {fileID: 9090147023688717874}
   m_Layer: 0
   m_Name: GameRoot
   m_TagString: Untagged
@@ -46,6 +47,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   preStartDuration: 2
   enemyCount: 6
+  killedEnemies: 0
   noSpawnRadius: 4
   cameraHeightOffset: 10
   cameraTransitionDuration: 3
+--- !u!114 &9090147023688717874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7660379364159915032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4451537eee3bf824a87f25eb4ae2d8ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyCountText: {fileID: 0}
+  playerHealthText: {fileID: 0}

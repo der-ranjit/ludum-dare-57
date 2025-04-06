@@ -204,12 +204,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d19536b8ca552f14d851103f66d97215, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 1
   moveSpeed: 1.1
   rotationSpeed: 1.5
   wobbleAmplitude: 0.27
   wobbleFrequency: 4
-  fireInterval: 2
 --- !u!114 &4676909607491438125
 MonoBehaviour:
   m_ObjectHideFlags: 0

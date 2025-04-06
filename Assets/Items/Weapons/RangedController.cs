@@ -9,6 +9,7 @@ public class RangedController : MonoBehaviour
     private int piercing;
     private int bounce;
     private float pushForce;
+    public GameObject shooter;
 
     public void Initialize(WeaponStats stats)
     {
@@ -32,7 +33,10 @@ public class RangedController : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        Debug.Log("Bullet hit: " + other.collider.name);
+        if(other.gameObject == shooter)
+        {
+            return; // Ignore collision with the shooter
+        }
         if (other.gameObject.TryGetComponent<IDamageable>(out IDamageable damageable))
         {
             damageable.TakeDamage(damage);

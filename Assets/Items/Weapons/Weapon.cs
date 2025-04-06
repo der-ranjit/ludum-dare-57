@@ -55,16 +55,6 @@ public class Weapon : MonoBehaviour
             {
                 attachedWeaponPrefab = Instantiate(upgradedStats.weaponPrefab, weaponHolder.transform);
 
-                // ignore collisions with enemies if the weapon holder is an enemy
-                if (gameObject.CompareTag("Enemy"))
-                {
-                    Collider[] colliders = attachedWeaponPrefab.GetComponentsInChildren<Collider>();
-                    foreach (Collider collider in colliders)
-                    {
-                        // cool, just look it up in the settings brah
-                        collider.excludeLayers = 1 << LayerMask.NameToLayer("Enemies");
-                    }
-                }
             }
         }
         else
@@ -73,23 +63,22 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    public void Attack(GameObject target)
+    public void Attack(Vector3 direction)
     {
         if (upgradedStats.weaponType == WeaponStats.WeaponType.Ranged)
         {
-            FireRangedWeapon(target);
+            FireRangedWeapon(direction);
         }
         else if (upgradedStats.weaponType == WeaponStats.WeaponType.Melee)
         {
-            PerformMeleeAttack(target);
+            PerformMeleeAttack(direction);
         }
     }
 
-    public void FireRangedWeapon(GameObject target)
+    public void FireRangedWeapon(Vector3 direction)
     {
         if (Time.time >= nextFireTime)
         {
-            Debug.Log("Firing ranged weapon at target: " + target.name);
             nextFireTime = Time.time + 1f / upgradedStats.fireRate;
 
             Transform firePoint = weaponHolder?.transform.Find("FirePoint");
@@ -100,29 +89,19 @@ public class Weapon : MonoBehaviour
             }
             if (firePoint == null)
             {
-                firePoint = gameObject.transform;
+                firePoint = transform.parent;
             }
-
-            // Calculate the direction to the player
-            Vector3 directionToTarget = (target.transform.position - transform.position).normalized;
+            Debug.Log("FirePoint: " + firePoint);
 
             // Instantiate the bullet
-            GameObject bullet = Instantiate(upgradedStats.bulletPrefab, firePoint.position, Quaternion.LookRotation(directionToTarget));
+            GameObject bullet = Instantiate(upgradedStats.bulletPrefab, firePoint.position, Quaternion.LookRotation(direction));
             RangedController bulletComponent = bullet.GetComponent<RangedController>();
+            bulletComponent.shooter = gameObject; // Set the shooter to the current weapon
             bulletComponent.Initialize(upgradedStats);
-            // set all bullets colliders exclude layers to exclude the enemies layer when the weapon is attached to an character with tag enemy
-            if (gameObject.CompareTag("Enemy"))
-            {
-                Collider[] colliders = bullet.GetComponentsInChildren<Collider>();
-                foreach (Collider collider in colliders)
-                {
-                    collider.excludeLayers = 1 << LayerMask.NameToLayer("Enemies");
-                }
-            }
         }
     }
 
-    public void PerformMeleeAttack(GameObject target)
+    public void PerformMeleeAttack(Vector3 direction)
     {
         // For now just stab the weapon prefab in the forward quickly and return to its previous position
         // Get the MeleeController component from the weapon prefab
