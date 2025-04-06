@@ -135,6 +135,25 @@ public class DialogManager : MonoBehaviour
             }
             return;
         }
+        CameraController camController = Camera.main.GetComponent<CameraController>();
+        if (sentence.StartsWith("!cam"))
+        {
+            // If sentence starts with "!cam", we set the camera to the specified position
+            if (sentence == "!cam")
+            {
+                // Reset cam
+                camController.SetOverride();
+            }
+            else
+            {
+                string[] partss = sentence.Split(new[] { " " }, 4, System.StringSplitOptions.None);
+                if (partss.Length == 4 && float.TryParse(partss[1], out float x) && float.TryParse(partss[2], out float y) && float.TryParse(partss[3], out float z))
+                {
+                    camController.SetOverride(new Vector3(x, y, z));
+                }
+            }
+            return;
+        }
 
         // Sentences are of form `<num>: <text>`
         string[] parts = sentence.Split(new[] { ": " }, 2, System.StringSplitOptions.None);
@@ -167,6 +186,7 @@ public class DialogManager : MonoBehaviour
     {
         isRunning = false;
         sentences.Clear();
+        Camera.main.GetComponent<CameraController>().SetOverride(); // Reset camera override
         // Hide the dialog UI here
         Debug.Log("Dialog ended.");
     }
