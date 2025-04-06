@@ -1,0 +1,17 @@
+1: Kevin!
+2: *types and stares at computer*
+1: Kevin!!!
+2: *still typing*
+1: ping Kevin!
+2: *typing away*
+1: sudo pay_attention_to_me!
+2: Uhhhh what?
+1: What have you done? I'm flat!
+2: Ahhh yeah that, sorry, messed up with a commit last night and called the .flatten() method on the wrong object.
+1: Great! Can you please revert that???
+2: Hmmm no sorry. It's not a priority to fix that. It's crunch time, have to make the deadline to ship that thing I'm working on.
+1: Unacceptable!
+2: Tell that to the PM. And now please let me deal with this merge conflict from hell...
+1: (Thinking: Alright then, same procedure as every time. I have to hypnotize him.)
+1: (Thinking: And for that, I need the legendary pendulum of hypnotic depth.)
+1: (Thinking: Which I will surely find by fighting my way through hordes of flat monsters!)
