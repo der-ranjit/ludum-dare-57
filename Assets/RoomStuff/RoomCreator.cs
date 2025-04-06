@@ -159,7 +159,7 @@ public static class RoomCreator
         {
             GameObject treePrefab = Resources.Load<GameObject>("TreePrefab");
             GameObject treeInstance = Object.Instantiate(treePrefab);
-            treeInstance.transform.position = new Vector3(Random.Range(-planeWidth / 2f, planeWidth / 2f), 0, Random.Range(-planeHeight / 2f, planeHeight / 2f));
+            treeInstance.transform.position = GetRandomPosition(2f, planeWidth, planeHeight);
             treeInstance.transform.parent = room.transform;
             treeInstance.name = $"Tree_{i + 1}";
         }
@@ -168,10 +168,16 @@ public static class RoomCreator
         {
             GameObject stonePrefab = Resources.Load<GameObject>("StonePrefab");
             GameObject stoneInstance = Object.Instantiate(stonePrefab);
-            stoneInstance.transform.position = new Vector3(Random.Range(-planeWidth / 2f, planeWidth / 2f), 0, Random.Range(-planeHeight / 2f, planeHeight / 2f));
+            stoneInstance.transform.position = GetRandomPosition(2f, planeWidth, planeHeight);
             stoneInstance.transform.parent = room.transform;
             stoneInstance.name = $"Stone_{i + 1}";
         }
+        // Fire
+        GameObject firePrefab = Resources.Load<GameObject>("campfirePrefab");
+        GameObject fireInstance = Object.Instantiate(firePrefab);
+        fireInstance.transform.position = GetRandomPosition(2f, planeWidth, planeHeight);
+        fireInstance.transform.parent = room.transform;
+        fireInstance.name = $"Fire_{1}";
 
 
         return room;
@@ -210,5 +216,11 @@ public static class RoomCreator
         }
 
         return doorInstance;
+    }
+
+    private static Vector3 GetRandomPosition(float distanceFromWalls, float planeWidth, float planeHeight) {
+        float x = Random.Range(-planeWidth / 2f + distanceFromWalls, planeWidth / 2f - distanceFromWalls);
+        float z = Random.Range(-planeHeight / 2f + distanceFromWalls, planeHeight / 2f - distanceFromWalls);
+        return new Vector3(x, 0, z);
     }
 }
