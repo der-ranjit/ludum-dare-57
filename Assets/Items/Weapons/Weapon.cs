@@ -91,10 +91,8 @@ public class Weapon : MonoBehaviour
             {
                 firePoint = transform;
             }
-            // adjust the direction to be angled in y direction by the weapon stats
-            Vector3 adjustedDirection = Quaternion.Euler(0, upgradedStats.attackAngle, 0) * direction;
             // Instantiate the bullet
-            GameObject bullet = Instantiate(upgradedStats.bulletPrefab, firePoint.position, Quaternion.LookRotation(adjustedDirection));
+            GameObject bullet = Instantiate(upgradedStats.bulletPrefab, firePoint.position, Quaternion.LookRotation(direction));
             RangedController bulletComponent = bullet.GetComponent<RangedController>();
             bulletComponent.shooter = gameObject; // Set the shooter to the current weapon
             bulletComponent.Initialize(upgradedStats);

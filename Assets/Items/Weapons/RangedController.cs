@@ -24,13 +24,11 @@ public class RangedController : MonoBehaviour
 
         // Adjust bullet size
         transform.localScale *= stats.size;
-        Destroy(gameObject, lifetime);
-    }
 
-    private void Update()
-    {
-        // Move the bullet forward
-        transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        // shoot the bullet forward, but upwards in repsect to the stats attackAngle
+        Vector3 shootDirection = Quaternion.Euler(-stats.attackAngle, 0, 0) * transform.forward;
+        GetComponent<Rigidbody>().velocity = shootDirection * speed;
+        Destroy(gameObject, lifetime);
     }
 
     private void OnCollisionEnter(Collision other)

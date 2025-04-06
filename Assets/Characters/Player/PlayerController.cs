@@ -78,7 +78,8 @@ public class PlayerController : MonoBehaviour, IDamageable
         {
             if (currentWeapon != null)
             {
-                currentWeapon.Attack(transform.forward);
+                Vector3 forward = transform.Find("WeaponHolder")?.forward ?? transform.forward;
+                currentWeapon.Attack(forward);
             }
         }
 
@@ -170,5 +171,18 @@ public class PlayerController : MonoBehaviour, IDamageable
     public void SetGroundedState(bool grounded)
     {
         isGrounded = grounded;
+    }
+
+    // draw player forward and weapon holder forward gizmos
+    private void OnDrawGizmos()
+    {
+        Transform weaponHolder = transform.Find("WeaponHolder");
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(transform.position, transform.position + transform.forward * 2f);
+        if (currentWeapon != null && weaponHolder != null)
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawLine(weaponHolder.position, weaponHolder.position + weaponHolder.forward * 2f);
+        }
     }
 }
