@@ -136,8 +136,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.32560867, y: 0.065246046, z: 0.02}
-  m_Center: {x: 0.023595303, y: 0.011685837, z: 0}
+  m_Size: {x: 0.32560867, y: 0.065246046, z: 0.016947351}
+  m_Center: {x: 0.023595303, y: 0.011685837, z: 0.0024496755}
 --- !u!114 &7924675280549036888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,6 +269,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61cad82fb636be84abff765c5f1c1815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerStats:
+    maxHealth: 1
+    currentHealth: 1
+    powerUpBulletSize: 1
+    powerUpBulletSpeed: 1
+    powerUpBulletDamage: 1
+    powerUpBulletPiercing: 1
+    powerUpBulletBounce: 1
+  currentWeapon: {fileID: 0}
   moveSpeed: 2
   jumpForce: 4.35
   rotationSpeed: 5

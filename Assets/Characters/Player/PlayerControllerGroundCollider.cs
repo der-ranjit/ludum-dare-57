@@ -15,7 +15,7 @@ public class GroundCollider : MonoBehaviour
         {
             playerController.SetGroundedState(true);
             // Check if the other object has GenericEnemyController script, if so, auto jump
-            GenericEnemyController enemyController = other.GetComponent<GenericEnemyController>();
+            EnemyController enemyController = other.GetComponent<EnemyController>();
             if (enemyController != null)
             {
                 playerController.JumpFromEnemy();

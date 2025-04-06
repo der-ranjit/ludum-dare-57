@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
 
     public float preStartDuration = 5f; // Duration of the PreStart state
     public int enemyCount = 5; // Number of enemies to spawn
+    public int killedEnemies;
+
     public float noSpawnRadius = 10f; // Radius around the center of the room to spawn enemies
 
     public float cameraHeightOffset = 10f; // Adjustable height offset for the top-down view
@@ -26,6 +28,19 @@ public class GameManager : MonoBehaviour
     {
         CurrentState = newState;
         Debug.Log($"Game state changed to: {newState}");
+    }
+
+    public void EnemyKilled()
+    {
+        killedEnemies++;
+        UIManager.Instance.UpdateEnemyCount(killedEnemies, enemyCount);
+
+        if (killedEnemies >= enemyCount)
+        {
+            Debug.Log("All enemies killed!");
+            killedEnemies = 0; // Reset killed enemies for the next level
+            // Handle level completion
+        }
     }
 
     private void Awake()
@@ -125,7 +140,7 @@ public class GameManager : MonoBehaviour
             return false;
         }
         // Count the number of enemies in the scene
-        GenericEnemyController[] enemies = FindObjectsOfType<GenericEnemyController>();
+        EnemyController[] enemies = FindObjectsOfType<EnemyController>();
         int enemyCount = enemies.Length;
         // Check if all enemies are defeated
         return enemyCount < 2;
@@ -171,7 +186,7 @@ public class GameManager : MonoBehaviour
         SetState(GameState.Playing);
 
         // Enable enemy movement
-        GenericEnemyController[] enemies = FindObjectsOfType<GenericEnemyController>();
+        EnemyController[] enemies = FindObjectsOfType<EnemyController>();
         foreach (var enemy in enemies)
         {
             enemy.enabled = true;

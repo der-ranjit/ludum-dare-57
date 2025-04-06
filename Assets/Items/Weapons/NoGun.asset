@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 202adde9576ce8548b8fcb0ff9eebefb, type: 3}
+  m_Name: NoGun
+  m_EditorClassIdentifier: 
+  weaponName: 
+  weaponPrefab: {fileID: 0}
+  weaponType: 0
+  damage: 1
+  fireRate: 2
+  piercing: 0
+  size: 1
+  attackAngle: 0
+  pushForce: 0
+  bulletPrefab: {fileID: 4950493522696737308, guid: 734a96f17a98b23448921c5ec4e5ac82, type: 3}
+  bulletLifetime: 5
+  bulletSpeed: 10
+  bulletRange: 500
+  bulletBounce: 0

@@ -404,6 +404,14 @@ PrefabInstance:
       propertyPath: enemyCount
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 869822201966934144, guid: e058780438713364baecb8a224201b51, type: 3}
+      propertyPath: preStartDuration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 869822201966934144, guid: e058780438713364baecb8a224201b51, type: 3}
+      propertyPath: cameraTransitionDuration
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4200267296355481176, guid: e058780438713364baecb8a224201b51, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

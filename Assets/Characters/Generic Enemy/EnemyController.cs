@@ -1,22 +1,26 @@
 using System.Collections;
 using UnityEngine;
 
-public class GenericEnemyController : MonoBehaviour
+public class EnemyController : MonoBehaviour, IDamageable
 {
+
+    public float maxHealth = 100f;
+    private float currentHealth;
     public float moveSpeed = 2f; // Speed at which the enemy moves
     public float rotationSpeed = 5f; // Speed at which the enemy rotates to face the player
     public float wobbleAmplitude = 0.5f; // Amplitude of the wobble (height of the up-and-down motion)
     public float wobbleFrequency = 2f; // Frequency of the wobble (speed of the up-and-down motion)
-    public float fireInterval = 2f; // Time between shots
     private Transform playerTransform; // Reference to the player's transform
     private float initialY; // The initial Y position of the enemy
     private Rigidbody rb; // Reference to the Rigidbody component
     private SpriteRenderer spriteRenderer; // Reference to the enemy's SpriteRenderer
-
-    public bool spriteIsActivating = false;
+    private Weapon weapon;
+    private bool spriteIsActivating = false;
 
     void Start()
     {
+        currentHealth = maxHealth;
+    
         // Find the player by tag
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
@@ -46,8 +50,8 @@ public class GenericEnemyController : MonoBehaviour
             spriteRenderer.enabled = false;
         }
 
-        StartCoroutine(FireBullets());
-
+        weapon = GetComponentInChildren<Weapon>();
+        StartCoroutine(AttackForever());
     }
 
     void FixedUpdate()
@@ -67,6 +71,21 @@ public class GenericEnemyController : MonoBehaviour
         {
             MoveTowardsPlayer();
         }
+    }
+
+     public void TakeDamage(float damage)
+    {
+        currentHealth -= damage;
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        GameManager.Instance.EnemyKilled();
+        Destroy(gameObject);
     }
 
     private IEnumerator EnableSpriteRendererWithDelay()
@@ -99,32 +118,20 @@ public class GenericEnemyController : MonoBehaviour
         rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime));
     }
     
-    private IEnumerator FireBullets()
+    private IEnumerator AttackForever()
     {
         while (true)
         {
             if (GameManager.Instance.CurrentState == GameManager.GameState.Playing)
             {
-                yield return new WaitForSeconds(Random.Range(fireInterval, fireInterval + 1f));
-                FireBullet();
+                Debug.Log("Enemy is attacking the player!");
+                weapon?.Attack(playerTransform.gameObject); 
+                yield return new WaitForSeconds(weapon.baseStats.fireRate); // Wait for the specified fire interval before firing again
             }
             else
             {
                 yield return null; // Wait for the next frame if the game is not in the correct state
             }
-        }
-    }
-
-  private void FireBullet()
-    {
-        GameObject bulletPrefab = Resources.Load<GameObject>("GenericBulletPrefab"); // Load the bullet prefab from Resources
-        if (bulletPrefab != null && playerTransform != null)
-        {
-            // Calculate the direction to the player
-            Vector3 directionToPlayer = (playerTransform.position - transform.position).normalized;
-
-            // Instantiate the bullet at the enemy's center
-            GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.LookRotation(directionToPlayer));
         }
     }
 }
