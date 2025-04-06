@@ -153,6 +153,18 @@ public static class RoomCreator
         doors = new GameObject[] { door1 };
         door1.transform.parent = room.transform;
 
+        // Create game objects
+        // Create one tree from Tree prefab
+        for (int i = 0; i < 3; i++)
+        {
+            GameObject treePrefab = Resources.Load<GameObject>("TreePrefab");
+            GameObject treeInstance = Object.Instantiate(treePrefab);
+            treeInstance.transform.position = new Vector3(Random.Range(-planeWidth / 2f, planeWidth / 2f), 0, Random.Range(-planeHeight / 2f, planeHeight / 2f));
+            treeInstance.transform.parent = room.transform;
+            treeInstance.name = "Tree";
+        }
+
+
         return room;
     }
 
