@@ -5,6 +5,19 @@ using UnityEngine;
 
 public class DialogManager : MonoBehaviour
 {
+    public static DialogManager Instance;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
         
     [SerializeField] private TMPro.TextMeshProUGUI textComponent;
     [SerializeField] private GameObject dialogContainer; // Reference to the dialog UI GameObject
@@ -18,6 +31,7 @@ public class DialogManager : MonoBehaviour
     private string currentText = "";
 
     private float currentAge = 0.0f;
+    private float waitingUntilAge = 0.0f;
 
     private float opacity = 0.0f;
 
@@ -39,22 +53,41 @@ public class DialogManager : MonoBehaviour
             SetUIOpacity(opacity);
             return;
         }
-        opacity = Mathf.Min(1, opacity + Time.deltaTime * 2); // Fade in
+        if (currentText.Length > 0) {
+            opacity = Mathf.Min(1, opacity + Time.deltaTime * 2); // Fade in
+        }
         SetUIOpacity(opacity);
 
         currentAge += Time.deltaTime;
-        int charactersToDisplay = Mathf.FloorToInt(currentAge * 20);
+
+        
+        if (waitingUntilAge > 0) {
+            if (currentAge >= waitingUntilAge) {
+                waitingUntilAge = 0;
+                Debug.Log("Waiting time ended.");
+                DisplayNextSentence(); // Display the next sentence after waiting
+            }
+            return; // Skip the rest of the update if we're waiting
+        }
+
+
+        int charactersToDisplay = Mathf.FloorToInt(currentAge * 35 );
         string displayText = currentText.Substring(0, Mathf.Min(charactersToDisplay, currentText.Length));
         textComponent.text = currentName + ": " + displayText;
 
+        bool userTriesToProceed = Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space);
         bool isFullText = displayText == currentText;
-        if (isFullText && Input.GetKeyDown(KeyCode.Space))
-        {
-            DisplayNextSentence();
+        if (userTriesToProceed) {
+            if (isFullText)
+            {
+                // If the text is fully displayed, we can proceed to the next sentence
+                DisplayNextSentence();
+            }
+            else
+            {
+                // If the text is not fully displayed, we can display the full text immediately
+                currentAge = 999999;
         }
-        else if (!isFullText && Input.GetKeyDown(KeyCode.Space))
-        {
-            currentAge = 999999; // Set to a large value to display the full text immediately
         }
     }
 
@@ -88,6 +121,21 @@ public class DialogManager : MonoBehaviour
 
         currentAge = 0;
         string sentence = sentences.Dequeue();
+
+        // If sentence starts with "!wait", we wait for the specified time
+        if (sentence.StartsWith("!wait"))
+        {
+            currentText = ""; // Clear the current text while waiting
+            currentSpeaker = null; // Clear the current speaker while waiting
+            string[] partss = sentence.Split(new[] { " " }, 2, System.StringSplitOptions.None);
+            if (partss.Length == 2 && float.TryParse(partss[1], out float waitTime))
+            {
+                Debug.Log("Waiting for " + waitTime + " seconds.");
+                waitingUntilAge = waitTime;
+            }
+            return;
+        }
+
         // Sentences are of form `<num>: <text>`
         string[] parts = sentence.Split(new[] { ": " }, 2, System.StringSplitOptions.None);
         if (parts.Length == 2)
