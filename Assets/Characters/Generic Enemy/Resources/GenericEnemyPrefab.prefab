@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3544871307400732621}
   - component: {fileID: 7011756377577439252}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,7 +98,8 @@ GameObject:
   - component: {fileID: 2071727208587892129}
   - component: {fileID: 1279135384231389063}
   - component: {fileID: 4676909607491438125}
-  m_Layer: 0
+  - component: {fileID: 1846265130290053199}
+  m_Layer: 6
   m_Name: GenericEnemyPrefab
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -206,6 +207,8 @@ MonoBehaviour:
   rotationSpeed: 1.5
   wobbleAmplitude: 0.27
   wobbleFrequency: 4
+  fireInterval: 2
+  repelForce: 5
   spriteIsActivating: 0
 --- !u!114 &4676909607491438125
 MonoBehaviour:
@@ -219,3 +222,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edd5f1f110ac2d84b912f3c7e098e464, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!136 &1846265130290053199
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6117496558057403177}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.34
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
