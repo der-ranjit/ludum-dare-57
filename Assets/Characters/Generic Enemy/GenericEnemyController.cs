@@ -7,7 +7,7 @@ public class GenericEnemyController : MonoBehaviour
     public float rotationSpeed = 5f; // Speed at which the enemy rotates to face the player
     public float wobbleAmplitude = 0.5f; // Amplitude of the wobble (height of the up-and-down motion)
     public float wobbleFrequency = 2f; // Frequency of the wobble (speed of the up-and-down motion)
-
+    public float fireInterval = 2f; // Time between shots
     private Transform playerTransform; // Reference to the player's transform
     private float initialY; // The initial Y position of the enemy
     private Rigidbody rb; // Reference to the Rigidbody component
@@ -45,6 +45,9 @@ public class GenericEnemyController : MonoBehaviour
             // Make the enemy invisible initially
             spriteRenderer.enabled = false;
         }
+
+        StartCoroutine(FireBullets());
+
     }
 
     void FixedUpdate()
@@ -65,7 +68,7 @@ public class GenericEnemyController : MonoBehaviour
             MoveTowardsPlayer();
         }
     }
-    
+
     private IEnumerator EnableSpriteRendererWithDelay()
     {
         // Wait for a random delay between 0 and 1 second
@@ -94,5 +97,31 @@ public class GenericEnemyController : MonoBehaviour
         // Smoothly rotate to face the same direction as the player
         Quaternion targetRotation = playerTransform.rotation;
         rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime));
+    }
+    
+    private IEnumerator FireBullets()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(Random.Range(fireInterval, fireInterval + 1f));
+
+            if (GameManager.Instance.CurrentState == GameManager.GameState.LevelStart)
+            {
+                FireBullet();
+            }
+        }
+    }
+
+  private void FireBullet()
+    {
+        GameObject bulletPrefab = Resources.Load<GameObject>("GenericBulletPrefab"); // Load the bullet prefab from Resources
+        if (bulletPrefab != null && playerTransform != null)
+        {
+            // Calculate the direction to the player
+            Vector3 directionToPlayer = (playerTransform.position - transform.position).normalized;
+
+            // Instantiate the bullet at the enemy's center
+            GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.LookRotation(directionToPlayer));
+        }
     }
 }
