@@ -7,6 +7,9 @@ public class SlitVictim : MonoBehaviour
     private float elapsedTime = 0.0f;
     private float downwardSpeed = 1.5f; // Speed of downward movement
 
+    string[] slitVictimTexts = new string[] { "Ouch!", "Nooooo!", "*Splatter*", "Help!", "Why me?", "Aaaahhh!", "Oh-oh!" };
+
+
     public void Trigger()
     {
         if (isTriggered) return;
@@ -23,6 +26,10 @@ public class SlitVictim : MonoBehaviour
         {
             col.enabled = false;
         }
+
+        // Trigger text particle
+        string randomString = slitVictimTexts[UnityEngine.Random.Range(0, slitVictimTexts.Length)];
+        TextParticleSystem.ShowDamage(transform.position + Vector3.up * 0.1f, randomString);
     }
 
     private void Update()

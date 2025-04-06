@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
     private SpriteRenderer spriteRenderer;
     private Transform cameraTransform; // Reference to the camera's transform
+    private float lastTextTime = 0;
 
 
     void Start()
@@ -110,14 +111,37 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    string[] jumpTexts = new string[] { "Oof", "Haa", "Whee", "Wohoo" };
+
     void Jump()
     {
         rigidBody.velocity = new Vector3(rigidBody.velocity.x, jumpForce, rigidBody.velocity.z);
+
+        if (Time.time - lastTextTime < 0.3f)
+        {
+            return; // Prevent spamming the text effect
+        }
+        lastTextTime = Time.time;
+        string randomString = jumpTexts[UnityEngine.Random.Range(0, jumpTexts.Length)];
+        if (UnityEngine.Random.Range(0, 200) < 1) {
+            randomString = "We have no sound effects!";
+        }
+        TextParticleSystem.ShowEffect(transform.position + Vector3.up * 0.1f, randomString);
     }
+
+    string[] jumpFromEnemyTexts = new string[] { "Pow!", "Blam!", "Bam!", "Wham!", "Kapow!", "Splash!", "Boom!", "Ouch!" };
 
     public void JumpFromEnemy()
     {
         rigidBody.velocity = new Vector3(rigidBody.velocity.x, jumpForce * 1.3f, rigidBody.velocity.z);
+
+        if (Time.time - lastTextTime < 0.3f)
+        {
+            return; // Prevent spamming the text effect
+        }
+        lastTextTime = Time.time;
+        string randomString = jumpFromEnemyTexts[UnityEngine.Random.Range(0, jumpFromEnemyTexts.Length)];
+        TextParticleSystem.ShowEffect(transform.position + Vector3.up * 0.1f, randomString);
     }
 
     public void SetGroundedState(bool grounded)
