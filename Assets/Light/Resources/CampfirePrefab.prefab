@@ -117,6 +117,7 @@ GameObject:
   - component: {fileID: 1635897633978512853}
   - component: {fileID: 241279544373818469}
   - component: {fileID: 4518004081014646765}
+  - component: {fileID: 5345219849186829705}
   m_Layer: 0
   m_Name: CampfirePrefab
   m_TagString: Untagged
@@ -148,7 +149,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5332929463670310893}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0945876f90bf8fa4995f980257d1cee8, type: 3}
   m_Name: 
@@ -175,6 +176,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5345219849186829705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5332929463670310893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d956e6249a722c4f82a77d882c6b899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numberOfBillboards: 1
 --- !u!1 &7990262394629593421
 GameObject:
   m_ObjectHideFlags: 0
