@@ -56,7 +56,7 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     void FixedUpdate()
     {
-        if (GameManager.Instance.CurrentState != GameManager.GameState.Playing)
+        if (GameManager.Instance?.CurrentState != GameManager.GameState.Playing)
         {
             return;
         }
@@ -122,7 +122,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     {
         while (true)
         {
-            if (GameManager.Instance.CurrentState == GameManager.GameState.Playing)
+            if (GameManager.Instance?.CurrentState == GameManager.GameState.Playing)
             {
                 Debug.Log("Enemy is attacking the player!");
                 Vector3 direction = (playerTransform.position - transform.position).normalized;

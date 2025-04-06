@@ -13,6 +13,8 @@ public class RangedController : MonoBehaviour
 
     public void Initialize(WeaponStats stats)
     {
+        IgnoreCollisionWithShooter(shooter);
+
         damage = stats.damage;
         speed = stats.bulletSpeed;
         piercing = stats.piercing;
@@ -33,11 +35,6 @@ public class RangedController : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        bool isCharacter = other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Enemy");
-        if (other.gameObject == shooter || !isCharacter)
-        {
-            return; // Ignore collision with the shooter
-        }
         if (other.gameObject.TryGetComponent<IDamageable>(out IDamageable damageable))
         {
             damageable.TakeDamage(damage);
@@ -66,6 +63,19 @@ public class RangedController : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+    }
+
+    private void IgnoreCollisionWithShooter(GameObject shooter)
+    {
+        Collider[] shooterCollider = shooter.GetComponentsInChildren<Collider>();
+        Collider bulletCollider = GetComponent<Collider>();
+        if (bulletCollider != null)
+        {
+            foreach (Collider collider in shooterCollider)
+            {
+                Physics.IgnoreCollision(bulletCollider, collider);
+            }
         }
     }
 }

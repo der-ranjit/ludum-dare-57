@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     void Update()
     {
-        if (GameManager.Instance.CurrentState != GameManager.GameState.Playing)
+        if (GameManager.Instance?.CurrentState != GameManager.GameState.Playing)
         {
             return;
         }
