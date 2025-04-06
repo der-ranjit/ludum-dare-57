@@ -154,14 +154,23 @@ public static class RoomCreator
         door1.transform.parent = room.transform;
 
         // Create game objects
-        // Create one tree from Tree prefab
+        // Create Trees
         for (int i = 0; i < 3; i++)
         {
             GameObject treePrefab = Resources.Load<GameObject>("TreePrefab");
             GameObject treeInstance = Object.Instantiate(treePrefab);
             treeInstance.transform.position = new Vector3(Random.Range(-planeWidth / 2f, planeWidth / 2f), 0, Random.Range(-planeHeight / 2f, planeHeight / 2f));
             treeInstance.transform.parent = room.transform;
-            treeInstance.name = "Tree";
+            treeInstance.name = $"Tree_{i + 1}";
+        }
+        // Create Stones
+        for (int i = 0; i < 3; i++)
+        {
+            GameObject stonePrefab = Resources.Load<GameObject>("StonePrefab");
+            GameObject stoneInstance = Object.Instantiate(stonePrefab);
+            stoneInstance.transform.position = new Vector3(Random.Range(-planeWidth / 2f, planeWidth / 2f), 0, Random.Range(-planeHeight / 2f, planeHeight / 2f));
+            stoneInstance.transform.parent = room.transform;
+            stoneInstance.name = $"Stone_{i + 1}";
         }
 
 
