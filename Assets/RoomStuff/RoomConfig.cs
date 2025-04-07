@@ -214,7 +214,8 @@ public static class RoomConfigs
                             // Initial dialog
                             DialogManager.Instance.StartDialog(new string[] {
                                 "!wait 2",
-                                "!cam -1.35 3.31 -2.75",
+                                // "!cam -1.35 3.31 -2.75",
+                                "!cam -5.55 1.77 3.35",
                                 "!wait 2",
                                 // "!move Player 2 5",
                                 "1: Kevin!",

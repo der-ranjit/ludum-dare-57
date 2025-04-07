@@ -8,7 +8,7 @@ using UnityEngine.Rendering;
 public static class RoomCreator
 {
     private static bool startInBedroom = false; // Flag to indicate if the game starts in the bedroom    
-    private static int roomsCreated = startInBedroom ? 0 : 1; // Counter for the number of rooms created
+    private static int roomsCreated = startInBedroom ? 0 : -1; // Counter for the number of rooms created
     public static GameObject DeleteAndGenerateRoom(Material wallMaterial, float planeWidth, float planeHeight, Material planeMaterial)
     {
         DeleteCurrentRoom();
@@ -71,6 +71,14 @@ public static class RoomCreator
         if (floorMaterial != null)
         {
             plane.GetComponent<Renderer>().material = floorMaterial;
+            // If texture scale is <1, we know we should repeat it, haha
+            if (floorMaterial.mainTextureScale.x < 0)
+            {
+                float scaleX = planeWidth / (floorMaterial.mainTexture.width / 25f);
+                float scaleY = planeHeight / (floorMaterial.mainTexture.height / 25f);
+                Debug.Log($"Floor texture scale: {floorMaterial.mainTextureScale.x} -> {scaleX}, {scaleY}");
+                floorMaterial.mainTextureScale = new Vector2(scaleX, scaleY);
+            }
         }
 
         // Create walls
@@ -316,6 +324,14 @@ public static class RoomCreator
             material.SetFloat("_AlphaClip", 1);
             material.SetFloat("_Cutoff", 0.5f);
             material.EnableKeyword("_ALPHATEST_ON");
+        }
+        // Repeat the texture if floor splite contains 'Tile' in name
+        if (spriteFilter == "floor" && randomSprite.name.ToLower().Contains("tile"))
+        {
+            // This is awkward but, uh, we just "mark" this as "should be repeated" with negative numbers, because we don't know the total width/height here...
+            // We provide the texture size in pixels here for later access
+            Debug.Log($"Floor texture size: {randomSprite.texture.width}x{randomSprite.texture.height}");
+            material.mainTextureScale = new Vector2(-randomSprite.texture.width, -randomSprite.texture.height);
         }
         return material;
     }
