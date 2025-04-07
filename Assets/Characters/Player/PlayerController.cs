@@ -129,7 +129,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         HealthUI[] healthUIs = FindObjectsOfType<HealthUI>();
         foreach (HealthUI healthUI in healthUIs)
         {
-            int intHp = Mathf.CeilToInt(hp * 5);
+            int intHp = Mathf.CeilToInt(hp / 5);
             healthUI.SetHitpoints(intHp);
         }
     }
@@ -137,6 +137,7 @@ public class PlayerController : MonoBehaviour, IDamageable
     public void Die()
     {
         Debug.Log("Player died!");
+        setHp(0);
         GameManager.Instance.ReplayRoomIn(2);
     }
 
