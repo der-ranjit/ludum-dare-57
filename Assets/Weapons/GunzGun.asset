@@ -16,7 +16,7 @@ MonoBehaviour:
   weaponPrefab: {fileID: 8991970708917087405, guid: 80adacf11b71e574197335c76b2b5d7a, type: 3}
   weaponType: 0
   damage: 1
-  fireRate: 0.7
+  fireRate: 2
   piercing: 0
   size: 1
   attackAngle: 0
