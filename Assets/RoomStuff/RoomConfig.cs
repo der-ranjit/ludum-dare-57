@@ -52,8 +52,10 @@ public class RoomConfig
     public DecoStyle[] decoStyles;
     public float width;
     public float height;
+    public float playerSpawnX;
+    public float playerSpawnY;
+    public float doorPos;
     public int slitCount;
-    public int doorPos;
     public int fireCount;
 
     public int treeCount;
@@ -67,7 +69,9 @@ public class RoomConfig
         DecoStyle[] decoStyles,
         float width,
         float height,
-        int doorPos,
+        float playerSpawnX,
+        float playerSpawnY,
+        float doorPos,
         int slitCount,
         int fireCount,
         int treeCount,
@@ -81,8 +85,10 @@ public class RoomConfig
         this.decoStyles = decoStyles;
         this.width = width;
         this.height = height;
-        this.slitCount = slitCount;
+        this.playerSpawnX = playerSpawnX;
+        this.playerSpawnY = playerSpawnY;
         this.doorPos = doorPos;
+        this.slitCount = slitCount;
         this.fireCount = fireCount;
         this.treeCount = treeCount;
         this.stoneCount = stoneCount;
@@ -105,6 +111,8 @@ public static class RoomConfigs
                     new DecoStyle[] { DecoStyle.All, DecoStyle.Forest },
                     UnityEngine.Random.Range(10f, 25f), // width
                     UnityEngine.Random.Range(10f, 25f), // height
+                    0.5f,
+                    0.1f,
                     UnityEngine.Random.Range(1, 4), // door pos
                     UnityEngine.Random.Range(0, 10), // slit count
                     1, // fire count
@@ -117,9 +125,11 @@ public static class RoomConfigs
                     "Bedroom",
                     new WallStyle[] { WallStyle.Bedroom },
                     new DecoStyle[] { DecoStyle.All, DecoStyle.Bedroom },
-                    7,
+                    7, // room size
                     10,
-                    0, // door pos
+                    0.8f, // player spawn
+                    0.3f,
+                    3.8f, // door pos
                     0, // slit count
                     0, // fire count
                     0, // tree count
@@ -173,6 +183,8 @@ public static class RoomConfigs
                     new DecoStyle[] { DecoStyle.All, DecoStyle.Bedroom },
                     11,
                     7,
+                    0.5f,
+                    0.1f,
                     3, // door pos
                     0, // slit count
                     0, // fire count
@@ -187,6 +199,8 @@ public static class RoomConfigs
                     new DecoStyle[] { DecoStyle.All, DecoStyle.Forest },
                     15,
                     10,
+                    0.5f,
+                    0.1f,
                     2, // door pos
                     0, // slit count
                     1, // fire count
@@ -201,6 +215,8 @@ public static class RoomConfigs
                     new DecoStyle[] { DecoStyle.All, DecoStyle.Forest },
                     12,
                     8,
+                    0.5f,
+                    0.1f,
                     2, // door pos
                     8, // slit count
                     0, // fire count
@@ -215,6 +231,8 @@ public static class RoomConfigs
                     new DecoStyle[] { DecoStyle.All },
                     12,
                     8,
+                    0.5f,
+                    0.1f,
                     2, // door pos
                     8, // slit count
                     0, // fire count
@@ -231,6 +249,8 @@ public static class RoomConfigs
                     new DecoStyle[] { DecoStyle.All, DecoStyle.Forest },
                     UnityEngine.Random.Range(10f, 25f), // width
                     UnityEngine.Random.Range(10f, 25f), // height
+                    0.5f,
+                    0.1f,
                     UnityEngine.Random.Range(0, 4), // door pos
                     UnityEngine.Random.Range(0, 10), // slit count
                     UnityEngine.Random.Range(0f, 1f) < 0.4f ? 1 : 0, // fire count
