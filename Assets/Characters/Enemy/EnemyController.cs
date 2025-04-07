@@ -11,6 +11,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     public float wobbleAmplitude = 0.5f; // Amplitude of the wobble (height of the up-and-down motion)
     public float wobbleFrequency = 2f; // Frequency of the wobble (speed of the up-and-down motion)
     private Transform playerTransform; // Reference to the player's transform
+    private Transform playerHeadAimPoint;
     private float initialY; // The initial Y position of the enemy
     private Rigidbody rb; // Reference to the Rigidbody component
     private SpriteRenderer spriteRenderer; // Reference to the enemy's SpriteRenderer
@@ -26,6 +27,8 @@ public class EnemyController : MonoBehaviour, IDamageable
         if (player != null)
         {
             playerTransform = player.transform;
+            playerHeadAimPoint = player.transform.Find("PlayerHeadAimPoint");
+
         }
         else
         {
@@ -76,6 +79,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
+        StartCoroutine(FlashRed());
         if (currentHealth <= 0)
         {
             Die();
@@ -124,7 +128,8 @@ public class EnemyController : MonoBehaviour, IDamageable
         {
             if (GameManager.Instance?.CurrentState == GameManager.GameState.Playing)
             {
-                Vector3 direction = (playerTransform.position - transform.position).normalized;
+                Transform aimPoint = playerHeadAimPoint != null ? playerHeadAimPoint : playerTransform;
+                Vector3 direction = (aimPoint.position - transform.position).normalized;
                 weapon?.Attack(direction);
                 yield return new WaitForSeconds(weapon.baseStats.fireRate); // Wait for the specified fire interval before firing again
             }
@@ -133,5 +138,20 @@ public class EnemyController : MonoBehaviour, IDamageable
                 yield return null; // Wait for the next frame if the game is not in the correct state
             }
         }
+    }
+
+    private IEnumerator FlashRed()
+    {
+        if (spriteRenderer == null) yield break;
+        // Get the material and save the original color
+        Material material = spriteRenderer.material;
+        Color originalColor = material.GetColor("_TintColor");
+
+        // Set the color to yellow
+        material.SetColor("_TintColor", Color.yellow);
+        // Wait for a short duration
+        yield return new WaitForSeconds(0.1f);
+        // Revert to the original color
+        material.SetColor("_TintColor", originalColor);
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour, IDamageable
@@ -107,6 +108,8 @@ public class PlayerController : MonoBehaviour, IDamageable
     {
         Debug.Log($"Player took {damage} damage!");
         playerStats.currentHealth -= damage;
+        StartCoroutine(FlashRed()); // Flash red on damage
+
         if (playerStats.currentHealth <= 0)
         {
             Die();
@@ -203,5 +206,20 @@ public class PlayerController : MonoBehaviour, IDamageable
             Gizmos.color = Color.blue;
             Gizmos.DrawLine(weaponHolder.position, weaponHolder.position + weaponHolder.forward * 2f);
         }
+    }
+
+    private IEnumerator FlashRed()
+    {
+        if (spriteRenderer == null) yield break;
+        // Get the material and save the original color
+        Material material = spriteRenderer.material;
+        Color originalColor = material.GetColor("_TintColor");
+
+        // Set the color to red
+        material.SetColor("_TintColor", Color.red);
+        // Wait for a short duration
+        yield return new WaitForSeconds(0.1f);
+        // Revert to the original color
+        material.SetColor("_TintColor", originalColor);
     }
 }

@@ -181,6 +181,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b5623e4e6ae01543ad0b28e6c2af719, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &5652171263397880353
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1485579178109332435}
+  m_Layer: 0
+  m_Name: PlayerHeadAimPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1485579178109332435
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5652171263397880353}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.518, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 490242180417251731}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6117496558057403177
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,6 +250,7 @@ Transform:
   - {fileID: 3544871307400732621}
   - {fileID: 5628601909354574762}
   - {fileID: 2998951372079818114}
+  - {fileID: 1485579178109332435}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1191107600429966799
@@ -305,14 +337,10 @@ MonoBehaviour:
   playerStats:
     maxHealth: 1
     currentHealth: 1
-    powerUpBulletSize: 1
-    powerUpBulletSpeed: 1
-    powerUpBulletDamage: 1
-    powerUpBulletPiercing: 1
-    powerUpBulletBounce: 1
   moveSpeed: 2
   jumpForce: 4.35
   rotationSpeed: 5
+  powerUpStats: {fileID: 0}
 --- !u!114 &-1654908713474548803
 MonoBehaviour:
   m_ObjectHideFlags: 0
