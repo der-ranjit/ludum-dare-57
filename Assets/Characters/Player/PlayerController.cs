@@ -8,7 +8,6 @@ public class PlayerController : MonoBehaviour, IDamageable
     public float moveSpeed = 2f;
     public float jumpForce = 5f;
     public float rotationSpeed = 5f; // Speed of smooth rotation
-    private bool isGrounded = true;
     private bool canDoubleJump = false;
     private float lastMoveX = 0f;
     private float targetRotationY = 0f; // Target Y rotation for smooth rotation
@@ -18,7 +17,7 @@ public class PlayerController : MonoBehaviour, IDamageable
     private Transform cameraTransform; // Reference to the camera's transform
     private float lastTextTime = 0;
     public WeaponStats powerUpStats;
-
+    private IsGroundedCheck isGroundedCheck; // Reference to the IsGroundedCheck component
 
     void Start()
     {
@@ -28,6 +27,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         targetRotationY = transform.eulerAngles.y; // Initialize target rotation
         cameraTransform = Camera.main.transform; // Get the main camera's transform
         currentWeapon = GetComponentInChildren<Weapon>(); // Get the weapon component
+        isGroundedCheck = GetComponentInChildren<IsGroundedCheck>(); // Get the IsGroundedCheck component
         powerUpStats = ScriptableObject.CreateInstance<WeaponStats>(); // Initialize power-up stats
         // make sure player has a weapon holder transform
     }
@@ -65,7 +65,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         // Jumping
         if (Input.GetButtonDown("Jump"))
         {
-            if (isGrounded)
+            if (isGroundedCheck.IsGrounded())
             {
                 Jump();
                 canDoubleJump = true;
@@ -171,12 +171,6 @@ public class PlayerController : MonoBehaviour, IDamageable
         lastTextTime = Time.time;
         string randomString = jumpFromEnemyTexts[UnityEngine.Random.Range(0, jumpFromEnemyTexts.Length)];
         TextParticleSystem.ShowEffect(transform.position + Vector3.up * 0.1f, randomString);
-    }
-
-    // Called by player ground collider
-    public void SetGroundedState(bool grounded)
-    {
-        isGrounded = grounded;
     }
 
     // Method to apply a power-up to the player's stats
