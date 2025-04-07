@@ -81,6 +81,30 @@ public static class RoomCreator
             }
         }
 
+        float wallEpsilon = 0.1f; // Small offset to prevent corner gaps
+        // Create ceiling, if and only if randomWallStyle has "ceiling" Sprite
+        string path = $"Rooms/{randomWallStyle.ToStringValue()}/Walls";
+        // Check if 'ceiling.png' exists in path
+        Sprite ceilingSprite = Resources.Load<Sprite>($"{path}/ceiling");
+        if (ceilingSprite != null)
+        {
+            GameObject ceiling = GameObject.CreatePrimitive(PrimitiveType.Plane);
+            ceiling.transform.localScale = new Vector3(planeWidth / 10f, 1f, planeHeight / 10f);
+            ceiling.transform.position = new Vector3(0f, wallHeight - wallEpsilon, 0f);
+            ceiling.transform.rotation = Quaternion.Euler(180f, 0f, 0f); // Rotate to face downward
+            ceiling.name = "Ceiling";
+            ceiling.transform.parent = room.transform;
+            // Clone floor material
+            ceiling.GetComponent<Renderer>().material = new Material(floorMaterial);
+            ceiling.GetComponent<Renderer>().material.mainTexture = ceilingSprite.texture;
+            ceiling.GetComponent<Renderer>().material.mainTextureScale = new Vector2(planeWidth / (ceilingSprite.texture.width / 25f), planeHeight / (ceilingSprite.texture.height / 25f));
+            // Two-sided shadow casting
+            ceiling.GetComponent<Renderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.TwoSided;
+            // ceiling.GetComponent<Renderer>().material.SetFloat("_AlphaClip", 1);
+            // ceiling.GetComponent<Renderer>().material.SetFloat("_Cutoff", 0.5f);
+            // ceiling.GetComponent<Renderer>().material.EnableKeyword("_ALPHATEST_ON");
+        }
+
         // Create walls
         Vector3[] wallPositions = new Vector3[]
         {
@@ -100,10 +124,10 @@ public static class RoomCreator
 
         Vector3[] wallScales = new Vector3[]
         {
-        new Vector3(planeWidth / 10f, 1f, wallHeight / 10f), // Top wall
-        new Vector3(planeHeight / 10f, 1f, wallHeight / 10f), // Right wall
-        new Vector3(planeWidth / 10f, 1f, wallHeight / 10f), // Bottom wall
-        new Vector3(planeHeight / 10f, 1f, wallHeight / 10f) // Left wall
+        new Vector3((planeWidth + wallEpsilon) / 10f, 1f, wallHeight / 10f), // Top wall
+        new Vector3((planeHeight + wallEpsilon) / 10f, 1f, wallHeight / 10f), // Right wall
+        new Vector3((planeWidth + wallEpsilon) / 10f, 1f, wallHeight / 10f), // Bottom wall
+        new Vector3((planeHeight + wallEpsilon) / 10f, 1f, wallHeight / 10f) // Left wall
         };
 
         float textureOffsetX = 0f; // Texture offset for the wall material to match on edges
