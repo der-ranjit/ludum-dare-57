@@ -9,6 +9,10 @@ public class Weapon : MonoBehaviour
     private GameObject weaponHolder;
 
     GameObject attachedWeaponPrefab; // The weapon prefab attached to the player
+    public float swingDuration = 0.5f;
+    public float forwardOffset = 1.0f;
+    public float swingRadius = 1.5f;
+    private bool isSwinging = false;
 
     public void Start()
     {
@@ -42,6 +46,7 @@ public class Weapon : MonoBehaviour
         upgradedStats.weaponType = baseStats.weaponType;
         upgradedStats.attackAngle = baseStats.attackAngle;
         upgradedStats.weaponPrefab = baseStats.weaponPrefab;
+        upgradedStats.bulletGravity = baseStats.bulletGravity;
     }
 
     // Attach the weapon the the WeaponHolder of the character
@@ -52,6 +57,11 @@ public class Weapon : MonoBehaviour
             // instantiate the weapon prefab and set it as a child of the weapon holder
             if (upgradedStats.weaponPrefab != null)
             {
+                // Destroy the previous weapon prefab if it exists
+                if (attachedWeaponPrefab != null)
+                {
+                    Destroy(attachedWeaponPrefab);
+                }
                 attachedWeaponPrefab = Instantiate(upgradedStats.weaponPrefab, weaponHolder.transform);
                 // ignore collision between the weapon and the character
                 Collider[] characterColliders = GetComponents<Collider>();
@@ -115,55 +125,79 @@ public class Weapon : MonoBehaviour
         MeleeController meleeController = attachedWeaponPrefab.GetComponent<MeleeController>();
         // Perform the melee attack using the MeleeController
         meleeController.Initialize(upgradedStats);
-
-        // Simulate a quick stab motion
-        StartCoroutine(StabMotion());
+        if (attachedWeaponPrefab == null || isSwinging)
+        {
+            return;
+        }
+        // Perform a random swing
+        StartCoroutine(SwingSword());
     }
 
-    private IEnumerator StabMotion()
+    private IEnumerator SwingSword()
     {
-        if (attachedWeaponPrefab == null)
+        isSwinging = true;
+
+        // Step 1: Set the initial rotation of the sword
+        Quaternion initialRotation = attachedWeaponPrefab.transform.localRotation;
+
+        attachedWeaponPrefab.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
+
+        // Step 2: Calculate the initial and target rotations for the swing
+        Quaternion targetRotation = Quaternion.AngleAxis(180f, transform.up) * initialRotation; // Rotate 180 degrees around the player's up vector
+
+        // // Step 3: Animate the swing over time
+        float elapsed = 0f;
+        while (elapsed < swingDuration)
         {
-            yield break;
-        }
+            float t = elapsed / swingDuration;
 
-        // Save the original position and rotation of the weapon
-        Vector3 originalPosition = attachedWeaponPrefab.transform.localPosition;
-        Quaternion originalRotation = attachedWeaponPrefab.transform.localRotation;
+            // Interpolate the rotation smoothly
+            attachedWeaponPrefab.transform.localRotation = Quaternion.Slerp(initialRotation, targetRotation, t);
 
-        // Define the stab position and rotation
-        Vector3 stabPosition = originalPosition + Vector3.forward * 0.5f; // Move forward slightly
-        Quaternion stabRotation = Quaternion.Euler(originalRotation.eulerAngles + new Vector3(30f, 0f, 0f)); // Add a slight tilt
-
-        // Move to the stab position
-        float stabDuration = 0.1f; // Duration of the stab motion
-        float elapsedTime = 0f;
-        while (elapsedTime < stabDuration)
-        {
-            elapsedTime += Time.deltaTime;
-            float t = elapsedTime / stabDuration;
-
-            attachedWeaponPrefab.transform.localPosition = Vector3.Lerp(originalPosition, stabPosition, t);
-            attachedWeaponPrefab.transform.localRotation = Quaternion.Slerp(originalRotation, stabRotation, t);
-
+            elapsed += Time.deltaTime;
             yield return null;
         }
 
-        // Return to the original position
-        elapsedTime = 0f;
-        while (elapsedTime < stabDuration)
+        // Step 4: Reset the sword to its original rotation
+        attachedWeaponPrefab.transform.localRotation = initialRotation;
+
+        isSwinging = false;
+    }
+
+      private IEnumerator SwingSword2()
+    {
+        isSwinging = true;
+
+        Transform swordTransform = attachedWeaponPrefab.transform;
+        Transform playerTransform = weaponHolder.transform; // Assuming the weapon holder is the parent of the sword
+        // Step 1: Set sword orientation (local X-axis 90 degrees to lay horizontal)
+        Quaternion initialRotation = swordTransform.localRotation;
+        swordTransform.localRotation = Quaternion.Euler(90f, 0f, 0f);
+
+        // Step 2: Calculate initial swing position
+        Vector3 forwardOffsetVec = playerTransform.forward * forwardOffset;
+        Vector3 startDirection = Quaternion.AngleAxis(-90f, playerTransform.up) * forwardOffsetVec.normalized;
+        Vector3 startPosition = playerTransform.position + startDirection * swingRadius;
+
+        swordTransform.position = startPosition;
+
+        // Step 3: Animate the swing over time
+        float elapsed = 0f;
+        while (elapsed < swingDuration)
         {
-            elapsedTime += Time.deltaTime;
-            float t = elapsedTime / stabDuration;
+            float t = elapsed / swingDuration;
+            float angle = Mathf.Lerp(-90f, 90f, t); // From -90 to +90 degrees
+            Vector3 swingDir = Quaternion.AngleAxis(angle, playerTransform.up) * forwardOffsetVec.normalized;
+            swordTransform.position = playerTransform.position + swingDir * swingRadius;
 
-            attachedWeaponPrefab.transform.localPosition = Vector3.Lerp(stabPosition, originalPosition, t);
-            attachedWeaponPrefab.transform.localRotation = Quaternion.Slerp(stabRotation, originalRotation, t);
-
+            elapsed += Time.deltaTime;
             yield return null;
         }
 
-        // Ensure the weapon returns to its exact original position and rotation
-        attachedWeaponPrefab.transform.localPosition = originalPosition;
-        attachedWeaponPrefab.transform.localRotation = originalRotation;
+        // Step 4: Reset the sword to its original position and rotation
+        swordTransform.localRotation = initialRotation;
+
+        // End of swing
+        isSwinging = false;
     }
 }

@@ -430,13 +430,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.8714526, y: -0.36986288, z: 0.26908404, w: 0.17710344}
+  m_LocalRotation: {x: 0.8513183, y: -0.41410494, z: 0.25964186, w: 0.19068398}
   m_LocalPosition: {x: -0.397, y: 2.48, z: -3.411}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 30.512, y: -563.098, z: 219.615}
+  m_LocalEulerAnglesHint: {x: 32.663, y: -559.726, z: 226.046}
 --- !u!114 &705507996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -864,6 +864,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5525391079566018687, guid: bc0f5111fa3cf4d00b53f502e6c9a984, type: 3}
+      propertyPath: baseStats
+      value: 
+      objectReference: {fileID: 11400000, guid: c602b1500d4c16340b279dc23c65b716, type: 2}
     - target: {fileID: 6117496558057403177, guid: bc0f5111fa3cf4d00b53f502e6c9a984, type: 3}
       propertyPath: m_Name
       value: MarkusPrefab

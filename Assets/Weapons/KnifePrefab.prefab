@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4235963118370107803}
   - component: {fileID: 7198224856701386759}
   m_Layer: 0
-  m_Name: Knife
+  m_Name: KnifePrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,12 +28,12 @@ Transform:
   m_GameObject: {fileID: 6633707764180586673}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.105, y: 0.257, z: 0.242}
-  m_LocalScale: {x: 0.534976, y: 0.534976, z: 0.534976}
+  m_LocalPosition: {x: 0.26, y: 0.341, z: -0.027}
+  m_LocalScale: {x: 0.79978913, y: 0.79978913, z: 0.79978913}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 9.996, y: -54.251, z: 3.547}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 9.764}
 --- !u!212 &2723157679577513195
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -101,7 +101,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3

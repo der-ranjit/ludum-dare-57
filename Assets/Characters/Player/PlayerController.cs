@@ -4,6 +4,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour, IDamageable
 {
     public PlayerStats playerStats;
+    public WeaponStats rangedWeaponStats;
+    public WeaponStats meleeWeaponPrefabStats;
     private Weapon currentWeapon;
     public float moveSpeed = 2f;
     public float jumpForce = 5f;
@@ -105,6 +107,24 @@ public class PlayerController : MonoBehaviour, IDamageable
         else if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.JoystickButton5))
         {
             targetRotationY += 90f; // Rotate clockwise
+        }
+
+        // Change Weapon 
+        if (Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown(KeyCode.JoystickButton3))
+        {
+            if (currentWeapon != null)
+            {
+                if (currentWeapon.baseStats.weaponType == WeaponStats.WeaponType.Melee)
+                {
+                    currentWeapon.baseStats = rangedWeaponStats;
+                }
+                else
+                {
+                    currentWeapon.baseStats = meleeWeaponPrefabStats;
+                }
+                currentWeapon.ApplyPlayerPowerUpStats(powerUpStats);
+                currentWeapon.AttachToCharacter();
+            }
         }
     }
 
