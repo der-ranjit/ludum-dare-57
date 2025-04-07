@@ -12,10 +12,10 @@ public class Weapon : MonoBehaviour
 
     public void Start()
     {
-        upgradedStats = baseStats; 
-        Transform weaponHolderTransform = transform.Find("WeaponHolder");
+        upgradedStats = baseStats;
+        Transform weaponHolderTransform = gameObject.transform.Find("WeaponHolder");
         if (weaponHolderTransform != null)
-        {   
+        {
             weaponHolder = weaponHolderTransform.gameObject;
             Debug.LogWarning("WeaponHolder not found. Weapon not attached.");
         }
@@ -90,17 +90,16 @@ public class Weapon : MonoBehaviour
         {
             nextFireTime = Time.time + 1f / upgradedStats.fireRate;
 
-            Transform firePoint = transform.Find("FirePoint");
-            Debug.Log("FirePoint: " + firePoint);
+            Transform firePoint = attachedWeaponPrefab?.transform.Find("FirePoint");
             // If no fire point is set, use the weapon holder's position
-            // if (firePoint == null)
-            // {
-            //     firePoint = weaponHolder?.transform;
-            // }
-            // if (firePoint == null)
-            // {
-            //     firePoint = transform;
-            // }
+            if (firePoint == null)
+            {
+                firePoint = weaponHolder?.transform;
+            }
+            if (firePoint == null)
+            {
+                firePoint = transform;
+            }
             // Instantiate the bullet
             GameObject bullet = Instantiate(upgradedStats.bulletPrefab, firePoint.position, Quaternion.LookRotation(direction));
             RangedController bulletComponent = bullet.GetComponent<RangedController>();
