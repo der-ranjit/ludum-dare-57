@@ -160,6 +160,18 @@ public static class RoomConfigs
                         tableInstance.transform.rotation = Quaternion.Euler(0f, 90f, 0f);
                         tableInstance.transform.parent = room.transform;
                         tableInstance.name = "Table";
+                        // Pot
+                        GameObject potPrefab = Resources.Load<GameObject>("Rooms/Bedroom/Deco/PotPrefab");
+                        GameObject potInstance = UnityEngine.Object.Instantiate(potPrefab);
+                        potInstance.transform.position = new Vector3(0.45f, 0f, -4.44f);
+                        potInstance.transform.rotation = Quaternion.Euler(0f, 90f, 0f);
+                        potInstance.transform.parent = room.transform;
+                        potInstance.name = "Pot 1";
+                        GameObject potInstance2 = UnityEngine.Object.Instantiate(potPrefab);
+                        potInstance2.transform.position = new Vector3(2.93f, 0, 4.41f);
+                        potInstance2.transform.rotation = Quaternion.Euler(0f, 90f, 0f);
+                        potInstance2.transform.parent = room.transform;
+                        potInstance2.name = "Pot 2";
 
                         DialogManager.Instance.StartDialog(new string[] {
                             "!wait 4",
