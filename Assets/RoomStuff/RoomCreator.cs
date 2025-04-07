@@ -9,10 +9,21 @@ public static class RoomCreator
 {
     private static bool startInBedroom = false; // Flag to indicate if the game starts in the bedroom    
     private static int roomsCreated = startInBedroom ? 0 : -1; // Counter for the number of rooms created
+    private static bool stayingInRoom = false;
     public static GameObject DeleteAndGenerateRoom(Material wallMaterial, float planeWidth, float planeHeight, Material planeMaterial)
     {
         DeleteCurrentRoom();
         return GenerateRoom(planeWidth, planeHeight);
+    }
+
+    // System time now. Used for random seed.
+    private static int startTime = System.DateTime.Now.Millisecond;
+
+    public static void StayInRoom() {
+        if (!stayingInRoom) {
+            stayingInRoom = true;
+            roomsCreated--;
+        }
     }
 
     public static void ResetRoomsCreated()
@@ -39,6 +50,8 @@ public static class RoomCreator
         }
 
         roomsCreated++; // Increment the room counter
+        stayingInRoom = false; // Reset the staying in room flag
+        Random.InitState(startTime + roomsCreated); // Initialize the random seed with the room number
 
         Debug.Log("Generating room number " + roomsCreated);
         RoomConfig info = RoomConfigs.GetBasicRoomInfo(roomsCreated); // Get room info based on the number of rooms created
@@ -100,9 +113,6 @@ public static class RoomCreator
             ceiling.GetComponent<Renderer>().material.mainTextureScale = new Vector2(planeWidth / (ceilingSprite.texture.width / 25f), planeHeight / (ceilingSprite.texture.height / 25f));
             // Two-sided shadow casting
             ceiling.GetComponent<Renderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.TwoSided;
-            // ceiling.GetComponent<Renderer>().material.SetFloat("_AlphaClip", 1);
-            // ceiling.GetComponent<Renderer>().material.SetFloat("_Cutoff", 0.5f);
-            // ceiling.GetComponent<Renderer>().material.EnableKeyword("_ALPHATEST_ON");
         }
 
         // Create walls

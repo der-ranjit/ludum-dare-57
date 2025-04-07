@@ -31,6 +31,8 @@ public class CameraController : MonoBehaviour
 
         // Calculate the camera's position relative to the player's forward direction
         Vector3 targetPosition = target.position + target.forward * offset.z + target.up * offset.y + target.right * offset.x;
+        // Vector3 targetPosition = target.position + offset;
+        targetPosition.y = Mathf.Max(targetPosition.y, 0.5f); // Keep the camera at the same height as the player
         transform.position = targetPosition;
 
         // If override is active, set the camera position to the override position

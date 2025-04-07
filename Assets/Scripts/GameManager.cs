@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
     public float cameraHeightOffset = 10f; // Adjustable height offset for the top-down view
     public float cameraTransitionDuration = 3f; // Duration of the camera transition
 
+    private float proceedToNextRoomTimer = 0f; // Timer for proceeding to the next room
+
     private Camera mainCamera;
 
     public void SetState(GameState newState)
@@ -32,6 +34,18 @@ public class GameManager : MonoBehaviour
         CurrentState = newState;
         Debug.Log($"Game state changed to: {newState}");
         Debug.Log($"Game state changed to: {newState}");
+    }
+
+    public void Update()
+    {
+        if (proceedToNextRoomTimer > 0f)
+        {
+            proceedToNextRoomTimer -= Time.deltaTime;
+            if (proceedToNextRoomTimer <= 0f)
+            {
+                ProceedToNextRoom();
+            }
+        }
     }
 
     public void EnemyKilled()
@@ -91,6 +105,16 @@ public class GameManager : MonoBehaviour
 
         // Start the transition to LevelStart
         yield return StartCoroutine(TransitionToLevelStart());
+    }
+
+    public void ReplayRoomIn(float delay) {
+        RoomCreator.StayInRoom();
+        ProceedToNextRoomIn(delay);
+    }
+
+    public void ProceedToNextRoomIn(float delay)
+    {
+        proceedToNextRoomTimer = delay;
     }
 
     private static void SpawnEnemies(GameObject room, int spawnCount, float noSpawnRadius)
@@ -159,6 +183,7 @@ public class GameManager : MonoBehaviour
     // Regular method that can be called directly
     public void ProceedToNextRoom()
     {
+        proceedToNextRoomTimer = 0f; // Reset the timer
         StartCoroutine(ProceedToNextRoomCoroutine());
     }
 

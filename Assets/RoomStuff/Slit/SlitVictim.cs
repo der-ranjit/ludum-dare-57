@@ -44,6 +44,13 @@ public class SlitVictim : MonoBehaviour
             // Destroy the object after the duration
             if (elapsedTime >= duration)
             {
+                // Call PlayerController's Die method on this victim's PlayerController script
+                PlayerController playerController = FindObjectOfType<PlayerController>();
+                if (playerController != null)
+                {
+                    playerController.Die();
+                }
+                // Remove from the game
                 Destroy(gameObject);
             }
         }

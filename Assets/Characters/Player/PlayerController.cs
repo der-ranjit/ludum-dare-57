@@ -121,10 +121,10 @@ public class PlayerController : MonoBehaviour, IDamageable
         }
     }
 
-    private void Die()
+    public void Die()
     {
         Debug.Log("Player died!");
-        // Handle player death (e.g., restart level, show game over screen)
+        GameManager.Instance.ReplayRoomIn(2);
     }
 
     public void CollectPowerUp()
