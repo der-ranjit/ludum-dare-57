@@ -182,23 +182,26 @@ public static class RoomCreator
         spawner.transform.parent = room.transform;
 
         // Instantiate the player prefab at the spawner's position
-        if (playerPrefab != null)
+        if (playerPrefab == null)
         {
             playerPrefab = Resources.Load<GameObject>("Characters/PlayerPrefab");
-            GameObject player = Object.Instantiate(playerPrefab, spawner.transform);
-            player.name = "Player";
-            player.transform.parent = room.transform;
-            // Look towards origin (but only apply to y axis)
-            Vector3 lookAt = new Vector3(0, player.transform.position.y, 0);
-            player.transform.LookAt(lookAt);
-            // Then round y angle to nearest 90° step
-            float yAngle = player.transform.eulerAngles.y;
-            yAngle = Mathf.Round(yAngle / 90f) * 90f;
-            player.transform.eulerAngles = new Vector3(0, yAngle, 0);
-
-            // Remove the spawner and its indicator after spawning the player
-            Object.DestroyImmediate(spawner);
         }
+        if (playerPrefab != null)
+            {
+                GameObject player = Object.Instantiate(playerPrefab, spawner.transform);
+                player.name = "Player";
+                player.transform.parent = room.transform;
+                // Look towards origin (but only apply to y axis)
+                Vector3 lookAt = new Vector3(0, player.transform.position.y, 0);
+                player.transform.LookAt(lookAt);
+                // Then round y angle to nearest 90° step
+                float yAngle = player.transform.eulerAngles.y;
+                yAngle = Mathf.Round(yAngle / 90f) * 90f;
+                player.transform.eulerAngles = new Vector3(0, yAngle, 0);
+
+                // Remove the spawner and its indicator after spawning the player
+                Object.DestroyImmediate(spawner);
+            }
 
         // Create slits
         int slit_count = info.slitCount;
