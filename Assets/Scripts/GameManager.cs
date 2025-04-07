@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour
         float width = Random.Range(10f, 25f);
         float height = Random.Range(10f, 25f);
         Debug.Log($"Creating room with dimensions: {width} x {height}");
-        int enemies = 1; // Random.Range(1, 10);
+        int enemies = 0; // Random.Range(1, 10); // DeleteAndGenerateRoom now spawns enemies on its own
         GameObject room = RoomCreator.DeleteAndGenerateRoom(null, width, height, null, playerPrefab);
         SpawnEnemies(room, enemies, noSpawnRadius);
 
