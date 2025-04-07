@@ -39,6 +39,16 @@ public class PlayerController : MonoBehaviour, IDamageable
             return;
         }
 
+        // Smoothly interpolate to the target rotation
+        float currentY = transform.eulerAngles.y;
+        float newY = Mathf.LerpAngle(currentY, targetRotationY, rotationSpeed * Time.deltaTime);
+        transform.rotation = Quaternion.Euler(0f, newY, 0f);
+
+        if (DialogManager.Instance?.IsRunning() == true)
+        {
+            return; // Prevent player movement during dialog
+        }
+
         // Movement
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveZ = Input.GetAxisRaw("Vertical");
@@ -96,11 +106,6 @@ public class PlayerController : MonoBehaviour, IDamageable
         {
             targetRotationY += 90f; // Rotate clockwise
         }
-
-        // Smoothly interpolate to the target rotation
-        float currentY = transform.eulerAngles.y;
-        float newY = Mathf.LerpAngle(currentY, targetRotationY, rotationSpeed * Time.deltaTime);
-        transform.rotation = Quaternion.Euler(0f, newY, 0f);
     }
 
 

@@ -58,6 +58,7 @@ public class Enemy : MonoBehaviour, IDamageable
     protected virtual void Update()
     {
         if (GameManager.Instance?.CurrentState != GameManager.GameState.Playing) return;
+        if (DialogManager.Instance?.IsRunning() == true) return;
 
         // Make the enemy visible when the level starts
         if (spriteRenderer != null && !spriteRenderer.enabled && !spriteIsActivating)
