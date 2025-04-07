@@ -179,10 +179,12 @@ public class DialogManager : MonoBehaviour
                 currentSpeaker = speaker;
                 currentName = name;
                 currentText = text;
+                camController.SetOverrideTarget(speaker.transform.position + new Vector3(0, 1f, 0));
             }
             else
             {
                 Debug.LogError("Speaker not found: " + name);
+                camController.SetOverrideTarget();
             }
             // Display the text here, e.g., in a UI Text component
             Debug.Log($"Displaying sentence {num}: {text}");

@@ -181,16 +181,56 @@ public static class RoomConfigs
                     "KevinRoom",
                     new WallStyle[] { WallStyle.Bedroom },
                     new DecoStyle[] { DecoStyle.All, DecoStyle.Bedroom },
-                    11,
-                    7,
+                    13,
+                    9,
+                    0.6f, // player pos
                     0.5f,
-                    0.1f,
-                    3, // door pos
+                    1.5f, // door pos
                     0, // slit count
                     0, // fire count
                     0, // tree count
                     0, // stone count
-                    0 // enemy count
+                    0, // enemy count
+                    room => {
+                        // Create Kevin
+                        GameObject kevinPrefab = Resources.Load<GameObject>("Characters/KevinPrefab");
+                        GameObject kevinInstance = UnityEngine.Object.Instantiate(kevinPrefab);
+                        kevinInstance.transform.position = new Vector3(-4.58f, 0f, 2.4f);
+                        kevinInstance.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+                        kevinInstance.transform.parent = room.transform;
+                        kevinInstance.name = "Kevin";
+
+                        // Desk
+                        GameObject deskPrefab = Resources.Load<GameObject>("Rooms/Bedroom/Deco/DeskPrefab");
+                        GameObject deskInstance = UnityEngine.Object.Instantiate(deskPrefab);
+                        deskInstance.transform.position = new Vector3(-4.6f, -0.37f, 3.4f);
+                        deskInstance.transform.rotation = Quaternion.Euler(0f, 90f, 0f);
+                        deskInstance.transform.parent = room.transform;
+
+                        DialogManager.Instance.StartDialog(new string[] {
+                            "!wait 2",
+                            "!cam -1.35 3.31 -2.75",
+                            "!wait 2",
+                            // "!move Player 2 5",
+                            "1: Kevin!",
+                            "2: *types and stares at computer*",
+                            "1: Kevin!!!",
+                            "2: *still typing*",
+                            "1: ping Kevin!",
+                            "2: *typing away*",
+                            "1: sudo pay_attention_to_me!",
+                            "2: Uhhhh what?",
+                            "1: What have you done? I'm flat!",
+                            "2: Ahhh yeah that, sorry, messed up with a commit last night and called the .flatten() method on the wrong object.",
+                            "1: Great! Can you please revert that???",
+                            "2: Hmmm no sorry. It's not a priority to fix that. It's crunch time, have to make the deadline to ship that thing I'm working on.",
+                            "1: Unacceptable!",
+                            "2: Tell that to the PM. And now please let me deal with this merge conflict from hell...",
+                            "1: (Thinking: Alright then, same procedure as every time. I have to hypnotize him.)",
+                            "1: (Thinking: And for that, I need the legendary pendulum of hypnotic depth.)",
+                            "1: (Thinking: Which I will surely find by fighting my way through hordes of flat monsters!)"
+                        });
+                    }
                 );
             case 3:
                 return new RoomConfig(
