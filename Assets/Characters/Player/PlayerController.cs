@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour, IDamageable
     void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         targetRotationY = transform.eulerAngles.y; // Initialize target rotation
         cameraTransform = Camera.main.transform; // Get the main camera's transform
