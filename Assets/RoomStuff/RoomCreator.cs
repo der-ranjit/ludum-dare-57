@@ -131,9 +131,11 @@ public static class RoomCreator
             }
         }
 
-        // Create the player spawner. TODO: spawn location in RoomConfig
+        // Create the player spawner.
         GameObject spawner = new GameObject("PlayerSpawner");
-        spawner.transform.position = new Vector3(0f, 0.5f, 0f);
+        float spawnX = (info.playerSpawnX - 0.5f) * planeWidth;
+        float spawnZ = (info.playerSpawnY - 0.5f) * planeHeight;
+        spawner.transform.position = new Vector3(spawnX, 0.5f, spawnZ);
         spawner.transform.parent = room.transform;
 
         GameObject playerPrefab = Resources.Load<GameObject>("Characters/PlayerPrefab");

@@ -125,10 +125,10 @@ public static class RoomConfigs
                     "Bedroom",
                     new WallStyle[] { WallStyle.Bedroom },
                     new DecoStyle[] { DecoStyle.All, DecoStyle.Bedroom },
-                    7,
+                    7, // room size
                     10,
-                    0.5f,
-                    0.1f,
+                    0.8f, // player spawn
+                    0.3f,
                     3.8f, // door pos
                     0, // slit count
                     0, // fire count
