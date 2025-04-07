@@ -65,10 +65,10 @@ public static class RoomCreator
         GameObject room = new GameObject("Room");
 
         // Select random wall and floor materials based on the allowed styles
-        RoomStyle randomWallStyle = info.wallStyles[Random.Range(0, info.wallStyles.Length)];
+        RoomStyle wallStyle = info.wallStyles[Random.Range(0, info.wallStyles.Length)];
         Material baserMaterial = Resources.Load<Material>("Rooms/All/Walls/baseMaterial");
-        Material wallMaterial = GetWallMaterialForStyle(baserMaterial, randomWallStyle);
-        Material floorMaterial = GetFloorMaterialForStyle(baserMaterial, randomWallStyle);
+        Material wallMaterial = GetWallMaterialForStyle(baserMaterial, wallStyle);
+        Material floorMaterial = GetFloorMaterialForStyle(baserMaterial, wallStyle);
 
         // Get width and height of wallMaterial texture
         Texture2D wallTexture = wallMaterial.mainTexture as Texture2D;
@@ -96,7 +96,7 @@ public static class RoomCreator
 
         float wallEpsilon = 0.1f; // Small offset to prevent corner gaps
         // Create ceiling, if and only if randomWallStyle has "ceiling" Sprite
-        string path = $"Rooms/{randomWallStyle.ToStringValue()}/Walls";
+        string path = $"Rooms/{wallStyle.ToStringValue()}/Walls";
         // Check if 'ceiling.png' exists in path
         Sprite ceilingSprite = Resources.Load<Sprite>($"{path}/ceiling");
         if (ceilingSprite != null)

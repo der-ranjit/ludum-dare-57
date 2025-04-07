@@ -17,10 +17,16 @@ public class Slit : MonoBehaviour
 
     
     // Factory method to create a Slit
-    public static GameObject CreateSlit(GameObject parent, Vector2 pos, bool horizontal)
+    public static GameObject CreateSlit(GameObject parent, Vector2 pos, bool horizontal, string theme = "All")
     {
         // Slit prefab exists, instantiate it
-        GameObject slitPrefab = Resources.Load<GameObject>("Rooms/All/SlitPrefab"); // Load the prefab from Resources folder
+        string prefabPath = $"Rooms/{theme}/SlitPrefab"; // Path to the prefab
+        string fallbackPrefabPath = $"Rooms/All/SlitPrefab"; // Fallback prefab path
+        GameObject slitPrefab = Resources.Load<GameObject>(prefabPath); // Load the prefab from Resources folder
+        if (slitPrefab == null)
+        {
+            slitPrefab = Resources.Load<GameObject>(fallbackPrefabPath); // Load the fallback prefab
+        }
         GameObject slitInstance = Instantiate(slitPrefab, parent.transform);
         slitInstance.transform.localPosition = new Vector3(pos.x, 0.01f, pos.y); // Set the position of the slit
         // Get the Slit component
