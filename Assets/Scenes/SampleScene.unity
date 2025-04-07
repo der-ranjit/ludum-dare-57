@@ -2931,14 +2931,10 @@ MonoBehaviour:
   playerStats:
     maxHealth: 1
     currentHealth: 1
-    powerUpBulletSize: 1
-    powerUpBulletSpeed: 1
-    powerUpBulletDamage: 1
-    powerUpBulletPiercing: 1
-    powerUpBulletBounce: 1
   moveSpeed: 2
   jumpForce: 4.35
   rotationSpeed: 5
+  powerUpStats: {fileID: 0}
 --- !u!54 &1806575635
 Rigidbody:
   m_ObjectHideFlags: 0
