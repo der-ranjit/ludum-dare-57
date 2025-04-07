@@ -24,8 +24,9 @@ public class WeaponStats : ScriptableObject
     // Ranged-specific fields
     [Header("Ranged Weapon Settings")]
     public GameObject bulletPrefab; // Prefab for bullets (only for ranged weapons)
-    public float bulletLifetime =1f; // Lifetime of the bullet before it disappears
+    public float bulletLifetime = 1f; // Lifetime of the bullet before it disappears
     public float bulletSpeed = 1f;
     public float bulletRange = 1f;
     public int bulletBounce = 0;
+    public bool bulletGravity = true;
 }

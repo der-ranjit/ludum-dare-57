@@ -10,6 +10,8 @@ public class RangedController : MonoBehaviour
     private int bounce;
     private float pushForce;
     public GameObject shooter;
+    private Rigidbody bulletRigidBody;
+    Vector3 shootDirection;
 
     public void Initialize(WeaponStats stats)
     {
@@ -27,9 +29,36 @@ public class RangedController : MonoBehaviour
         transform.localScale *= stats.size;
 
         // shoot the bullet forward, but upwards in repsect to the stats attackAngle
-        Vector3 shootDirection = Quaternion.Euler(-stats.attackAngle, 0, 0) * transform.forward;
-        GetComponent<Rigidbody>().velocity = shootDirection * speed;
+        shootDirection = Quaternion.Euler(-stats.attackAngle, 0, 0) * transform.forward;
+
+        bulletRigidBody = GetComponent<Rigidbody>();
+        if (bulletRigidBody != null)
+        {
+            if (stats.bulletGravity)
+            {
+                bulletRigidBody.useGravity = true;
+                bulletRigidBody.isKinematic = false;
+            }
+            else
+            {
+                bulletRigidBody.useGravity = false;
+                bulletRigidBody.isKinematic = true;
+            }
+        }
+        if (stats.bulletGravity)
+        {
+            bulletRigidBody.velocity = shootDirection * speed;
+        }
         Destroy(gameObject, lifetime);
+    }
+
+    private void Update()
+    {
+        if (bulletRigidBody != null && bulletRigidBody.isKinematic)
+        {
+            // Move the bullet forward
+            transform.position += shootDirection * speed * Time.deltaTime;
+        }
     }
 
     private void OnCollisionEnter(Collision other)

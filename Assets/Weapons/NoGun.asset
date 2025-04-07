@@ -21,8 +21,9 @@ MonoBehaviour:
   size: 1
   attackAngle: 0
   pushForce: 0
-  bulletPrefab: {fileID: 4950493522696737308, guid: 734a96f17a98b23448921c5ec4e5ac82, type: 3}
+  bulletPrefab: {fileID: 4047089883397107581, guid: f2b355dbfbc714cb5a18d22177a83109, type: 3}
   bulletLifetime: 5
   bulletSpeed: 10
   bulletRange: 500
   bulletBounce: 2
+  bulletGravity: 0

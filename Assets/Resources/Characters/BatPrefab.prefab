@@ -252,11 +252,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 3
-  moveSpeed: 4
+  moveSpeed: 2
   rotationSpeed: 1.5
   lockedHeight: 1.5
-  shittingTime: 1
-  shittingInterval: 6
+  shittingTime: 2
+  shittingInterval: 4
 --- !u!114 &5158678722896429877
 MonoBehaviour:
   m_ObjectHideFlags: 0

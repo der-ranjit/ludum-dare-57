@@ -26,3 +26,4 @@ MonoBehaviour:
   bulletSpeed: 5
   bulletRange: 1
   bulletBounce: 0
+  bulletGravity: 0
