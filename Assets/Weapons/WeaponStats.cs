@@ -1,5 +1,7 @@
 using UnityEngine;
 
+// Values also act as default for power up stats
+
 [CreateAssetMenu(fileName = "NewWeapon", menuName = "Weapons/Weapon")]
 public class WeaponStats : ScriptableObject
 {
@@ -17,13 +19,13 @@ public class WeaponStats : ScriptableObject
     public int piercing = 0;
     public float size = 1.0f;
     public float attackAngle = 0.0f;
-    public float pushForce = 0.0f;
+    public float pushForce = 1.0f;
 
     // Ranged-specific fields
     [Header("Ranged Weapon Settings")]
     public GameObject bulletPrefab; // Prefab for bullets (only for ranged weapons)
-    public float bulletLifetime = 5f; // Lifetime of the bullet before it disappears
-    public float bulletSpeed;
-    public float bulletRange;
-    public int bulletBounce;
+    public float bulletLifetime =1f; // Lifetime of the bullet before it disappears
+    public float bulletSpeed = 1f;
+    public float bulletRange = 1f;
+    public int bulletBounce = 0;
 }

@@ -75,7 +75,8 @@ public class GameManager : MonoBehaviour
         StartCoroutine(CreateNextRoom());
     }
 
-    private IEnumerator CreateNextRoom() {
+    private IEnumerator CreateNextRoom()
+    {
         SetState(GameState.PreStart);
 
         float width = Random.Range(10f, 25f);
@@ -142,7 +143,8 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public bool IsRoomComplete() {
+    public bool IsRoomComplete()
+    {
         if (CurrentState != GameState.Playing)
         {
             return false;
@@ -165,7 +167,7 @@ public class GameManager : MonoBehaviour
     {
         // Delay to next frame
         yield return null;
-        
+
         // Then create the next room
         yield return StartCoroutine(CreateNextRoom());
     }
@@ -246,5 +248,30 @@ public class GameManager : MonoBehaviour
         // Ensure the camera ends exactly at the original position and rotation
         mainCamera.transform.position = targetPosition;
         mainCamera.transform.rotation = targetRotation;
+    }
+
+    public void SpawnPowerUpsInRoom(GameObject room, int count)
+    {
+        GameObject floor = room.transform.Find("Floor").gameObject;
+        Vector3 roomCenter = floor.transform.position;
+        Vector3 roomSize = floor.transform.localScale * 10f;
+
+        for (int i = 0; i < count; i++)
+        {
+            float randX = Random.Range(-roomSize.x / 2f, roomSize.x / 2f);
+            float randZ = Random.Range(-roomSize.z / 2f, roomSize.z / 2f);
+            Vector3 spawnPosition = new Vector3(roomCenter.x + randX, roomCenter.y + 0.5f, roomCenter.z + randZ);
+
+            SpawnRandomPowerUp(spawnPosition);
+        }
+    }
+
+    private void SpawnRandomPowerUp(Vector3 position)
+    {
+        GameObject powerUpPrefab = Resources.Load<GameObject>("PowerUps/PowerUpPrefab");
+        if (powerUpPrefab != null)
+        {
+            Instantiate(powerUpPrefab, position, Quaternion.identity);
+        }
     }
 }

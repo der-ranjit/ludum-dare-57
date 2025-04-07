@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour, IDamageable
     private SpriteRenderer spriteRenderer;
     private Transform cameraTransform; // Reference to the camera's transform
     private float lastTextTime = 0;
+    public WeaponStats powerUpStats;
+
 
     void Start()
     {
@@ -25,6 +27,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         targetRotationY = transform.eulerAngles.y; // Initialize target rotation
         cameraTransform = Camera.main.transform; // Get the main camera's transform
         currentWeapon = GetComponentInChildren<Weapon>(); // Get the weapon component
+        powerUpStats = ScriptableObject.CreateInstance<WeaponStats>(); // Initialize power-up stats
         // make sure player has a weapon holder transform
     }
 
@@ -121,7 +124,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         // Update the weapon's adjusted stats when a power-up is collected
         if (currentWeapon != null)
         {
-            currentWeapon.Initialize(playerStats);
+            currentWeapon.ApplyPlayerPowerUpStats(powerUpStats);
         }
     }
 
@@ -130,7 +133,7 @@ public class PlayerController : MonoBehaviour, IDamageable
     {
         // Equip a new weapon and update its adjusted stats
         currentWeapon = newWeapon;
-        currentWeapon.Initialize(playerStats);
+        currentWeapon.ApplyPlayerPowerUpStats(powerUpStats);
     }
 
     string[] jumpTexts = new string[] { "Oof", "Haa", "Whee", "Wohoo" };
@@ -171,6 +174,22 @@ public class PlayerController : MonoBehaviour, IDamageable
     public void SetGroundedState(bool grounded)
     {
         isGrounded = grounded;
+    }
+
+    // Method to apply a power-up to the player's stats
+    public void ApplyPowerUp(WeaponStats powerUp)
+    {
+        powerUpStats.damage *= powerUp.damage;
+        powerUpStats.bulletSpeed *= powerUp.bulletSpeed;
+        powerUpStats.bulletLifetime *= powerUp.bulletLifetime;
+        powerUpStats.bulletRange *= powerUp.bulletRange;
+        powerUpStats.pushForce *= powerUp.pushForce;
+        powerUpStats.fireRate *= powerUp.fireRate;
+        powerUpStats.size *= powerUp.size;
+        powerUpStats.piercing += powerUp.piercing; // Additive for piercing
+        powerUpStats.bulletBounce += powerUp.bulletBounce; // Additive for bounce
+
+        currentWeapon.ApplyPlayerPowerUpStats(powerUpStats); // Update the weapon's stats        
     }
 
     // draw player forward and weapon holder forward gizmos

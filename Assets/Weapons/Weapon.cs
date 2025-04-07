@@ -23,26 +23,25 @@ public class Weapon : MonoBehaviour
         AttachToCharacter();
     }
 
-    public void Initialize(PlayerStats playerStats)
+    public void ApplyPlayerPowerUpStats(WeaponStats playerPowerUpStats)
     {
         // Precompute adjusted stats based on player stats
-        upgradedStats = playerStats.ApplyPowerUps(new WeaponStats
-        {
-            weaponName = baseStats.weaponName,
-            weaponType = baseStats.weaponType,
-            weaponPrefab = baseStats.weaponPrefab,
-            damage = baseStats.damage,
-            fireRate = baseStats.fireRate,
-            piercing = baseStats.piercing,
-            size = baseStats.size,
-            attackAngle = baseStats.attackAngle,
-            pushForce = baseStats.pushForce,
-            bulletLifetime = baseStats.bulletLifetime,
-            bulletSpeed = baseStats.bulletSpeed,
-            bulletRange = baseStats.bulletRange,
-            bulletBounce = baseStats.bulletBounce,
-            bulletPrefab = baseStats.bulletPrefab
-        });
+        upgradedStats = ScriptableObject.CreateInstance<WeaponStats>();
+        upgradedStats.damage = baseStats.damage * playerPowerUpStats.damage;
+        upgradedStats.bulletSpeed = baseStats.bulletSpeed * playerPowerUpStats.bulletSpeed;
+        upgradedStats.bulletLifetime = baseStats.bulletLifetime * playerPowerUpStats.bulletLifetime;
+        upgradedStats.bulletRange = baseStats.bulletRange * playerPowerUpStats.bulletRange;
+        upgradedStats.pushForce = baseStats.pushForce * playerPowerUpStats.pushForce;
+        upgradedStats.fireRate = baseStats.fireRate * playerPowerUpStats.fireRate;
+        upgradedStats.size = baseStats.size * playerPowerUpStats.size;
+        upgradedStats.piercing = baseStats.piercing + playerPowerUpStats.piercing;
+        upgradedStats.bulletBounce = baseStats.bulletBounce + playerPowerUpStats.bulletBounce;
+        // Copy other stats from baseStats
+        upgradedStats.bulletPrefab = baseStats.bulletPrefab;
+        upgradedStats.weaponName = baseStats.weaponName;
+        upgradedStats.weaponType = baseStats.weaponType;
+        upgradedStats.attackAngle = baseStats.attackAngle;
+        upgradedStats.weaponPrefab = baseStats.weaponPrefab;
     }
 
     // Attach the weapon the the WeaponHolder of the character
