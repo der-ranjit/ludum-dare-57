@@ -3,44 +3,25 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 
-public enum WallStyle
-{
-    Bedroom,
-    Forest,
-    Dungeon
-}
-
-public static class WallStyleExtensions
-{
-    public static string ToStringValue(this WallStyle wallStyle)
-    {
-        return wallStyle switch
-        {
-            WallStyle.Bedroom => "Bedroom",
-            WallStyle.Forest => "Forest",
-            WallStyle.Dungeon => "Dungeon",
-            _ => "Unknown"
-        };
-    }
-}
-
-
-public enum DecoStyle
+public enum RoomStyle
 {
     All,
     Bedroom,
-    Forest
+    Forest,
+    Dungeon,
+    Cave
 }
-
-public static class DecoStyleExtensions
+public static class WallStyleExtensions
 {
-    public static string ToStringValue(this DecoStyle decoStyle)
+    public static string ToStringValue(this RoomStyle wallStyle)
     {
-        return decoStyle switch
+        return wallStyle switch
         {
-            DecoStyle.All => "All",
-            DecoStyle.Bedroom => "Bedroom",
-            DecoStyle.Forest => "Forest",
+            RoomStyle.Bedroom => "Bedroom",
+            RoomStyle.Forest => "Forest",
+            RoomStyle.Dungeon => "Dungeon",
+            RoomStyle.Cave => "Cave",
+            RoomStyle.All => "All",
             _ => "Unknown"
         };
     }
@@ -49,8 +30,8 @@ public static class DecoStyleExtensions
 public class RoomConfig
 {
     public string roomName;
-    public WallStyle[] wallStyles;
-    public DecoStyle[] decoStyles;
+    public RoomStyle[] wallStyles;
+    public RoomStyle[] decoStyles;
     public float width;
     public float height;
     public float playerSpawnX;
@@ -62,22 +43,24 @@ public class RoomConfig
     public int treeCount;
     public int stoneCount;
     public int enemyCount;
+    public int decoCount;
     public System.Action<GameObject> finalizeRoom;
 
     public RoomConfig(
         string roomName,
-        WallStyle[] wallStyles,
-        DecoStyle[] decoStyles,
+        RoomStyle[] wallStyles,
+        RoomStyle[] decoStyles,
         float width,
         float height,
         float playerSpawnX,
         float playerSpawnY,
         float doorPos,
         int slitCount,
-        int fireCount,
-        int treeCount,
-        int stoneCount,
-        int enemyCount,
+        int fireCount = 0,
+        int treeCount = 0,
+        int stoneCount = 0,
+        int enemyCount = 0,
+        int decoCount = 0,
         System.Action<GameObject> finalizeRoom = null
     )
     {
@@ -94,6 +77,7 @@ public class RoomConfig
         this.treeCount = treeCount;
         this.stoneCount = stoneCount;
         this.enemyCount = enemyCount;
+        this.decoCount = decoCount;
         this.finalizeRoom = finalizeRoom;
     }
 }
@@ -106,26 +90,40 @@ public static class RoomConfigs
         switch (roomNum)
         {
             case 0:
+                // Testing room
+                // Get all room styles except ones you want to exclude
+                var availableStyles = Enum.GetValues(typeof(RoomStyle))
+                    .Cast<RoomStyle>()
+                    .Where(style => style != RoomStyle.All) // Exclude "All" style
+                    .ToArray();
+
+                // Get a random style from the filtered list
+                RoomStyle randomStyle = availableStyles[UnityEngine.Random.Range(0, availableStyles.Length)];
+                Debug.Log("Random style: " + randomStyle.ToStringValue());
+
                 return new RoomConfig(
                     "DefaultRoom",
-                    new WallStyle[] { WallStyle.Forest },
-                    new DecoStyle[] { DecoStyle.All, DecoStyle.Forest },
+                    new RoomStyle[] { randomStyle },
+                    new RoomStyle[] { randomStyle },
                     UnityEngine.Random.Range(10f, 25f), // width
                     UnityEngine.Random.Range(10f, 25f), // height
                     0.5f,
                     0.1f,
                     UnityEngine.Random.Range(1, 4), // door pos
                     UnityEngine.Random.Range(0, 10), // slit count
-                    1, // fire count
-                    UnityEngine.Random.Range(0, 4), // tree count
-                    UnityEngine.Random.Range(0, 4), // stone count
-                    UnityEngine.Random.Range(1, 5) // enemy count
+                    0, // fire count
+                    0,
+                    0,
+                    // UnityEngine.Random.Range(0, 4), // tree count
+                    // UnityEngine.Random.Range(0, 4), // stone count
+                    UnityEngine.Random.Range(1, 5), // enemy count
+                    10
                 );
             case 1:
                 return new RoomConfig(
                     "Bedroom",
-                    new WallStyle[] { WallStyle.Bedroom },
-                    new DecoStyle[] { DecoStyle.All, DecoStyle.Bedroom },
+                    new RoomStyle[] { RoomStyle.Bedroom },
+                    new RoomStyle[] { RoomStyle.All, RoomStyle.Bedroom },
                     7, // room size
                     10,
                     0.82f, // player spawn
@@ -136,6 +134,7 @@ public static class RoomConfigs
                     0, // tree count
                     0, // stone count
                     0, // enemy count
+                    0, // deco count
                     room =>
                     {
                         Debug.Log("Finalizing Bedroom room: " + room.name);
@@ -200,8 +199,8 @@ public static class RoomConfigs
             case 2:
                 return new RoomConfig(
                     "KevinRoom",
-                    new WallStyle[] { WallStyle.Bedroom },
-                    new DecoStyle[] { DecoStyle.All, DecoStyle.Bedroom },
+                    new RoomStyle[] { RoomStyle.Bedroom },
+                    new RoomStyle[] { RoomStyle.All, RoomStyle.Bedroom },
                     13,
                     9,
                     0.7f, // player pos
@@ -212,6 +211,7 @@ public static class RoomConfigs
                     0, // tree count
                     0, // stone count
                     0, // enemy count
+                    0, // deco count
                     room => {
                         // Create Kevin
                         GameObject kevinPrefab = Resources.Load<GameObject>("Characters/KevinPrefab");
@@ -309,8 +309,8 @@ public static class RoomConfigs
             case 3:
                 return new RoomConfig(
                     "WarmupRoom",
-                    new WallStyle[] { WallStyle.Forest },
-                    new DecoStyle[] { DecoStyle.All, DecoStyle.Forest },
+                    new RoomStyle[] { RoomStyle.Forest },
+                    new RoomStyle[] { RoomStyle.All, RoomStyle.Forest },
                     6,
                     15,
                     0.5f,
@@ -321,6 +321,7 @@ public static class RoomConfigs
                     0, // tree count
                     0, // stone count
                     0, // enemy count
+                    0, // deco count
                     room => {
                         // Create 3 slits
                         GameObject slitPrefab = Resources.Load<GameObject>("Rooms/SlitPrefab");
@@ -350,8 +351,8 @@ public static class RoomConfigs
             case 4:
                 return new RoomConfig(
                     "SlitTutorialRoom",
-                    new WallStyle[] { WallStyle.Forest },
-                    new DecoStyle[] { DecoStyle.All, DecoStyle.Forest },
+                    new RoomStyle[] { RoomStyle.Forest },
+                    new RoomStyle[] { RoomStyle.All, RoomStyle.Forest },
                     7,
                     20,
                     0.5f,
@@ -362,6 +363,7 @@ public static class RoomConfigs
                     0, // tree count
                     0, // stone count
                     0, // enemy count
+                    0, // deco count
                     room => {
                         LoadInPrefabContents(room, "FullRooms/Room4Prefab");
                     }
@@ -369,10 +371,10 @@ public static class RoomConfigs
             case 5:
                 return new RoomConfig(
                     "DungeonRoom",
-                    new WallStyle[] { WallStyle.Dungeon },
-                    new DecoStyle[] { DecoStyle.All },
-                    12,
-                    8,
+                    new RoomStyle[] { RoomStyle.Dungeon },
+                    new RoomStyle[] { RoomStyle.Dungeon },
+                    16,
+                    11,
                     0.5f,
                     0.1f,
                     2, // door pos
@@ -380,13 +382,14 @@ public static class RoomConfigs
                     0, // fire count
                     0, // tree count
                     0, // stone count
-                    0 // enemy count
+                    2, // enemy count
+                    4 // deco count
                 );
             case 8:
                 return new RoomConfig(
                     "ForestRoom",
-                    new WallStyle[] { WallStyle.Forest },
-                    new DecoStyle[] { DecoStyle.All },
+                    new RoomStyle[] { RoomStyle.Forest },
+                    new RoomStyle[] { RoomStyle.All },
                     5,
                     15,
                     0.5f,
@@ -397,6 +400,7 @@ public static class RoomConfigs
                     0, // tree count
                     0, // stone count
                     0, // enemy count
+                    0, // deco count
                     room => {
                         // Spawn PendulumPrefab in middle of room
                         GameObject pendulumPrefab = Resources.Load<GameObject>("Rooms/All/PendulumPrefab");
@@ -412,8 +416,8 @@ public static class RoomConfigs
                 Debug.LogError("Invalid room number. Creating default room.");
                 return new RoomConfig(
                     "RandomRoom",
-                    new WallStyle[] { WallStyle.Forest },
-                    new DecoStyle[] { DecoStyle.All, DecoStyle.Forest },
+                    new RoomStyle[] { RoomStyle.Forest },
+                    new RoomStyle[] { RoomStyle.All, RoomStyle.Forest },
                     UnityEngine.Random.Range(10f, 25f), // width
                     UnityEngine.Random.Range(10f, 25f), // height
                     0.5f,
@@ -421,9 +425,12 @@ public static class RoomConfigs
                     UnityEngine.Random.Range(0, 4), // door pos
                     UnityEngine.Random.Range(0, 10), // slit count
                     UnityEngine.Random.Range(0f, 1f) < 0.4f ? 1 : 0, // fire count
-                    UnityEngine.Random.Range(0, 4), // tree count
-                    UnityEngine.Random.Range(0, 4), // stone count
-                    UnityEngine.Random.Range(1, 10) // enemy count
+                    // UnityEngine.Random.Range(0, 4), // tree count
+                    // UnityEngine.Random.Range(0, 4), // stone count
+                    0,
+                    0,
+                    UnityEngine.Random.Range(1, 10), // enemy count
+                    UnityEngine.Random.Range(2, 10) // deco count
                 );
         }
     }

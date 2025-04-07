@@ -7,7 +7,7 @@ using UnityEngine.Rendering;
 
 public static class RoomCreator
 {
-    private static bool startInBedroom = true; // Flag to indicate if the game starts in the bedroom    
+    private static bool startInBedroom = false; // Flag to indicate if the game starts in the bedroom    
     private static int roomsCreated = startInBedroom ? 0 : -1; // Counter for the number of rooms created
     private static bool stayingInRoom = false;
     public static GameObject DeleteAndGenerateRoom(Material wallMaterial, float planeWidth, float planeHeight, Material planeMaterial, GameObject playerPrefab)
@@ -65,7 +65,7 @@ public static class RoomCreator
         GameObject room = new GameObject("Room");
 
         // Select random wall and floor materials based on the allowed styles
-        WallStyle randomWallStyle = info.wallStyles[Random.Range(0, info.wallStyles.Length)];
+        RoomStyle randomWallStyle = info.wallStyles[Random.Range(0, info.wallStyles.Length)];
         Material baserMaterial = Resources.Load<Material>("Rooms/All/Walls/baseMaterial");
         Material wallMaterial = GetWallMaterialForStyle(baserMaterial, randomWallStyle);
         Material floorMaterial = GetFloorMaterialForStyle(baserMaterial, randomWallStyle);
@@ -255,6 +255,19 @@ public static class RoomCreator
             fireInstance.name = $"Fire_{i + 1}";
         }
 
+        // Create suitable deco elements
+        if (info.decoCount > 0)
+        {
+            // Always add 'All' to deco styles
+            RoomStyle[] allDecoStyles = new RoomStyle[info.decoStyles.Length + 1];
+            allDecoStyles[0] = RoomStyle.All;
+            for (int i = 0; i < info.decoStyles.Length; i++)
+            {
+                allDecoStyles[i + 1] = info.decoStyles[i];
+            }
+            CreateThemedDecoElements(allDecoStyles, info.decoCount, room, planeWidth, planeHeight);
+        }
+
         // Room finalization of info object, if present
         if (info.finalizeRoom != null)
         {
@@ -265,14 +278,14 @@ public static class RoomCreator
     }
 
 
-    private static GameObject CreateDoor(float wallPos, float planeWidth, float planeHeight, WallStyle wallStyle)
+    private static GameObject CreateDoor(float wallPos, float planeWidth, float planeHeight, RoomStyle wallStyle)
     {
         // wallId is floor of wallPos
         int wallId = Mathf.FloorToInt(wallPos);
         // Load door prefab from Resources folder
         string doorPrefabName = "Rooms/Forest/Doors/ForestDoorArchPrefab";
         switch (wallStyle) {
-            case WallStyle.Bedroom:
+            case RoomStyle.Bedroom:
                 doorPrefabName = "Rooms/Bedroom/Doors/BedroomDoorPrefab";
                 break;
         }
@@ -322,17 +335,17 @@ public static class RoomCreator
         return new Vector3(x, 0, z);
     }
 
-    private static Material GetWallMaterialForStyle(Material baseMaterial, WallStyle style)
+    private static Material GetWallMaterialForStyle(Material baseMaterial, RoomStyle style)
     {
         return AddRandomTextureToBaseRoomMaterial(baseMaterial, style, "wall");
     }
 
-    private static Material GetFloorMaterialForStyle(Material baseMaterial, WallStyle style)
+    private static Material GetFloorMaterialForStyle(Material baseMaterial, RoomStyle style)
     {
         return AddRandomTextureToBaseRoomMaterial(baseMaterial, style, "floor");
     }
 
-    private static Material AddRandomTextureToBaseRoomMaterial(Material baseMaterial, WallStyle style, string spriteFilter)
+    private static Material AddRandomTextureToBaseRoomMaterial(Material baseMaterial, RoomStyle style, string spriteFilter)
     {
         string path = $"Rooms/{style.ToStringValue()}/Walls";
         // Load all sprites in the specified folder
@@ -372,6 +385,54 @@ public static class RoomCreator
         }
         return material;
     }
+
+private static void CreateThemedDecoElements(RoomStyle[] RoomStyles, int decoCount, GameObject room, float planeWidth, float planeHeight)
+{
+    // List to store all eligible decoration prefabs
+    List<GameObject> eligiblePrefabs = new List<GameObject>();
+
+    // Load prefabs for each style in RoomStyles
+    foreach (RoomStyle style in RoomStyles)
+    {
+        string resourcePath = $"Rooms/{style.ToStringValue()}/Deco";
+        GameObject[] prefabs = Resources.LoadAll<GameObject>(resourcePath);
+        
+        Debug.Log($"Loaded {prefabs.Length} decoration prefabs from {resourcePath}");
+        
+        // Add all prefabs to the eligible list
+        foreach (GameObject prefab in prefabs)
+        {
+            eligiblePrefabs.Add(prefab);
+        }
+    }
+
+    // If no prefabs found, log error and return
+    if (eligiblePrefabs.Count == 0)
+    {
+        Debug.LogError("No decoration prefabs found for the specified styles.");
+        return;
+    }
+
+    // Create the specified number of decoration elements
+    for (int i = 0; i < decoCount; i++)
+    {
+        // Select a random prefab from the eligible list
+        GameObject selectedPrefab = eligiblePrefabs[Random.Range(0, eligiblePrefabs.Count)];
+        // Create an instance of the prefab
+        GameObject decoInstance = Object.Instantiate(selectedPrefab);
+        // Set a random position within the room
+        decoInstance.transform.position = GetRandomPosition(1.5f, planeWidth, planeHeight);
+        // Randomly rotate the decoration around the Y axis
+        decoInstance.transform.rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
+        // Parent the decoration to the room
+        decoInstance.transform.parent = room.transform;
+        // Name the decoration
+        decoInstance.name = $"Deco_{selectedPrefab.name}_{i + 1}";
+        // Add slight random scale variation for visual interest (optional)
+        // float scaleVariation = Random.Range(0.8f, 1.2f);
+        // decoInstance.transform.localScale *= scaleVariation;
+    }
+}
 }
 
 
