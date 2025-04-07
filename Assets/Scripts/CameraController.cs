@@ -11,6 +11,9 @@ public class CameraController : MonoBehaviour
     // public Quaternion overrideTargetAngle = Quaternion.identity; // Override target angle for the camera
     private float overrideAlpha = 0f;
 
+    private Vector3 overrideTarget = Vector3.zero; // Override target position for the camera
+    private Vector3 overrideCurrentTarget = Vector3.zero; // Current target position for the camera, this always moves smoothly towards overrideTarget
+
     void LateUpdate()
     {
         if (GameManager.Instance?.CurrentState != GameManager.GameState.Playing)
@@ -49,10 +52,18 @@ public class CameraController : MonoBehaviour
         {
             // Otherwise, set the camera position to the calculated position
             transform.position = targetPosition;
+            overrideCurrentTarget = target.position + offset;
         }
 
+        // Always smoothly move overrideCurrentTarget towards overrideTarget
+        overrideCurrentTarget = Vector3.Lerp(overrideCurrentTarget, overrideTarget, Time.deltaTime * 2f);
+
         // Always look at the target
-        transform.LookAt(target);
+        Vector3 targetToLookAt = target.position;
+        if (overrideAlpha > 0) {
+            targetToLookAt = (1 - overrideAlpha) * targetToLookAt + overrideAlpha * overrideCurrentTarget;
+        } 
+        transform.LookAt(targetToLookAt);
     }
 
     public void SetOverride(Vector3? newPos = null)
@@ -65,6 +76,18 @@ public class CameraController : MonoBehaviour
         else
         {
             overrideActive = false;
+        }
+    }
+
+    public void SetOverrideTarget(Vector3? newTarget = null)
+    {
+        if (newTarget != null)
+        {
+            overrideTarget = (Vector3)newTarget;
+        }
+        else
+        {
+            overrideTarget = target.position;
         }
     }
 

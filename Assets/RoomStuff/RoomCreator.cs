@@ -7,7 +7,7 @@ using UnityEngine.Rendering;
 
 public static class RoomCreator
 {
-    private static bool startInBedroom = true; // Flag to indicate if the game starts in the bedroom    
+    private static bool startInBedroom = false; // Flag to indicate if the game starts in the bedroom    
     private static int roomsCreated = startInBedroom ? 0 : -1; // Counter for the number of rooms created
     public static GameObject DeleteAndGenerateRoom(Material wallMaterial, float planeWidth, float planeHeight, Material planeMaterial)
     {
@@ -145,6 +145,13 @@ public static class RoomCreator
             GameObject player = Object.Instantiate(playerPrefab, spawner.transform);
             player.name = "Player";
             player.transform.parent = room.transform;
+            // Look towards origin (but only apply to y axis)
+            Vector3 lookAt = new Vector3(0, player.transform.position.y, 0);
+            player.transform.LookAt(lookAt);
+            // Then round y angle to nearest 90° step
+            float yAngle = player.transform.eulerAngles.y;
+            yAngle = Mathf.Round(yAngle / 90f) * 90f;
+            player.transform.eulerAngles = new Vector3(0, yAngle, 0);
 
             // Remove the spawner and its indicator after spawning the player
             Object.DestroyImmediate(spawner);
