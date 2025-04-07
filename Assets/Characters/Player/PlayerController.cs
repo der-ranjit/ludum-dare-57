@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         if (moveX != 0)
         {
             lastMoveX = moveX;
-            spriteRenderer.flipX = lastMoveX > 0;
+            spriteRenderer.flipX = lastMoveX <= 0;
         }
 
         // Jumping
