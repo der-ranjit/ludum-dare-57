@@ -20,6 +20,7 @@ public class Enemy : MonoBehaviour, IDamageable
     protected virtual void Start()
     {
         currentHealth = maxHealth;
+        gameObject.tag = "Enemy";
 
         // Find the player by tag
         GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -102,8 +103,9 @@ public class Enemy : MonoBehaviour, IDamageable
         if (playerTransform == null || rb == null) return;
 
         Vector3 directionToPlayer = (playerTransform.position - transform.position).normalized;
-        rb.velocity = directionToPlayer * moveSpeed;
-
+        // Calculate the target position for the next frame
+        Vector3 targetPosition = transform.position + directionToPlayer * moveSpeed * Time.fixedDeltaTime;
+        rb.MovePosition(targetPosition);
     }
 
     protected void RotateTowardsPlayer()

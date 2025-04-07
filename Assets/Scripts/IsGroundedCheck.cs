@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(BoxCollider))]
 public class IsGroundedCheck : MonoBehaviour
 {
     private bool isGrounded = false;

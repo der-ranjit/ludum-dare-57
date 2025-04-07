@@ -96,10 +96,10 @@ GameObject:
   - component: {fileID: 1191107600429966799}
   - component: {fileID: 3442655677162083075}
   - component: {fileID: 2071727208587892129}
-  - component: {fileID: 1279135384231389063}
-  - component: {fileID: 4676909607491438125}
-  - component: {fileID: 1846265130290053199}
   - component: {fileID: 1644959391639388796}
+  - component: {fileID: 1846265130290053199}
+  - component: {fileID: -483163730233345518}
+  - component: {fileID: 1650043093663336146}
   m_Layer: 6
   m_Name: GenericEnemyPrefab
   m_TagString: Enemy
@@ -192,7 +192,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &1279135384231389063
+--- !u!114 &1644959391639388796
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -201,26 +201,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6117496558057403177}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d19536b8ca552f14d851103f66d97215, type: 3}
+  m_Script: {fileID: 11500000, guid: ddcf4bcc831f93c42b5ae7df255249b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 1
-  moveSpeed: 1.1
-  rotationSpeed: 1.5
-  wobbleAmplitude: 0.27
-  wobbleFrequency: 4
---- !u!114 &4676909607491438125
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6117496558057403177}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edd5f1f110ac2d84b912f3c7e098e464, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  baseStats: {fileID: 11400000, guid: 57bdc43cf320167498f8008c8bd7e78e, type: 2}
 --- !u!136 &1846265130290053199
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -244,7 +228,7 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1644959391639388796
+--- !u!114 &-483163730233345518
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -253,7 +237,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 6117496558057403177}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ddcf4bcc831f93c42b5ae7df255249b1, type: 3}
+  m_Script: {fileID: 11500000, guid: edd5f1f110ac2d84b912f3c7e098e464, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseStats: {fileID: 11400000, guid: 57bdc43cf320167498f8008c8bd7e78e, type: 2}
+--- !u!114 &1650043093663336146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6117496558057403177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be9d3bef39a84b64592ab363e8dfc452, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 2
+  moveSpeed: 1
+  rotationSpeed: 1.5
+  wobbleAmplitude: 0.5
+  wobbleFrequency: 2
