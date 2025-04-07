@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         isGroundedCheck = GetComponentInChildren<IsGroundedCheck>(); // Get the IsGroundedCheck component
         powerUpStats = ScriptableObject.CreateInstance<WeaponStats>(); // Initialize power-up stats
         // make sure player has a weapon holder transform
+        setHp(playerStats.currentHealth); // Set initial health
     }
 
     void Update()
@@ -112,12 +113,24 @@ public class PlayerController : MonoBehaviour, IDamageable
     public void TakeDamage(float damage)
     {
         Debug.Log($"Player took {damage} damage!");
-        playerStats.currentHealth -= damage;
+        setHp(playerStats.currentHealth - damage);
+
         StartCoroutine(FlashRed()); // Flash red on damage
 
         if (playerStats.currentHealth <= 0)
         {
             Die();
+        }
+    }
+
+    private void setHp(float hp)
+    {
+        playerStats.currentHealth = hp;
+        HealthUI[] healthUIs = FindObjectsOfType<HealthUI>();
+        foreach (HealthUI healthUI in healthUIs)
+        {
+            int intHp = Mathf.CeilToInt(hp * 5);
+            healthUI.SetHitpoints(intHp);
         }
     }
 

@@ -1048,6 +1048,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadeImage: {fileID: 197211866}
   defaultFadeDuration: 1
+--- !u!114 &613376436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 613376425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 056d3a996ffed8449acc955bbe554d41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  heartPrefab: {fileID: 266617301536860454, guid: 65d94334f12b94f448fd5e5972d203b4, type: 3}
+  heartSpacing: 16
+  initialHitpoints: 0
+  topRightOffset: {x: -10, y: 10}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -4149,6 +4165,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 917967155601573776, guid: 75f20c4cc7353b2408e88502b26c31a5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 613376431}
+    - targetCorrespondingSourceObject: {fileID: 917967155601573776, guid: 75f20c4cc7353b2408e88502b26c31a5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 613376436}
   m_SourcePrefab: {fileID: 100100000, guid: 75f20c4cc7353b2408e88502b26c31a5, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
