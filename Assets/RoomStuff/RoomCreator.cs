@@ -40,6 +40,7 @@ public static class RoomCreator
 
         roomsCreated++; // Increment the room counter
 
+        Debug.Log("Generating room number " + roomsCreated);
         RoomConfig info = RoomConfigs.GetBasicRoomInfo(roomsCreated); // Get room info based on the number of rooms created
         planeWidth = info.width;
         planeHeight = info.height;

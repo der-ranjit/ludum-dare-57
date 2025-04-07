@@ -238,16 +238,41 @@ public static class RoomConfigs
                     "WarmupRoom",
                     new WallStyle[] { WallStyle.Forest },
                     new DecoStyle[] { DecoStyle.All, DecoStyle.Forest },
+                    6,
                     15,
-                    10,
                     0.5f,
-                    0.1f,
-                    2, // door pos
+                    0.05f,
+                    0.5f, // door pos
                     0, // slit count
-                    1, // fire count
-                    5, // tree count
-                    4, // stone count
-                    0 // enemy count
+                    0, // fire count
+                    0, // tree count
+                    0, // stone count
+                    0, // enemy count
+                    room => {
+                        // Create 3 slits
+                        GameObject slitPrefab = Resources.Load<GameObject>("Rooms/SlitPrefab");
+                        for (int i = 0; i < 8; i++)
+                        {
+                            GameObject slit = Slit.CreateSlit(
+                                room,
+                                new Vector2(-1.5f + 1f * (i % 4), -3 + 1.2f * i),
+                                true
+                            );
+                            slit.transform.parent = room.transform;
+                        }
+
+                        DialogManager.Instance.StartDialog(new string[] {
+                            "!wait 4",
+                            // "!turn Player 90",
+                            // "!cam -2.8 3.1 -4.1",
+                            // "!wait 2",
+                            "1: The pendulum is probably somewhere deep in this forest. Or some cave or whatnot.",
+                            "1: I'll have to dive deep into the depths(!) of this flat new world.",
+                            "1: Too bad that our world is full of these little crevices on the floor though!",
+                            "1: I never minded them, but now I'm flat and need to be careful not to fall into one.",
+                            "1: I should either [SPACE] jump over them, or [Q] [E] rotate accordingly...",
+                        });
+                    }
                 );
             case 4:
                 return new RoomConfig(
