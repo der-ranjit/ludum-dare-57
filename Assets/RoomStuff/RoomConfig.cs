@@ -195,7 +195,7 @@ public static class RoomConfigs
             case 3:
                 return new RoomConfig(
                     "WarmupRoom",
-                     new WallStyle[] { WallStyle.Forest },
+                    new WallStyle[] { WallStyle.Forest },
                     new DecoStyle[] { DecoStyle.All, DecoStyle.Forest },
                     15,
                     10,
@@ -211,7 +211,7 @@ public static class RoomConfigs
             case 4:
                 return new RoomConfig(
                     "SlitTutorialRoom",
-                   new WallStyle[] { WallStyle.Forest },
+                    new WallStyle[] { WallStyle.Forest },
                     new DecoStyle[] { DecoStyle.All, DecoStyle.Forest },
                     12,
                     8,
