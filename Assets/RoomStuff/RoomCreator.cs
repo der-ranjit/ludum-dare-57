@@ -212,7 +212,8 @@ public static class RoomCreator
                 room,
                 new Vector2(Random.Range(-planeWidth / 2f, planeWidth / 2f),
                 Random.Range(-planeHeight / 2f, planeHeight / 2f)),
-                Random.Range(0, 2) == 0
+                Random.Range(0, 2) == 0,
+                wallStyle.ToStringValue()
             );
             slit.transform.parent = room.transform;
             // Store in slits array
@@ -222,7 +223,7 @@ public static class RoomCreator
 
         // Create exit door
         Debug.Log($"Door position: {info.doorPos}");
-        GameObject door = CreateDoor(info.doorPos, planeWidth, planeHeight, info.wallStyles[0]);
+        GameObject door = CreateDoor(info.doorPos, planeWidth, planeHeight, info.wallStyles[0], wallStyle.ToStringValue());
         doors = new GameObject[] { door };
         door.transform.parent = room.transform;
 
@@ -278,18 +279,14 @@ public static class RoomCreator
     }
 
 
-    private static GameObject CreateDoor(float wallPos, float planeWidth, float planeHeight, RoomStyle wallStyle)
+    private static GameObject CreateDoor(float wallPos, float planeWidth, float planeHeight, RoomStyle wallStyle, string theme = "All")
     {
         // wallId is floor of wallPos
         int wallId = Mathf.FloorToInt(wallPos);
         // Load door prefab from Resources folder
-        string doorPrefabName = "Rooms/Forest/Doors/ForestDoorArchPrefab";
-        switch (wallStyle) {
-            case RoomStyle.Bedroom:
-                doorPrefabName = "Rooms/Bedroom/Doors/BedroomDoorPrefab";
-                break;
-        }
-        GameObject doorPrefab = Resources.Load<GameObject>(doorPrefabName);
+        string doorPrefabPath = $"Rooms/{theme}/Doors";
+        GameObject[] doorPrefabs = Resources.LoadAll<GameObject>(doorPrefabPath);
+        GameObject doorPrefab = doorPrefabs[Random.Range(0, doorPrefabs.Length)];
         GameObject doorInstance = Object.Instantiate(doorPrefab);
         doorInstance.name = $"Door_{wallId + 1}";
 

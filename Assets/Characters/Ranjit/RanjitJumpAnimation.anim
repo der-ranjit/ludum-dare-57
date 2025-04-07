@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: RanjitWalkAnimationClip
+  m_Name: RanjitJumpAnimation
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,15 +21,13 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 2110352117, guid: 64379b8d24b89489a8ebfc8f12901195, type: 3}
-    - time: 0.25
-      value: {fileID: -64487828, guid: 64379b8d24b89489a8ebfc8f12901195, type: 3}
+      value: {fileID: -409346102, guid: 64379b8d24b89489a8ebfc8f12901195, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
     script: {fileID: 0}
     flags: 2
-  m_SampleRate: 4
+  m_SampleRate: 2
   m_WrapMode: 0
   m_Bounds:
     m_Center: {x: 0, y: 0, z: 0}
@@ -46,8 +44,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 2110352117, guid: 64379b8d24b89489a8ebfc8f12901195, type: 3}
-    - {fileID: -64487828, guid: 64379b8d24b89489a8ebfc8f12901195, type: 3}
+    - {fileID: -409346102, guid: 64379b8d24b89489a8ebfc8f12901195, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
