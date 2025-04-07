@@ -10,10 +10,10 @@ public static class RoomCreator
     private static bool startInBedroom = true; // Flag to indicate if the game starts in the bedroom    
     private static int roomsCreated = startInBedroom ? 0 : -1; // Counter for the number of rooms created
     private static bool stayingInRoom = false;
-    public static GameObject DeleteAndGenerateRoom(Material wallMaterial, float planeWidth, float planeHeight, Material planeMaterial)
+    public static GameObject DeleteAndGenerateRoom(Material wallMaterial, float planeWidth, float planeHeight, Material planeMaterial, GameObject playerPrefab)
     {
         DeleteCurrentRoom();
-        return GenerateRoom(planeWidth, planeHeight);
+        return GenerateRoom(planeWidth, planeHeight, playerPrefab);
     }
 
     // System time now. Used for random seed.
@@ -41,7 +41,7 @@ public static class RoomCreator
         }
     }
 
-    public static GameObject GenerateRoom(float planeWidth, float planeHeight)
+    public static GameObject GenerateRoom(float planeWidth, float planeHeight, GameObject playerPrefab)
     {
         Sprite[] allSprites = Resources.LoadAll<Sprite>("Rooms/Forest/Walls");
         foreach (Sprite sprite in allSprites)
@@ -181,10 +181,10 @@ public static class RoomCreator
         spawner.transform.position = new Vector3(spawnX, 0.5f, spawnZ);
         spawner.transform.parent = room.transform;
 
-        GameObject playerPrefab = Resources.Load<GameObject>("Characters/PlayerPrefab");
         // Instantiate the player prefab at the spawner's position
         if (playerPrefab != null)
         {
+            playerPrefab = Resources.Load<GameObject>("Characters/PlayerPrefab");
             GameObject player = Object.Instantiate(playerPrefab, spawner.transform);
             player.name = "Player";
             player.transform.parent = room.transform;

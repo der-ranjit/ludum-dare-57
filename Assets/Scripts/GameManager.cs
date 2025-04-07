@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
         PreStart, // Enemies are turned and cannot move
         Playing // Normal gameplay begins
     }
+    public GameObject playerPrefab;
+
     [SerializeField]
     public GameState CurrentState = GameState.PreStart;
     [Header("Debug")]
@@ -97,7 +99,7 @@ public class GameManager : MonoBehaviour
         float height = Random.Range(10f, 25f);
         Debug.Log($"Creating room with dimensions: {width} x {height}");
         int enemies = 1; // Random.Range(1, 10);
-        GameObject room = RoomCreator.DeleteAndGenerateRoom(null, width, height, null);
+        GameObject room = RoomCreator.DeleteAndGenerateRoom(null, width, height, null, playerPrefab);
         SpawnEnemies(room, enemies, noSpawnRadius);
 
         // Set the camera to a top-down view
