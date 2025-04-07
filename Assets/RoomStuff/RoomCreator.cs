@@ -181,7 +181,7 @@ public static class RoomCreator
         spawner.transform.position = new Vector3(spawnX, 0.5f, spawnZ);
         spawner.transform.parent = room.transform;
 
-        GameObject playerPrefab = Resources.Load<GameObject>("Characters/PlayerPrefab");
+        GameObject playerPrefab = Resources.Load<GameObject>("Characters/MarkusPrefab");
         // Instantiate the player prefab at the spawner's position
         if (playerPrefab != null)
         {
