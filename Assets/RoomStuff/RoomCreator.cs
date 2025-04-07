@@ -331,7 +331,7 @@ public static class RoomCreator
             // This is awkward but, uh, we just "mark" this as "should be repeated" with negative numbers, because we don't know the total width/height here...
             // We provide the texture size in pixels here for later access
             Debug.Log($"Floor texture size: {randomSprite.texture.width}x{randomSprite.texture.height}");
-            material.mainTextureScale = new Vector2(-randomSprite.texture.width, -randomSprite.texture.height);
+            material.mainTextureScale = new Vector2(-1, -1);
         }
         return material;
     }
