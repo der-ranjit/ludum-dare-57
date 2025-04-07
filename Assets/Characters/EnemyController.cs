@@ -1,24 +1,23 @@
 using System.Collections;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour, IDamageable
+[RequireComponent(typeof(SlitVictim))]
+[RequireComponent(typeof(Rigidbody))]
+public class Enemy : MonoBehaviour, IDamageable
 {
 
-    public float maxHealth = 1f;
+    public float maxHealth = 2f;
     private float currentHealth;
-    public float moveSpeed = 2f; // Speed at which the enemy moves
-    public float rotationSpeed = 5f; // Speed at which the enemy rotates to face the player
-    public float wobbleAmplitude = 0.5f; // Amplitude of the wobble (height of the up-and-down motion)
-    public float wobbleFrequency = 2f; // Frequency of the wobble (speed of the up-and-down motion)
-    private Transform playerTransform; // Reference to the player's transform
-    private Transform playerHeadAimPoint;
-    private float initialY; // The initial Y position of the enemy
-    private Rigidbody rb; // Reference to the Rigidbody component
-    private SpriteRenderer spriteRenderer; // Reference to the enemy's SpriteRenderer
-    private Weapon weapon;
+    public float moveSpeed = 1f; // Speed at which the enemy moves
+    public float rotationSpeed = 1.5f; // Speed at which the enemy rotates to face the player
+    protected Transform playerTransform; // Reference to the player's transform
+    protected Transform playerHeadAimPoint;
+    protected Rigidbody rb; // Reference to the Rigidbody component
+    protected SpriteRenderer spriteRenderer; // Reference to the enemy's SpriteRenderer
+    protected Weapon weapon;
     private bool spriteIsActivating = false;
 
-    void Start()
+    protected virtual void Start()
     {
         currentHealth = maxHealth;
 
@@ -41,15 +40,8 @@ public class EnemyController : MonoBehaviour, IDamageable
             Debug.LogWarning("GenericEnemyController: No player found with tag 'Player'!");
         }
 
-        // Store the initial Y position
-        initialY = transform.position.y;
-
         // Get the Rigidbody component
         rb = GetComponent<Rigidbody>();
-        if (rb == null)
-        {
-            Debug.LogError("GenericEnemyController: No Rigidbody component found on the enemy!");
-        }
 
         // Get the SpriteRenderer component
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
@@ -60,15 +52,11 @@ public class EnemyController : MonoBehaviour, IDamageable
         }
 
         weapon = GetComponentInChildren<Weapon>();
-        StartCoroutine(AttackForever());
     }
 
-    void FixedUpdate()
+    protected virtual void Update()
     {
-        if (GameManager.Instance?.CurrentState != GameManager.GameState.Playing)
-        {
-            return;
-        }
+        if (GameManager.Instance?.CurrentState != GameManager.GameState.Playing) return;
 
         // Make the enemy visible when the level starts
         if (spriteRenderer != null && !spriteRenderer.enabled && !spriteIsActivating)
@@ -79,6 +67,7 @@ public class EnemyController : MonoBehaviour, IDamageable
         if (spriteRenderer.enabled)
         {
             MoveTowardsPlayer();
+            RotateTowardsPlayer();
         }
     }
 
@@ -108,42 +97,29 @@ public class EnemyController : MonoBehaviour, IDamageable
         spriteRenderer.enabled = true;
     }
 
-    private void MoveTowardsPlayer()
+    protected void MoveTowardsPlayer()
     {
         if (playerTransform == null || rb == null) return;
 
-        // Calculate the direction to the player
         Vector3 directionToPlayer = (playerTransform.position - transform.position).normalized;
+        rb.velocity = directionToPlayer * moveSpeed;
 
-        // Add wobble effect to the Y position
-        float wobbleOffset = Mathf.Sin(Time.time * wobbleFrequency) * wobbleAmplitude;
-        Vector3 velocity = directionToPlayer * moveSpeed;
-        velocity.y = wobbleOffset;
+    }
 
-        // Apply velocity to the Rigidbody
-        rb.velocity = velocity;
+    protected void RotateTowardsPlayer()
+    {
+        if (playerTransform == null || rb == null) return;
 
         // Smoothly rotate to face the same direction as the player
         Quaternion targetRotation = playerTransform.rotation;
         rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime));
     }
 
-    private IEnumerator AttackForever()
+    protected void Attack()
     {
-        while (true)
-        {
-            if (GameManager.Instance?.CurrentState == GameManager.GameState.Playing)
-            {
-                Transform aimPoint = playerHeadAimPoint != null ? playerHeadAimPoint : playerTransform;
-                Vector3 direction = (aimPoint.position - transform.position).normalized;
-                weapon?.Attack(direction);
-                yield return new WaitForSeconds(weapon.baseStats.fireRate); // Wait for the specified fire interval before firing again
-            }
-            else
-            {
-                yield return null; // Wait for the next frame if the game is not in the correct state
-            }
-        }
+        Transform aimPoint = playerHeadAimPoint != null ? playerHeadAimPoint : playerTransform;
+        Vector3 direction = (aimPoint.position - transform.position).normalized;
+        weapon?.Attack(direction);
     }
 
     private IEnumerator FlashRed()

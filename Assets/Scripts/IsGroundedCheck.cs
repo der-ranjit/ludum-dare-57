@@ -26,7 +26,7 @@ public class IsGroundedCheck : MonoBehaviour
         {
             isGrounded = true;
         }
-        EnemyController enemyController = other.GetComponent<EnemyController>();
+        Enemy enemyController = other.GetComponent<Enemy>();
         PlayerController playerController = transform.parent.GetComponent<PlayerController>();
         if (enemyController != null && playerController != null)
         {

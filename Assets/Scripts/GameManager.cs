@@ -150,7 +150,7 @@ public class GameManager : MonoBehaviour
             return false;
         }
         // Count the number of enemies in the scene
-        EnemyController[] enemies = FindObjectsOfType<EnemyController>();
+        Enemy[] enemies = FindObjectsOfType<Enemy>();
         int enemyCount = enemies.Length;
         // Check if all enemies are defeated
         return enemyCount < 2;
@@ -196,7 +196,7 @@ public class GameManager : MonoBehaviour
         SetState(GameState.Playing);
 
         // Enable enemy movement
-        EnemyController[] enemies = FindObjectsOfType<EnemyController>();
+        Enemy[] enemies = FindObjectsOfType<Enemy>();
         foreach (var enemy in enemies)
         {
             enemy.enabled = true;

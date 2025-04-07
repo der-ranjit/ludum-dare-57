@@ -90,10 +90,10 @@ public class RangedController : MonoBehaviour
         if (shooter.CompareTag("Enemy"))
         {
             // get all enemies in the scene
-            EnemyController[] enemies = FindObjectsOfType<EnemyController>();
+            Enemy[] enemies = FindObjectsOfType<Enemy>();
             Collider bulletCollider = GetComponent<Collider>();
 
-            foreach (EnemyController enemy in enemies)
+            foreach (Enemy enemy in enemies)
             {
                 foreach (Collider enemyCollider in enemy.GetComponents<Collider>())
                 {
