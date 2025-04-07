@@ -28,6 +28,9 @@ public class GameManager : MonoBehaviour
     public float cameraTransitionDuration = 3f; // Duration of the camera transition
 
     private float proceedToNextRoomTimer = 0f; // Timer for proceeding to the next room
+    private float proceedToNextRoomDuration = 1f;
+    private float timeSpentInCurrentRoom = 0f; // Time spent in the current room
+    private float fadeInDuration = 0.5f; // Duration for fading in
 
     private Camera mainCamera;
 
@@ -40,6 +43,7 @@ public class GameManager : MonoBehaviour
 
     public void Update()
     {
+        timeSpentInCurrentRoom += Time.deltaTime;
         if (proceedToNextRoomTimer > 0f)
         {
             proceedToNextRoomTimer -= Time.deltaTime;
@@ -48,6 +52,12 @@ public class GameManager : MonoBehaviour
                 ProceedToNextRoom();
             }
         }
+        // Fading
+        float fadeOutAlpha = proceedToNextRoomTimer > 0 ? 1 - (proceedToNextRoomTimer / proceedToNextRoomDuration) : 0;
+        float fadeInAlpha = 1 - (timeSpentInCurrentRoom / fadeInDuration);
+        float alpha = Mathf.Clamp01(Mathf.Max(fadeOutAlpha, fadeInAlpha));
+        Debug.Log($"Alpha: {alpha} - FadeOut: {fadeOutAlpha} - FadeIn: {fadeInAlpha}");
+        ScreenFader.Instance.setCurrentFadeAlpha(alpha);
     }
 
     public void EnemyKilled()
@@ -116,7 +126,12 @@ public class GameManager : MonoBehaviour
 
     public void ProceedToNextRoomIn(float delay)
     {
+        if (proceedToNextRoomTimer > 0f)
+        {
+            return; // Already in the process of proceeding to the next room
+        }
         proceedToNextRoomTimer = delay;
+        proceedToNextRoomDuration = delay;
     }
 
     private static void SpawnEnemies(GameObject room, int spawnCount, float noSpawnRadius)
@@ -183,9 +198,10 @@ public class GameManager : MonoBehaviour
     }
 
     // Regular method that can be called directly
-    public void ProceedToNextRoom()
+    private void ProceedToNextRoom()
     {
         proceedToNextRoomTimer = 0f; // Reset the timer
+        timeSpentInCurrentRoom = 0f; // Reset the timer
         StartCoroutine(ProceedToNextRoomCoroutine());
     }
 

@@ -22,7 +22,7 @@ public class Door : MonoBehaviour
             // Check if game is done
             if (GameManager.Instance.IsRoomComplete()) {
                 Debug.Log("Room is complete, proceeding to next room");
-                GameManager.Instance.ProceedToNextRoom();
+                GameManager.Instance.ProceedToNextRoomIn(1);
             }
         }       
     }
