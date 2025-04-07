@@ -219,7 +219,7 @@ public class GameManager : MonoBehaviour
         Transform player = GameObject.FindGameObjectWithTag("Player")?.transform; // Find the player object by tag
         Vector3 offset = mainCamera.GetComponent<CameraController>().offset;
 
-        Vector3 playerPositionAfterSpwan = player.position - (player.up * (0.5f + 0.5f)); // Adjust the player's position to account for the spawn offset, and also, the CameraController is pointing above the head
+        Vector3 playerPositionAfterSpwan = player.position - (player.up * (0.5f - 0.5f)); // Adjust the player's position to account for the spawn offset, and also, the CameraController is pointing above the head
                                                                                  // Calculate the target camera position and rotation
         Vector3 targetPlayerCameraPosition = playerPositionAfterSpwan
             + (player.right * offset.x) // Horizontal offset

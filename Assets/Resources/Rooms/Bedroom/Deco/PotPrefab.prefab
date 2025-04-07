@@ -94,6 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1228605522136474527}
   - component: {fileID: 8983326515007757104}
+  - component: {fileID: 2831462176297779282}
   m_Layer: 0
   m_Name: PotPrefab
   m_TagString: Untagged
@@ -136,5 +137,18 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.7, y: 1.2, z: 0.1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.35, y: 0.38, z: 0.35}
+  m_Center: {x: 0, y: 0.21, z: 0}
+--- !u!114 &2831462176297779282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5373615018882857779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0945876f90bf8fa4995f980257d1cee8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numberOfBillboards: 1
