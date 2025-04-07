@@ -10,8 +10,8 @@ public class Weapon : MonoBehaviour
 
     GameObject attachedWeaponPrefab; // The weapon prefab attached to the player
     public float swingDuration = 0.5f;
-    public float forwardOffset = 1.0f;
-    public float swingRadius = 1.5f;
+    public float forwardOffset = 0.1f;
+    public float swingRadius = 0.5f;
     private bool isSwinging = false;
 
     public void Start()
@@ -133,38 +133,7 @@ public class Weapon : MonoBehaviour
         StartCoroutine(SwingSword());
     }
 
-    private IEnumerator SwingSword()
-    {
-        isSwinging = true;
-
-        // Step 1: Set the initial rotation of the sword
-        Quaternion initialRotation = attachedWeaponPrefab.transform.localRotation;
-
-        attachedWeaponPrefab.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
-
-        // Step 2: Calculate the initial and target rotations for the swing
-        Quaternion targetRotation = Quaternion.AngleAxis(180f, transform.up) * initialRotation; // Rotate 180 degrees around the player's up vector
-
-        // // Step 3: Animate the swing over time
-        float elapsed = 0f;
-        while (elapsed < swingDuration)
-        {
-            float t = elapsed / swingDuration;
-
-            // Interpolate the rotation smoothly
-            attachedWeaponPrefab.transform.localRotation = Quaternion.Slerp(initialRotation, targetRotation, t);
-
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        // Step 4: Reset the sword to its original rotation
-        attachedWeaponPrefab.transform.localRotation = initialRotation;
-
-        isSwinging = false;
-    }
-
-      private IEnumerator SwingSword2()
+      private IEnumerator SwingSword()
     {
         isSwinging = true;
 
@@ -172,6 +141,7 @@ public class Weapon : MonoBehaviour
         Transform playerTransform = weaponHolder.transform; // Assuming the weapon holder is the parent of the sword
         // Step 1: Set sword orientation (local X-axis 90 degrees to lay horizontal)
         Quaternion initialRotation = swordTransform.localRotation;
+        Vector3 initialPosition = swordTransform.position;
         swordTransform.localRotation = Quaternion.Euler(90f, 0f, 0f);
 
         // Step 2: Calculate initial swing position
@@ -186,7 +156,7 @@ public class Weapon : MonoBehaviour
         while (elapsed < swingDuration)
         {
             float t = elapsed / swingDuration;
-            float angle = Mathf.Lerp(-90f, 90f, t); // From -90 to +90 degrees
+            float angle = Mathf.Lerp(90f, -90f, t); // From -90 to +90 degrees
             Vector3 swingDir = Quaternion.AngleAxis(angle, playerTransform.up) * forwardOffsetVec.normalized;
             swordTransform.position = playerTransform.position + swingDir * swingRadius;
 
@@ -196,6 +166,7 @@ public class Weapon : MonoBehaviour
 
         // Step 4: Reset the sword to its original position and rotation
         swordTransform.localRotation = initialRotation;
+        swordTransform.position= initialPosition;
 
         // End of swing
         isSwinging = false;
