@@ -39,6 +39,7 @@ public class RoomCreatorEditor : EditorWindow
         if (GUILayout.Button("reset"))
         {
             RoomCreator.ResetRoomsCreated();
+            RoomCreator.DeleteCurrentRoom();
         }
     }
 }

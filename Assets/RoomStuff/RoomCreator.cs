@@ -11,20 +11,23 @@ public static class RoomCreator
     private static int roomsCreated = startInBedroom ? 0 : -1; // Counter for the number of rooms created
     public static GameObject DeleteAndGenerateRoom(Material wallMaterial, float planeWidth, float planeHeight, Material planeMaterial)
     {
-        // Check if a room already exists and delete it
-        GameObject existingRoom = GameObject.Find("Room");
-        if (existingRoom != null)
-        {
-            Object.DestroyImmediate(existingRoom);
-        }
-
-        // Generate a new room
+        DeleteCurrentRoom();
         return GenerateRoom(planeWidth, planeHeight);
     }
 
     public static void ResetRoomsCreated()
     {
         roomsCreated = startInBedroom ? 0 : -1; // Reset the room counter
+    }
+
+    public static void DeleteCurrentRoom()
+    {
+        // Check if a room already exists and delete it
+        GameObject existingRoom = GameObject.Find("Room");
+        if (existingRoom != null)
+        {
+            Object.DestroyImmediate(existingRoom);
+        }
     }
 
     public static GameObject GenerateRoom(float planeWidth, float planeHeight)
@@ -258,10 +261,10 @@ public static class RoomCreator
     {
         return AddRandomTextureToBaseRoomMaterial(baseMaterial, style, "floor");
     }
-    
+
     private static Material AddRandomTextureToBaseRoomMaterial(Material baseMaterial, WallStyle style, string spriteFilter)
     {
-         string path = $"Rooms/{style.ToStringValue()}/Walls";
+        string path = $"Rooms/{style.ToStringValue()}/Walls";
         // Load all sprites in the specified folder
         Sprite[] sprites = Resources.LoadAll<Sprite>(path);
         // Filter sprites with "wall" in their name
@@ -278,11 +281,17 @@ public static class RoomCreator
         // Select a random wall sprite
         Sprite randomSprite = filteredSprites[Random.Range(0, filteredSprites.Length)];
         Debug.Log($"Selected sprite: {randomSprite.name}");
-
+        bool isTransparent = randomSprite.name.ToLower().Contains("transparent");
         // Clone the base material and set the sprite as its base map
         Material material = new Material(baseMaterial);
         material.mainTexture = randomSprite.texture;
-
+        if (isTransparent)
+        {
+            // enable alpha clipping
+            material.SetFloat("_AlphaClip", 1);
+            material.SetFloat("_Cutoff", 0.5f);
+            material.EnableKeyword("_ALPHATEST_ON");
+        }
         return material;
     }
 }
