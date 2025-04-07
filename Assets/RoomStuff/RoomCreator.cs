@@ -268,6 +268,38 @@ public static class RoomCreator
             }
             CreateThemedDecoElements(allDecoStyles, info.decoCount, room, planeWidth, planeHeight);
         }
+        
+        // Spawn enemies with position filter
+        System.Func<Vector3, bool> enemyPositionFilter = (Vector3 pos) => {
+            // Avoid spawning too close to player spawn position
+            float playerSpawnX = (info.playerSpawnX - 0.5f) * planeWidth;
+            float playerSpawnZ = (info.playerSpawnY - 0.5f) * planeHeight;
+            Vector3 playerSpawnPos = new Vector3(playerSpawnX, 0, playerSpawnZ);
+            float minPlayerDistance = 5.0f;
+            
+            if (Vector3.Distance(new Vector3(pos.x, 0, pos.z), playerSpawnPos) < minPlayerDistance)
+            {
+                return false;
+            }
+            
+            // Avoid spawning too close to other room objects
+            foreach (Transform child in room.transform)
+            {
+                // Skip objects that are enemies themselves
+                if (child.name.StartsWith("Enemy_"))
+                    continue;
+                    
+                float minAssetDistance = 1.5f;
+                if (Vector3.Distance(new Vector3(pos.x, 0, pos.z), new Vector3(child.position.x, 0, child.position.z)) < minAssetDistance)
+                {
+                    return false;
+                }
+            }
+            
+            return true;
+        };
+
+        SpawnEnemies(info.enemyCount, room, planeWidth, planeHeight, wallStyle.ToStringValue(), enemyPositionFilter);
 
         // Room finalization of info object, if present
         if (info.finalizeRoom != null)
@@ -278,6 +310,96 @@ public static class RoomCreator
         return room;
     }
 
+    private static void SpawnEnemies(int enemyCount, GameObject room, float planeWidth, float planeHeight, string theme, System.Func<Vector3, bool> positionFilter = null)
+    {
+        // Load enemy prefabs from Resources folder
+        List<string> enemyNames = new List<string>();
+        switch (theme)
+        {
+            case "Forest":
+                enemyNames.Add("GreenBlobPrefab");
+                enemyNames.Add("BlueBlobPrefab");
+                enemyNames.Add("SnakePrefab");
+                break;
+            case "Dungeon":
+                enemyNames.Add("RedBlobPrefab");
+                enemyNames.Add("VioletBlobPrefab");
+                enemyNames.Add("BatPrefab");
+                break;
+            case "Cave":
+                enemyNames.Add("RedBlobPrefab");
+                enemyNames.Add("VioletBlobPrefab");
+                enemyNames.Add("BatPrefab");
+                break;
+            default:
+                Debug.LogError($"Unknown theme: {theme}");
+                return;
+        }
+        Debug.Log($"Spawning {enemyCount} enemies of theme {theme} in room {room.name}");
+        Debug.Log($"Enemy names: {string.Join(", ", enemyNames)}");
+        
+        // Load all prefabs
+        List<GameObject> enemyPrefabs = new List<GameObject>();
+        foreach (string enemyName in enemyNames)
+        {
+            GameObject prefab = Resources.Load<GameObject>($"Characters/{enemyName}");
+            if (prefab != null)
+            {
+                enemyPrefabs.Add(prefab);
+            }
+            else
+            {
+                Debug.LogError($"Enemy prefab not found: {enemyName}");
+            }
+        }
+        
+        // Create enemies
+        for (int i = 0; i < enemyCount; i++)
+        {
+            // Select a random prefab from the list
+            GameObject selectedPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Count)];
+            
+            // Try up to 50 positions until we find a valid one
+            Vector3 position = Vector3.zero;
+            bool foundValidPosition = false;
+            int attempts = 0;
+            int maxAttempts = 50;
+            
+            if (positionFilter != null)
+            {
+                // Keep trying positions until we find one that passes the filter
+                while (!foundValidPosition && attempts < maxAttempts)
+                {
+                    position = GetRandomPosition(1.5f, planeWidth, planeHeight);
+                    foundValidPosition = positionFilter(position);
+                    attempts++;
+                }
+                
+                if (!foundValidPosition)
+                {
+                    Debug.LogWarning($"Failed to find valid position for enemy {i+1} after {maxAttempts} attempts. Using last attempted position.");
+                }
+            }
+            else
+            {
+                // No filter function provided, use default position generation
+                position = GetRandomPosition(1.5f, planeWidth, planeHeight);
+            }
+            
+            // Create an instance of the prefab
+            GameObject enemyInstance = Object.Instantiate(selectedPrefab);
+            
+            // Set position and rotation
+            enemyInstance.transform.position = position;
+            enemyInstance.transform.rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
+            
+            // Parent the enemy to the room
+            enemyInstance.transform.parent = room.transform;
+            
+            // Name the enemy
+            enemyInstance.name = $"Enemy_{selectedPrefab.name}_{i + 1}";
+        }
+    }
 
     private static GameObject CreateDoor(float wallPos, float planeWidth, float planeHeight, RoomStyle wallStyle, string theme = "All")
     {
