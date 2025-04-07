@@ -178,6 +178,7 @@ public static class RoomConfigs
                         });
                     }
                 );
+            case 9:
             case 2:
                 return new RoomConfig(
                     "KevinRoom",
@@ -209,29 +210,67 @@ public static class RoomConfigs
                         deskInstance.transform.rotation = Quaternion.Euler(0f, 90f, 0f);
                         deskInstance.transform.parent = room.transform;
 
-                        DialogManager.Instance.StartDialog(new string[] {
-                            "!wait 2",
-                            "!cam -1.35 3.31 -2.75",
-                            "!wait 2",
-                            // "!move Player 2 5",
-                            "1: Kevin!",
-                            "2: *types and stares at computer*",
-                            "1: Kevin!!!",
-                            "2: *still typing*",
-                            "1: ping Kevin!",
-                            "2: *typing away*",
-                            "1: sudo pay_attention_to_me!",
-                            "2: Uhhhh what?",
-                            "1: What have you done? I'm flat!",
-                            "2: Ahhh yeah that, sorry, messed up with a commit last night and called the .flatten() method on the wrong object.",
-                            "1: Great! Can you please revert that???",
-                            "2: Hmmm no sorry. It's not a priority to fix that. It's crunch time, have to make the deadline to ship that thing I'm working on.",
-                            "1: Unacceptable!",
-                            "2: Tell that to the PM. And now please let me deal with this merge conflict from hell...",
-                            "1: (Alright then, same procedure as every time. I have to hypnotize him.)",
-                            "1: (And for that, I need the legendary pendulum of hypnotic depth.)",
-                            "1: (Which I will surely find by fighting my way through hordes of flat monsters!)"
-                        });
+                        if (roomNum == 2) {
+                            // Initial dialog
+                            DialogManager.Instance.StartDialog(new string[] {
+                                "!wait 2",
+                                "!cam -1.35 3.31 -2.75",
+                                "!wait 2",
+                                // "!move Player 2 5",
+                                "1: Kevin!",
+                                "2: *types and stares at computer*",
+                                "1: Kevin!!!",
+                                "2: *still typing*",
+                                "1: ping Kevin!",
+                                "2: *typing away*",
+                                "1: sudo pay_attention_to_me!",
+                                "2: Uhhhh what?",
+                                "1: What have you done? I'm flat!",
+                                "2: Ahhh yeah that, sorry, messed up with a commit last night and called the .flatten() method on the wrong object.",
+                                "1: Great! Can you please revert that???",
+                                "2: Hmmm no sorry. It's not a priority to fix that. It's crunch time, have to make the deadline to ship that thing I'm working on.",
+                                "1: Unacceptable!",
+                                "2: Tell that to the PM. And now please let me deal with this merge conflict from hell...",
+                                "1: (Alright then, same procedure as every time. I have to hypnotize him.)",
+                                "1: (And for that, I need the legendary pendulum of hypnotic depth.)",
+                                "1: (Which I will surely find by fighting my way through hordes of flat monsters!)"
+                            });
+                        } else {
+                            // Ending dialog
+                            DialogManager.Instance.StartDialog(new string[] {
+                                "!wait 2",
+                                "!cam -1.35 3.31 -2.75",
+                                "!wait 2",
+                                "1: Kevin!",
+                                "2: ...focused typing...",
+                                "1: ...",
+                                "1: (takes out legendary pendulum of maximum hypnotic depth)",
+                                "!cam -2.17 0.085 0.12",
+                                "1: (waves it around in front of Kevin)",
+                                "1: All you see is the legendary pendulum of maximum hypnotic depth",
+                                "2: O_O",
+                                "1: Your eyes become very heavy...",
+                                "2: o_o",
+                                "1: You can barely keep them open any longer...",
+                                "2: -_-",
+                                "1: You fall into a deep, deep trance...",
+                                "2: _._",
+                                "1: We're entering the deepest depths of your consciousness",
+                                "1: Kevin?",
+                                "2: ... ... yes _._",
+                                "1: Please revert that commit that flattened our world.",
+                                "2: ... ... yes _._",
+                                "1: *snaps fingers*",
+                                "2: Woah, where am I.",
+                                "2: I feel a strong urge to revert something.",
+                                "1: \\o/",
+                                "!cam -1.35 3.31 -2.75",
+                                "1: Hooray! Kevin might take a while to revert this.",
+                                "1: But my work here is done.",
+                                "1: Guess if I like, I can hop back into the forest and see how long I survive!",
+                                "1: (But if this were a game, then I surely would have won by now. :))"
+                            });
+                        }
                     }
                 );
             case 3:
@@ -309,6 +348,31 @@ public static class RoomConfigs
                     0, // tree count
                     0, // stone count
                     0 // enemy count
+                );
+            case 8:
+                return new RoomConfig(
+                    "ForestRoom",
+                    new WallStyle[] { WallStyle.Forest },
+                    new DecoStyle[] { DecoStyle.All },
+                    5,
+                    15,
+                    0.5f,
+                    0.05f,
+                    0.5f, // door pos
+                    0, // slit count
+                    0, // fire count
+                    0, // tree count
+                    0, // stone count
+                    0, // enemy count
+                    room => {
+                        // Spawn PendulumPrefab in middle of room
+                        GameObject pendulumPrefab = Resources.Load<GameObject>("Rooms/All/PendulumPrefab");
+                        GameObject pendulumInstance = UnityEngine.Object.Instantiate(pendulumPrefab);
+                        pendulumInstance.transform.position = new Vector3(0f, 0f, 0f);
+                        pendulumInstance.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+                        pendulumInstance.transform.parent = room.transform;
+                        pendulumInstance.name = "Pendulum";
+                    }
                 );
 
             default:

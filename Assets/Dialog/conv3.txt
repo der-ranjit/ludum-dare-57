@@ -1,22 +1,22 @@
-1: Kevin!
-2: ...focused typing...
-1: ...
-1: (takes out legendary pendulum of maximum hypnotic depth)
-1: (waves it around in front of Kevin)
-1: All you see is the legendary pendulum of maximum hypnotic depth
-2: O_O
-1: Your eyes become very heavy...
-2: o_o
-1: You can barely keep them open any longer...
-2: -_-
-1: You fall into a deep, deep trance...
-2: _._
-1: We're entering the deepest depths of your consciousness
-1: Kevin?
-2: ... ... yes _._
-1: Please revert that commit that flattened our world.
-2: ... ... yes _._
-1: *snaps fingers*
-2: Woah, where am I.
-2: I feel a strong urge to revert something.
-1: \o/
+"1: Kevin!",
+"2: ...focused typing...",
+"1: ...",
+"1: (takes out legendary pendulum of maximum hypnotic depth)",
+"1: (waves it around in front of Kevin)",
+"1: All you see is the legendary pendulum of maximum hypnotic depth",
+"2: O_O",
+"1: Your eyes become very heavy...",
+"2: o_o",
+"1: You can barely keep them open any longer...",
+"2: -_-",
+"1: You fall into a deep, deep trance...",
+"2: _._",
+"1: We're entering the deepest depths of your consciousness",
+"1: Kevin?",
+"2: ... ... yes _._",
+"1: Please revert that commit that flattened our world.",
+"2: ... ... yes _._",
+"1: *snaps fingers*",
+"2: Woah, where am I.",
+"2: I feel a strong urge to revert something.",
+"1: \o/"
