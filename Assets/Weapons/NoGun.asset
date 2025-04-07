@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 202adde9576ce8548b8fcb0ff9eebefb, type: 3}
   m_Name: NoGun
   m_EditorClassIdentifier: 
-  weaponName: 
+  weaponName: NoGun
   weaponPrefab: {fileID: 0}
   weaponType: 0
   damage: 1

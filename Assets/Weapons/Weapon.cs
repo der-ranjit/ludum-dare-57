@@ -53,7 +53,17 @@ public class Weapon : MonoBehaviour
             if (upgradedStats.weaponPrefab != null)
             {
                 attachedWeaponPrefab = Instantiate(upgradedStats.weaponPrefab, weaponHolder.transform);
-
+                // ignore collision between the weapon and the character
+                Collider[] characterColliders = GetComponents<Collider>();
+                BoxCollider weaponCollider = attachedWeaponPrefab.GetComponent<BoxCollider>();
+                foreach (Collider characterCollider in characterColliders)
+                {
+                    // Ignore collision between the weapon and the character's colliders
+                    if (characterCollider != null && weaponCollider != null && characterCollider != weaponCollider)
+                    {
+                        Physics.IgnoreCollision(characterCollider, weaponCollider);
+                    }
+                }
             }
         }
         else
