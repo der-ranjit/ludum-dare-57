@@ -45,7 +45,7 @@ public class SlitVictim : MonoBehaviour
             if (elapsedTime >= duration)
             {
                 // Call PlayerController's Die method on this victim's PlayerController script
-                PlayerController playerController = FindObjectOfType<PlayerController>();
+                PlayerController playerController = gameObject.GetComponent<PlayerController>();
                 if (playerController != null)
                 {
                     playerController.Die();
