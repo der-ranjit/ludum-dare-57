@@ -172,6 +172,12 @@ public static class RoomConfigs
                         potInstance2.transform.rotation = Quaternion.Euler(0f, 90f, 0f);
                         potInstance2.transform.parent = room.transform;
                         potInstance2.name = "Pot 2";
+                        // Bookshelf
+                        GameObject bookshelfPrefab = Resources.Load<GameObject>("Rooms/Bedroom/ShelfPrefab");
+                        GameObject bookshelfInstance = UnityEngine.Object.Instantiate(bookshelfPrefab);
+                        bookshelfInstance.transform.position = new Vector3(-2.35f, 0f, 4.99f);
+                        bookshelfInstance.transform.parent = room.transform;
+                        bookshelfInstance.name = "Bookshelf";
 
                         DialogManager.Instance.StartDialog(new string[] {
                             "!wait 4",
