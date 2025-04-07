@@ -213,13 +213,12 @@ public class PlayerController : MonoBehaviour, IDamageable
         if (spriteRenderer == null) yield break;
         // Get the material and save the original color
         Material material = spriteRenderer.material;
-        Color originalColor = material.GetColor("_TintColor");
 
         // Set the color to red
         material.SetColor("_TintColor", Color.red);
         // Wait for a short duration
         yield return new WaitForSeconds(0.1f);
         // Revert to the original color
-        material.SetColor("_TintColor", originalColor);
+        material.SetColor("_TintColor", Color.white);
     }
 }
