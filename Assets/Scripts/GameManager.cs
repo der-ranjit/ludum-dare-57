@@ -56,7 +56,6 @@ public class GameManager : MonoBehaviour
         float fadeOutAlpha = proceedToNextRoomTimer > 0 ? 1 - (proceedToNextRoomTimer / proceedToNextRoomDuration) : 0;
         float fadeInAlpha = 1 - (timeSpentInCurrentRoom / fadeInDuration);
         float alpha = Mathf.Clamp01(Mathf.Max(fadeOutAlpha, fadeInAlpha));
-        Debug.Log($"Alpha: {alpha} - FadeOut: {fadeOutAlpha} - FadeIn: {fadeInAlpha}");
         ScreenFader.Instance.setCurrentFadeAlpha(alpha);
     }
 
