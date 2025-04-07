@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     public float cameraHeightOffset = 10f; // Adjustable height offset for the top-down view
     public float cameraTransitionDuration = 3f; // Duration of the camera transition
 
+    private bool allowEndingLevel = false; // Flag to allow ending the level. Falsed when level ending is started, and true'd only once fade-in is complete, to prevent weird issues with double level skips.
     private float proceedToNextRoomTimer = 0f; // Timer for proceeding to the next room
     private float proceedToNextRoomDuration = 1f;
     private float timeSpentInCurrentRoom = 0f; // Time spent in the current room
@@ -44,6 +45,11 @@ public class GameManager : MonoBehaviour
     public void Update()
     {
         timeSpentInCurrentRoom += Time.deltaTime;
+        if (timeSpentInCurrentRoom >= fadeInDuration && timeSpentInCurrentRoom < fadeInDuration + 5f)
+        {
+            allowEndingLevel = true; // Allow ending the level after fade-in is complete
+        }
+        // Check if the player is in the room and if the level can be ended
         if (proceedToNextRoomTimer > 0f)
         {
             proceedToNextRoomTimer -= Time.deltaTime;
@@ -125,10 +131,11 @@ public class GameManager : MonoBehaviour
 
     public void ProceedToNextRoomIn(float delay)
     {
-        if (proceedToNextRoomTimer > 0f)
+        if (proceedToNextRoomTimer > 0f || !allowEndingLevel)
         {
             return; // Already in the process of proceeding to the next room
         }
+        allowEndingLevel = false; // Reset the flag to prevent double level skips
         proceedToNextRoomTimer = delay;
         proceedToNextRoomDuration = delay;
     }
