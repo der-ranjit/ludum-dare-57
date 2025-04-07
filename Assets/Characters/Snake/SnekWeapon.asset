@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 202adde9576ce8548b8fcb0ff9eebefb, type: 3}
+  m_Name: SnekWeapon
+  m_EditorClassIdentifier: 
+  weaponName: Snekkidaleggi
+  weaponPrefab: {fileID: 0}
+  weaponType: 0
+  damage: 2
+  fireRate: 0.25
+  piercing: 0
+  size: 1.3
+  attackAngle: 0
+  pushForce: 0
+  bulletPrefab: {fileID: 4047089883397107581, guid: 65c4acf878a05434bb9726ab530d1d3e, type: 3}
+  bulletLifetime: 5
+  bulletSpeed: 8
+  bulletRange: 1
+  bulletBounce: 0
