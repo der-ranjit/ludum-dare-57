@@ -186,8 +186,8 @@ public static class RoomConfigs
                     new DecoStyle[] { DecoStyle.All, DecoStyle.Bedroom },
                     13,
                     9,
-                    0.6f, // player pos
-                    0.5f,
+                    0.7f, // player pos
+                    0.6f,
                     1.5f, // door pos
                     0, // slit count
                     0, // fire count
@@ -213,9 +213,8 @@ public static class RoomConfigs
                         if (roomNum == 2) {
                             // Initial dialog
                             DialogManager.Instance.StartDialog(new string[] {
-                                "!wait 2",
-                                // "!cam -1.35 3.31 -2.75",
-                                "!cam -5.55 1.77 3.35",
+                                "!wait 3",
+                                "!cam -1.35 3.31 -2.75",
                                 "!wait 2",
                                 // "!move Player 2 5",
                                 "1: Kevin!",
@@ -225,7 +224,12 @@ public static class RoomConfigs
                                 "1: ping Kevin!",
                                 "2: *typing away*",
                                 "1: sudo pay_attention_to_me!",
+                                "2: ...",
+                                "!wait 1",
+                                "!cam -5.55 1.77 3.35",
+                                "!wait 1",
                                 "!typestop",
+                                "!wait 1",
                                 "!turn Kevin 110",
                                 "2: Uhhhh what?",
                                 "1: What have you done? I'm flat!",
@@ -236,6 +240,9 @@ public static class RoomConfigs
                                 "2: Tell that to the PM. And now please let me deal with this merge conflict from hell...",
                                 "!type",
                                 "!turn Kevin 180",
+                                "!wait 2",
+                                "!cam 3.12 0.65 0.18",
+                                "!wait 2",
                                 "1: (Alright then, same procedure as every time. I have to hypnotize him.)",
                                 "1: (And for that, I need the legendary pendulum of hypnotic depth.)",
                                 "1: (Which I will surely find by fighting my way through hordes of flat monsters!)",

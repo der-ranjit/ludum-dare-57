@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class DialogManager : MonoBehaviour
@@ -102,6 +103,13 @@ public class DialogManager : MonoBehaviour
     {
         sentences = new Queue<string>();
         isRunning = true;
+
+        // Set player as target
+        GameObject player = GameObject.Find("Player");
+        if (player != null)
+        {
+            Camera.main.GetComponent<CameraController>().SetOverrideTarget(player.transform.position + new Vector3(0,1f,0)); // Set camera target to player
+        }
 
         Debug.Log("Starting dialog with sentences: " + string.Join(", ", sentencesArray));
 
@@ -222,7 +230,7 @@ public class DialogManager : MonoBehaviour
                 currentSpeaker = speaker;
                 currentName = name;
                 currentText = text;
-                camController.SetOverrideTarget(speaker.transform.position + new Vector3(0, -1f, 0));
+                camController.SetOverrideTarget(speaker.transform.position + new Vector3(0, 1.6f, 0));
             }
             else
             {

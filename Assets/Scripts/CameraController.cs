@@ -66,6 +66,10 @@ public class CameraController : MonoBehaviour
             targetToLookAt = (1 - overrideAlpha) * targetToLookAt + overrideAlpha * overrideCurrentTarget;
         } 
         transform.LookAt(targetToLookAt);
+        if (overrideAlpha > 0) {
+            // Turn some degrees * overrideAlpha down to move target into view above Dialog UI
+            transform.Rotate(18f * overrideAlpha, 0, 0);
+        }
     }
 
     public void SetOverride(Vector3? newPos = null)
