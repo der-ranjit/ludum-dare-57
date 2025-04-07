@@ -35,5 +35,10 @@ public class RoomCreatorEditor : EditorWindow
             // Select the created room in the hierarchy
             Selection.activeGameObject = room;
         }
+
+        if (GUILayout.Button("reset"))
+        {
+            RoomCreator.ResetRoomsCreated();
+        }
     }
 }

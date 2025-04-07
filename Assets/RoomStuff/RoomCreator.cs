@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public static class RoomCreator 
+public static class RoomCreator
 {
     private static bool startInBedroom = false; // Flag to indicate if the game starts in the bedroom    
     private static int roomsCreated = startInBedroom ? 0 : -1; // Counter for the number of rooms created
@@ -18,10 +19,15 @@ public static class RoomCreator
         }
 
         // Generate a new room
-        return GenerateRoom(wallMaterial, planeWidth, planeHeight, planeMaterial);
+        return GenerateRoom(planeWidth, planeHeight);
     }
 
-    public static GameObject GenerateRoom(Material wallMaterial, float planeWidth, float planeHeight, Material planeMaterial)
+    public static void ResetRoomsCreated()
+    {
+        roomsCreated = startInBedroom ? 0 : -1; // Reset the room counter
+    }
+
+    public static GameObject GenerateRoom(float planeWidth, float planeHeight)
     {
         Sprite[] allSprites = Resources.LoadAll<Sprite>("Rooms/Forest/Walls");
         foreach (Sprite sprite in allSprites)
@@ -41,16 +47,12 @@ public static class RoomCreator
         // Create a parent GameObject for the room
         GameObject room = new GameObject("Room");
 
-        if (wallMaterial == null)
-        {
-            // Load forestMaterial material from Resources folder
-            wallMaterial = Resources.Load<Material>(info.wallMaterialName);
-        }
-        if (planeMaterial == null)
-        {
-            // Load forestMaterial material from Resources folder
-            planeMaterial = Resources.Load<Material>(info.floorMaterialName);
-        }
+        // Select random wall and floor materials based on the allowed styles
+        WallStyle randomWallStyle = info.wallStyles[Random.Range(0, info.wallStyles.Length)];
+        Material baserMaterial = Resources.Load<Material>("Rooms/All/Walls/baseMaterial");
+        Material wallMaterial = GetWallMaterialForStyle(baserMaterial, randomWallStyle);
+        Material floorMaterial = GetFloorMaterialForStyle(baserMaterial, randomWallStyle);
+
         // Get width and height of wallMaterial texture
         Texture2D wallTexture = wallMaterial.mainTexture as Texture2D;
         float wallHeight = wallTexture.height / 25f; // texture height defines wall height
@@ -62,9 +64,9 @@ public static class RoomCreator
         plane.name = "Floor";
         plane.transform.parent = room.transform;
 
-        if (planeMaterial != null)
+        if (floorMaterial != null)
         {
-            plane.GetComponent<Renderer>().material = planeMaterial;
+            plane.GetComponent<Renderer>().material = floorMaterial;
         }
 
         // Create walls
@@ -240,10 +242,48 @@ public static class RoomCreator
         return doorInstance;
     }
 
-    private static Vector3 GetRandomPosition(float distanceFromWalls, float planeWidth, float planeHeight) {
+    private static Vector3 GetRandomPosition(float distanceFromWalls, float planeWidth, float planeHeight)
+    {
         float x = Random.Range(-planeWidth / 2f + distanceFromWalls, planeWidth / 2f - distanceFromWalls);
         float z = Random.Range(-planeHeight / 2f + distanceFromWalls, planeHeight / 2f - distanceFromWalls);
         return new Vector3(x, 0, z);
+    }
+
+    private static Material GetWallMaterialForStyle(Material baseMaterial, WallStyle style)
+    {
+        return AddRandomTextureToBaseRoomMaterial(baseMaterial, style, "wall");
+    }
+
+    private static Material GetFloorMaterialForStyle(Material baseMaterial, WallStyle style)
+    {
+        return AddRandomTextureToBaseRoomMaterial(baseMaterial, style, "floor");
+    }
+    
+    private static Material AddRandomTextureToBaseRoomMaterial(Material baseMaterial, WallStyle style, string spriteFilter)
+    {
+         string path = $"Rooms/{style.ToStringValue()}/Walls";
+        // Load all sprites in the specified folder
+        Sprite[] sprites = Resources.LoadAll<Sprite>(path);
+        // Filter sprites with "wall" in their name
+        for (int i = 0; i < sprites.Length; i++)
+        {
+            Debug.Log($"Sprite name: {sprites[i].name}");
+        }
+        Sprite[] filteredSprites = System.Array.FindAll(sprites, sprite => sprite.name.ToLower().Contains(spriteFilter.ToLower()));
+        if (filteredSprites.Length == 0)
+        {
+            Debug.LogError($"No sprites found at path: {path}");
+            return null;
+        }
+        // Select a random wall sprite
+        Sprite randomSprite = filteredSprites[Random.Range(0, filteredSprites.Length)];
+        Debug.Log($"Selected sprite: {randomSprite.name}");
+
+        // Clone the base material and set the sprite as its base map
+        Material material = new Material(baseMaterial);
+        material.mainTexture = randomSprite.texture;
+
+        return material;
     }
 }
 

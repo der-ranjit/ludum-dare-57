@@ -2,12 +2,54 @@ using System;
 using System.Collections;
 using UnityEngine;
 
+public enum WallStyle
+{
+    Bedroom,
+    Forest,
+    Dungeon
+}
 
-public class RoomConfig 
+public static class WallStyleExtensions
+{
+    public static string ToStringValue(this WallStyle wallStyle)
+    {
+        return wallStyle switch
+        {
+            WallStyle.Bedroom => "Bedroom",
+            WallStyle.Forest => "Forest",
+            WallStyle.Dungeon => "Dungeon",
+            _ => "Unknown"
+        };
+    }
+}
+
+
+public enum DecoStyle
+{
+    All,
+    Bedroom,
+    Forest
+}
+
+public static class DecoStyleExtensions
+{
+    public static string ToStringValue(this DecoStyle decoStyle)
+    {
+        return decoStyle switch
+        {
+            DecoStyle.All => "All",
+            DecoStyle.Bedroom => "Bedroom",
+            DecoStyle.Forest => "Forest",
+            _ => "Unknown"
+        };
+    }
+}
+
+public class RoomConfig
 {
     public string roomName;
-    public string wallMaterialName;
-    public string floorMaterialName;
+    public WallStyle[] wallStyles;
+    public DecoStyle[] decoStyles;
     public float width;
     public float height;
     public int slitCount;
@@ -21,8 +63,8 @@ public class RoomConfig
 
     public RoomConfig(
         string roomName,
-        string wallMaterialName,
-        string floorMaterialName,
+        WallStyle[] wallStyles,
+        DecoStyle[] decoStyles,
         float width,
         float height,
         int doorPos,
@@ -35,8 +77,8 @@ public class RoomConfig
     )
     {
         this.roomName = roomName;
-        this.wallMaterialName = wallMaterialName;
-        this.floorMaterialName = floorMaterialName;
+        this.wallStyles = wallStyles;
+        this.decoStyles = decoStyles;
         this.width = width;
         this.height = height;
         this.slitCount = slitCount;
@@ -52,14 +94,15 @@ public class RoomConfig
 // Helper class to access the function
 public static class RoomConfigs
 {
-    public static RoomConfig GetBasicRoomInfo(int roomNum) 
+    public static RoomConfig GetBasicRoomInfo(int roomNum)
     {
-        switch (roomNum) {
+        switch (roomNum)
+        {
             case 0:
                 return new RoomConfig(
                     "DefaultRoom",
-                    "Rooms/Forest/forestMaterial",
-                    "Rooms/Forest/forestFloorMaterial",
+                    new WallStyle[] { WallStyle.Forest },
+                    new DecoStyle[] { DecoStyle.All, DecoStyle.Forest },
                     UnityEngine.Random.Range(10f, 25f), // width
                     UnityEngine.Random.Range(10f, 25f), // height
                     UnityEngine.Random.Range(1, 4), // door pos
@@ -72,8 +115,8 @@ public static class RoomConfigs
             case 1:
                 return new RoomConfig(
                     "Bedroom",
-                    "Rooms/Forest/forestMaterial",
-                    "Rooms/Forest/forestFloorMaterial",
+                    new WallStyle[] { WallStyle.Bedroom },
+                    new DecoStyle[] { DecoStyle.All, DecoStyle.Bedroom },
                     7,
                     10,
                     3, // door pos
@@ -82,7 +125,8 @@ public static class RoomConfigs
                     0, // tree count
                     0, // stone count
                     0, // enemy count
-                    room => {
+                    room =>
+                    {
                         GameObject bedPrefab = Resources.Load<GameObject>("Rooms/Bedroom/Deco/BedPrefab");
                         GameObject bedInstance = UnityEngine.Object.Instantiate(bedPrefab);
                         bedInstance.transform.position = new Vector3(2f, 0f, -2f);
@@ -107,8 +151,8 @@ public static class RoomConfigs
             case 2:
                 return new RoomConfig(
                     "KevinRoom",
-                    "Rooms/Forest/forestMaterial",
-                    "Rooms/Forest/forestMaterial",
+                    new WallStyle[] { WallStyle.Bedroom },
+                    new DecoStyle[] { DecoStyle.All, DecoStyle.Bedroom },
                     11,
                     7,
                     3, // door pos
@@ -121,8 +165,8 @@ public static class RoomConfigs
             case 3:
                 return new RoomConfig(
                     "WarmupRoom",
-                    "Rooms/Forest/forestMaterial",
-                    "Rooms/Forest/forestFloorMaterial",
+                     new WallStyle[] { WallStyle.Forest },
+                    new DecoStyle[] { DecoStyle.All, DecoStyle.Forest },
                     15,
                     10,
                     2, // door pos
@@ -135,8 +179,8 @@ public static class RoomConfigs
             case 4:
                 return new RoomConfig(
                     "SlitTutorialRoom",
-                    "Rooms/Forest/forestMaterial",
-                    "Rooms/Forest/forestFloorMaterial",
+                   new WallStyle[] { WallStyle.Forest },
+                    new DecoStyle[] { DecoStyle.All, DecoStyle.Forest },
                     12,
                     8,
                     2, // door pos
@@ -149,8 +193,8 @@ public static class RoomConfigs
             case 5:
                 return new RoomConfig(
                     "DungeonRoom",
-                    "Rooms/Forest/forestMaterial",
-                    "Rooms/Forest/forestMaterial",
+                    new WallStyle[] { WallStyle.Dungeon },
+                    new DecoStyle[] { DecoStyle.All },
                     12,
                     8,
                     2, // door pos
@@ -160,13 +204,13 @@ public static class RoomConfigs
                     0, // stone count
                     0 // enemy count
                 );
-            
+
             default:
                 Debug.LogError("Invalid room number. Creating default room.");
                 return new RoomConfig(
                     "RandomRoom",
-                    "Rooms/Forest/forestMaterial",
-                    "Rooms/Forest/forestFloorMaterial",
+                    new WallStyle[] { WallStyle.Forest },
+                    new DecoStyle[] { DecoStyle.All, DecoStyle.Forest },
                     UnityEngine.Random.Range(10f, 25f), // width
                     UnityEngine.Random.Range(10f, 25f), // height
                     UnityEngine.Random.Range(0, 4), // door pos
@@ -180,13 +224,13 @@ public static class RoomConfigs
     }
 }
 
-public class DelayedAction : MonoBehaviour 
+public class DelayedAction : MonoBehaviour
 {
     public void ExecuteAfterDelay(float seconds, System.Action callback)
     {
         StartCoroutine(DelayRoutine(seconds, callback));
     }
-    
+
     private IEnumerator DelayRoutine(float seconds, System.Action callback)
     {
         yield return new WaitForSeconds(seconds);
