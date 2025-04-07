@@ -16,14 +16,14 @@ MonoBehaviour:
   weaponPrefab: {fileID: 8991970708917087405, guid: 80adacf11b71e574197335c76b2b5d7a, type: 3}
   weaponType: 0
   damage: 1
-  fireRate: 1
+  fireRate: 0.7
   piercing: 0
   size: 1
   attackAngle: 0
   pushForce: 1
   bulletPrefab: {fileID: 4047089883397107581, guid: cba65a15e39922646a9554534902a124, type: 3}
   bulletLifetime: 10
-  bulletSpeed: 5
+  bulletSpeed: 8
   bulletRange: 1
   bulletBounce: 0
   bulletGravity: 0
