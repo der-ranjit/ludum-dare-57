@@ -682,7 +682,7 @@ PlayerSettings:
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
   metroPackageName: ludum-dare-57
-  metroPackageVersion: 
+  metroPackageVersion: 1.0.0.0
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
@@ -690,7 +690,7 @@ PlayerSettings:
   metroCertificateNotAfter: 0000000000000000
   metroApplicationDescription: ludum-dare-57
   wsaImages: {}
-  metroTileShortName: 
+  metroTileShortName: ludum-dare-57
   metroTileShowName: 0
   metroMediumTileShowName: 0
   metroLargeTileShowName: 0
