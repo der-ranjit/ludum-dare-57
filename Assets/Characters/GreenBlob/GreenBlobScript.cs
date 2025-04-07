@@ -15,10 +15,10 @@ public class GreenBlobScript : MonoBehaviour
     {
         // Jumping true if y velocity is greater than 0.1f
         bool isJumping = GetComponent<Rigidbody>().velocity.y > 0.1f;
-        GetComponentInChildren<Animator>().SetBool("isJumping", isJumping);
+        // GetComponentInChildren<Animator>().SetBool("isJumping", isJumping);
 
         // TODO: death
         bool isDead = false;
-        GetComponentInChildren<Animator>().SetBool("hasDied", isDead);
+        // GetComponentInChildren<Animator>().SetBool("hasDied", isDead);
     }
 }

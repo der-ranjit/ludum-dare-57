@@ -17,6 +17,10 @@ public class BillboardDuplicator : MonoBehaviour
             Debug.LogError("No SpriteRenderer found in children. Please attach a SpriteRenderer to the child object.");
             return;
         }
+        if (spriteRenderer.gameObject == gameObject) {
+            Debug.LogError("The SpriteRenderer is on the same GameObject as the BillboardDuplicator. Please attach it to a child object.");
+            return;
+        }
         float angleStep = 180f / (numberOfBillboards + 1); // Calculate the angle step for each duplicate
         // Create the duplicates
         for (int i = 1; i <= numberOfBillboards; i++)
@@ -24,7 +28,8 @@ public class BillboardDuplicator : MonoBehaviour
             GameObject duplicate = Instantiate(spriteRenderer.gameObject, transform);
             duplicate.name = spriteRenderer.gameObject.name + "_Duplicate_" + i; // Rename the duplicate for clarity
             duplicate.transform.position = spriteRenderer.transform.position;
-            duplicate.transform.rotation = Quaternion.Euler(0, angleStep * i, 0);
+            duplicate.transform.localRotation = Quaternion.Euler(0, angleStep * i, 0);
+            Debug.Log("Angle is " + angleStep * i + " vs original " + spriteRenderer.transform.rotation.eulerAngles.y);
             // Add to parent
             duplicate.transform.parent = transform; // Set the parent to the original object
         }

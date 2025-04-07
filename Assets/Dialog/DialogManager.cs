@@ -103,6 +103,8 @@ public class DialogManager : MonoBehaviour
         sentences = new Queue<string>();
         isRunning = true;
 
+        Debug.Log("Starting dialog with sentences: " + string.Join(", ", sentencesArray));
+
         foreach (string sentence in sentencesArray)
         {
             sentences.Enqueue(sentence);
@@ -121,6 +123,8 @@ public class DialogManager : MonoBehaviour
 
         currentAge = 0;
         string sentence = sentences.Dequeue();
+
+        Debug.Log("Displaying sentence: " + sentence);
 
         // If sentence starts with "!wait", we wait for the specified time
         if (sentence.StartsWith("!wait"))
@@ -147,9 +151,16 @@ public class DialogManager : MonoBehaviour
             else
             {
                 string[] partss = sentence.Split(new[] { " " }, 4, System.StringSplitOptions.None);
-                if (partss.Length == 4 && float.TryParse(partss[1], out float x) && float.TryParse(partss[2], out float y) && float.TryParse(partss[3], out float z))
+                if (partss.Length == 4 && 
+                    float.TryParse(partss[1], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float x) && 
+                    float.TryParse(partss[2], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float y) && 
+                    float.TryParse(partss[3], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float z)
+                )
                 {
+                    Debug.Log("Setting camera override to " + x + ", " + y + ", " + z);
                     camController.SetOverride(new Vector3(x, y, z));
+                    // waitingUntilAge = 1f; // Wait for 1 second before displaying the next sentence
+                    DisplayNextSentence();
                 }
             }
             return;

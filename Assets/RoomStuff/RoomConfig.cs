@@ -119,7 +119,7 @@ public static class RoomConfigs
                     new DecoStyle[] { DecoStyle.All, DecoStyle.Bedroom },
                     7,
                     10,
-                    3, // door pos
+                    0, // door pos
                     0, // slit count
                     0, // fire count
                     0, // tree count
@@ -127,15 +127,33 @@ public static class RoomConfigs
                     0, // enemy count
                     room =>
                     {
+                        Debug.Log("Finalizing Bedroom room: " + room.name);
+                        // Bed
                         GameObject bedPrefab = Resources.Load<GameObject>("Rooms/Bedroom/Deco/BedPrefab");
                         GameObject bedInstance = UnityEngine.Object.Instantiate(bedPrefab);
                         bedInstance.transform.position = new Vector3(2f, 0f, -2f);
+                        bedInstance.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
                         bedInstance.transform.parent = room.transform;
                         bedInstance.name = "Bed";
+                        // Rug
+                        GameObject rugPrefab = Resources.Load<GameObject>("Rooms/Bedroom/RugPrefab");
+                        GameObject rugInstance = UnityEngine.Object.Instantiate(rugPrefab);
+                        rugInstance.transform.position = new Vector3(0.73f, 0.01f, -0.57f);
+                        rugInstance.transform.rotation = Quaternion.Euler(90f, 90f, 0f);
+                        rugInstance.transform.parent = room.transform;
+                        rugInstance.name = "Rug";
+                        // Table
+                        GameObject tablePrefab = Resources.Load<GameObject>("Rooms/Bedroom/TablePrefab");
+                        GameObject tableInstance = UnityEngine.Object.Instantiate(tablePrefab);
+                        tableInstance.transform.position = new Vector3(-2.79f, 0.81f, -4.23f);
+                        tableInstance.transform.rotation = Quaternion.Euler(0f, 90f, 0f);
+                        tableInstance.transform.parent = room.transform;
+                        tableInstance.name = "Table";
 
                         DialogManager.Instance.StartDialog(new string[] {
-                            "!wait 3",
-                            "!cam 3 6 2.5",
+                            "!wait 4",
+                            "!cam -2.8 3.1 -4.1",
+                            "!wait 2",
                             // "!move Player 2 5",
                             "1: Ahhhhh!",
                             "1: Something is off.",
