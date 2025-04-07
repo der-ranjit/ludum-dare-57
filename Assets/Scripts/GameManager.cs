@@ -10,9 +10,12 @@ public class GameManager : MonoBehaviour
         PreStart, // Enemies are turned and cannot move
         Playing // Normal gameplay begins
     }
+    [SerializeField]
+    public GameState CurrentState = GameState.PreStart;
+    [Header("Debug")]
+    public bool preventRoomCreation = false; // Prevent room creation for debugging purposes
 
-    public GameState CurrentState { get; private set; } = GameState.PreStart;
-
+    [Header("Room Start Settings")]
     public float preStartDuration = 5f; // Duration of the PreStart state
     public int enemyCount = 5; // Number of enemies to spawn
     public int killedEnemies = 0;
@@ -27,6 +30,7 @@ public class GameManager : MonoBehaviour
     public void SetState(GameState newState)
     {
         CurrentState = newState;
+        Debug.Log($"Game state changed to: {newState}");
         Debug.Log($"Game state changed to: {newState}");
     }
 
@@ -63,7 +67,11 @@ public class GameManager : MonoBehaviour
             Debug.LogError("GameManager: No main camera found!");
             return;
         }
-
+        if (preventRoomCreation)
+        {
+            Debug.Log("Room creation is prevented for debugging purposes.");
+            return;
+        }
         StartCoroutine(CreateNextRoom());
     }
 
