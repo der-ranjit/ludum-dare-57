@@ -169,7 +169,7 @@ public static class RoomCreator
 
         // Create exit door
         Debug.Log($"Door position: {info.doorPos}");
-        GameObject door = CreateDoor(info.doorPos, planeWidth, planeHeight);
+        GameObject door = CreateDoor(info.doorPos, planeWidth, planeHeight, info.wallStyles[0]);
         doors = new GameObject[] { door };
         door.transform.parent = room.transform;
 
@@ -212,12 +212,18 @@ public static class RoomCreator
     }
 
 
-    private static GameObject CreateDoor(float wallPos, float planeWidth, float planeHeight)
+    private static GameObject CreateDoor(float wallPos, float planeWidth, float planeHeight, WallStyle wallStyle)
     {
         // wallId is floor of wallPos
         int wallId = Mathf.FloorToInt(wallPos);
         // Load door prefab from Resources folder
-        GameObject doorPrefab = Resources.Load<GameObject>("Rooms/Forest/Doors/ForestDoorArchPrefab");
+        string doorPrefabName = "Rooms/Forest/Doors/ForestDoorArchPrefab";
+        switch (wallStyle) {
+            case WallStyle.Bedroom:
+                doorPrefabName = "Rooms/Bedroom/Doors/BedroomDoorPrefab";
+                break;
+        }
+        GameObject doorPrefab = Resources.Load<GameObject>(doorPrefabName);
         GameObject doorInstance = Object.Instantiate(doorPrefab);
         doorInstance.name = $"Door_{wallId + 1}";
 
