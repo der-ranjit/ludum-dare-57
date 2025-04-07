@@ -188,8 +188,25 @@ public class DialogManager : MonoBehaviour
                 {
                     Debug.LogError("Speaker not found: " + name);
                 }
-                DisplayNextSentence();
             }
+            DisplayNextSentence();
+            return;
+        }
+
+        if (sentence.StartsWith("!type")) {
+            bool isStarting = !sentence.Contains("stop");
+            DeskScript[] desks = FindObjectsOfType<DeskScript>();
+            if (isStarting) {
+                foreach (DeskScript desk in desks) {
+                    desk.EnableAnimation();
+                }
+            } else {
+                foreach (DeskScript desk in desks) {
+                    desk.DisableAnimation();
+                }
+            }
+            DisplayNextSentence();
+            return;
         }
 
         // Sentences are of form `<num>: <text>`

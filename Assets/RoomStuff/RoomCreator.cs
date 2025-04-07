@@ -8,7 +8,7 @@ using UnityEngine.Rendering;
 public static class RoomCreator
 {
     private static bool startInBedroom = false; // Flag to indicate if the game starts in the bedroom    
-    private static int roomsCreated = startInBedroom ? 0 : -1; // Counter for the number of rooms created
+    private static int roomsCreated = startInBedroom ? 0 : 1; // Counter for the number of rooms created
     public static GameObject DeleteAndGenerateRoom(Material wallMaterial, float planeWidth, float planeHeight, Material planeMaterial)
     {
         DeleteCurrentRoom();

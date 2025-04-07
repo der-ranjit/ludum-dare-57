@@ -29,4 +29,9 @@ public static class TextParticleSystem
     {
         return SpawnTextParticle(position, effectText, 2.0f, Color.yellow, 0.4f);
     }
+
+    public static TextParticle ShowTinyEffect(Vector3 position, string effectText)
+    {
+        return SpawnTextParticle(position, effectText, 0.7f, Color.green, 0.35f);
+    }
 }
