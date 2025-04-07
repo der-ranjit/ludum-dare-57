@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 3719554523400262696}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.02000001, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -41,7 +41,7 @@ SpriteRenderer:
   m_GameObject: {fileID: 3719554523400262696}
   m_Enabled: 1
   m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
@@ -52,7 +52,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -876546973899608171, guid: 42050a03a31ec6542b1f4373c79a386e, type: 3}
+  - {fileID: 2100000, guid: 9e4402d418f34ca4bbda7b96611f31f4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 31855f15d4b0446d88753ddb2accf06e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 25edd061605784d819c551633c5d5c0c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -93,9 +93,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6650556682617409704}
-  - component: {fileID: 6291739535385791832}
+  - component: {fileID: 4552690613679567043}
+  - component: {fileID: 6097892355230640476}
   m_Layer: 0
-  m_Name: Grass2Prefab
+  m_Name: StoneSmallWithMoss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -117,7 +118,7 @@ Transform:
   - {fileID: 567075520759087268}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6291739535385791832
+--- !u!114 &4552690613679567043
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -130,3 +131,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numberOfBillboards: 1
+--- !u!135 &6097892355230640476
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6084790989437382653}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.41182917
+  m_Center: {x: 0, y: 0.28000003, z: -0.05690229}

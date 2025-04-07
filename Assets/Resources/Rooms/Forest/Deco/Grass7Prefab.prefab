@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 31855f15d4b0446d88753ddb2accf06e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 261b97449970443b8805bb45bfc4db06, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 6650556682617409704}
   - component: {fileID: 6291739535385791832}
   m_Layer: 0
-  m_Name: Grass2Prefab
+  m_Name: Grass7Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e9fb66f48a0644637b72a3a7448c046e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cc063d65425954491b5767956ee5244e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 4552690613679567043}
   - component: {fileID: 6097892355230640476}
   m_Layer: 0
-  m_Name: StonePrefab
+  m_Name: StoneSmall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -150,5 +150,5 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.66
-  m_Center: {x: 0, y: 0.28, z: 0}
+  m_Radius: 0.41182917
+  m_Center: {x: 0, y: 0.28000003, z: -0.05690229}
