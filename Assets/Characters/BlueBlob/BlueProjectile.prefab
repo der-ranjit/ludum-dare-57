@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 2761616517909888668}
   - component: {fileID: -1190972221989255295}
   - component: {fileID: 3627753565112157702}
+  - component: {fileID: -7327080003517172753}
+  - component: {fileID: 756066798708376708}
   m_Layer: 0
   m_Name: BlueProjectile
   m_TagString: Untagged
@@ -82,6 +84,32 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &-7327080003517172753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4047089883397107581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10234cebcfa6a364fa2dcbd780533065, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shooter: {fileID: 0}
+--- !u!114 &756066798708376708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4047089883397107581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d956e6249a722c4f82a77d882c6b899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leanBackAngle: 15
 --- !u!1 &8348042049990570471
 GameObject:
   m_ObjectHideFlags: 0
