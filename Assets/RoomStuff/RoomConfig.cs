@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public enum WallStyle
@@ -267,7 +268,7 @@ public static class RoomConfigs
                             // "!cam -2.8 3.1 -4.1",
                             // "!wait 2",
                             "1: The pendulum is probably somewhere deep in this forest. Or some cave or whatnot.",
-                            "1: I'll have to dive deep into the depths(!) of this flat new world.",
+                            "1: I'll have to dive deep into the depths(!) of this flat new world to find it.",
                             "1: Too bad that our world is full of these little crevices on the floor though!",
                             "1: I never minded them, but now I'm flat and need to be careful not to fall into one.",
                             "1: I should either [SPACE] jump over them, or [Q] [E] rotate accordingly...",
@@ -279,16 +280,19 @@ public static class RoomConfigs
                     "SlitTutorialRoom",
                     new WallStyle[] { WallStyle.Forest },
                     new DecoStyle[] { DecoStyle.All, DecoStyle.Forest },
-                    12,
-                    8,
+                    7,
+                    20,
                     0.5f,
                     0.1f,
-                    2, // door pos
-                    8, // slit count
+                    0.5f, // door pos
+                    0, // slit count
                     0, // fire count
                     0, // tree count
                     0, // stone count
-                    0 // enemy count
+                    0, // enemy count
+                    room => {
+                        LoadInPrefabContents(room, "FullRooms/Room4Prefab");
+                    }
                 );
             case 5:
                 return new RoomConfig(
@@ -325,6 +329,42 @@ public static class RoomConfigs
                     UnityEngine.Random.Range(1, 10) // enemy count
                 );
         }
+    }
+
+    private static string[] eligiblePrefabContentPrefixes = new string[]
+            {
+                "Tree",
+                "Slit",
+                "Stone",
+                "Fire",
+                "Bed",
+                "Rug",
+                "Table",
+                "Desk"
+            };
+
+    private static void LoadInPrefabContents(GameObject room, string roomPrefabName)
+    {
+        GameObject prefab = Resources.Load<GameObject>(roomPrefabName);
+        if (prefab == null)
+        {
+            Debug.LogError($"Failed to load prefab: {roomPrefabName}");
+            return;
+        }
+        GameObject instance = UnityEngine.Object.Instantiate(prefab);
+        // Take all the children of instance and attach them to room, go in reverse order
+        foreach (Transform child in instance.transform.Cast<Transform>().Reverse())
+        {
+            // Only load prefabs that start with Tree, Slit, Stone, or Fire
+            bool isEligible = eligiblePrefabContentPrefixes.Any(prefix => child.name.StartsWith(prefix));
+            if (isEligible)
+            {
+                // Set the position and rotation of the child to match the prefab
+                child.parent = room.transform;
+            }
+        }
+        // Destroy the instance, we only need the children
+        UnityEngine.Object.DestroyImmediate(instance);
     }
 }
 
