@@ -127,9 +127,9 @@ public static class RoomConfigs
                     new DecoStyle[] { DecoStyle.All, DecoStyle.Bedroom },
                     7, // room size
                     10,
-                    0.8f, // player spawn
-                    0.3f,
-                    3.8f, // door pos
+                    0.82f, // player spawn
+                    0.15f,
+                    3.5f, // door pos
                     0, // slit count
                     0, // fire count
                     0, // tree count
@@ -141,7 +141,7 @@ public static class RoomConfigs
                         // Bed
                         GameObject bedPrefab = Resources.Load<GameObject>("Rooms/Bedroom/Deco/BedPrefab");
                         GameObject bedInstance = UnityEngine.Object.Instantiate(bedPrefab);
-                        bedInstance.transform.position = new Vector3(2f, 0f, -2f);
+                        bedInstance.transform.position = new Vector3(2.2f, 0f, -2.9f);
                         bedInstance.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
                         bedInstance.transform.parent = room.transform;
                         bedInstance.name = "Bed";
@@ -162,6 +162,7 @@ public static class RoomConfigs
 
                         DialogManager.Instance.StartDialog(new string[] {
                             "!wait 4",
+                            "!turn Player 90",
                             "!cam -2.8 3.1 -4.1",
                             "!wait 2",
                             // "!move Player 2 5",
@@ -226,9 +227,9 @@ public static class RoomConfigs
                             "2: Hmmm no sorry. It's not a priority to fix that. It's crunch time, have to make the deadline to ship that thing I'm working on.",
                             "1: Unacceptable!",
                             "2: Tell that to the PM. And now please let me deal with this merge conflict from hell...",
-                            "1: (Thinking: Alright then, same procedure as every time. I have to hypnotize him.)",
-                            "1: (Thinking: And for that, I need the legendary pendulum of hypnotic depth.)",
-                            "1: (Thinking: Which I will surely find by fighting my way through hordes of flat monsters!)"
+                            "1: (Alright then, same procedure as every time. I have to hypnotize him.)",
+                            "1: (And for that, I need the legendary pendulum of hypnotic depth.)",
+                            "1: (Which I will surely find by fighting my way through hordes of flat monsters!)"
                         });
                     }
                 );

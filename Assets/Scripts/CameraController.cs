@@ -56,7 +56,7 @@ public class CameraController : MonoBehaviour
         }
 
         // Always smoothly move overrideCurrentTarget towards overrideTarget
-        overrideCurrentTarget = Vector3.Lerp(overrideCurrentTarget, overrideTarget, Time.deltaTime * 2f);
+        overrideCurrentTarget = Vector3.Lerp(overrideCurrentTarget, overrideTarget, Time.deltaTime * 5f);
 
         // Always look at the target
         Vector3 targetToLookAt = target.position;

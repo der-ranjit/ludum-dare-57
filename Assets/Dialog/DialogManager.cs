@@ -160,10 +160,36 @@ public class DialogManager : MonoBehaviour
                     Debug.Log("Setting camera override to " + x + ", " + y + ", " + z);
                     camController.SetOverride(new Vector3(x, y, z));
                     // waitingUntilAge = 1f; // Wait for 1 second before displaying the next sentence
-                    DisplayNextSentence();
                 }
             }
+            DisplayNextSentence();
             return;
+        }
+        if (sentence.StartsWith("!turn")) {
+            // E.g. `!turn Player 42`
+            string[] partss = sentence.Split(new[] { " " }, 3, System.StringSplitOptions.None);
+            if (partss.Length == 3 && float.TryParse(partss[2], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float angle))
+            {
+                string name = partss[1];
+                GameObject speaker = GameObject.Find(name);
+                if (speaker != null)
+                {
+                    Debug.Log("Turning " + name + " to " + angle + " degrees.");
+                    PlayerController controller = speaker.GetComponent<PlayerController>();
+                    if (controller != null)
+                    {
+                        Debug.Log("Smooth target rotation adjustment");
+                        controller.SetTargetRotation(angle);
+                    } else {
+                        speaker.transform.rotation = Quaternion.Euler(0, angle, 0);
+                    }
+                }
+                else
+                {
+                    Debug.LogError("Speaker not found: " + name);
+                }
+                DisplayNextSentence();
+            }
         }
 
         // Sentences are of form `<num>: <text>`
@@ -179,7 +205,7 @@ public class DialogManager : MonoBehaviour
                 currentSpeaker = speaker;
                 currentName = name;
                 currentText = text;
-                camController.SetOverrideTarget(speaker.transform.position + new Vector3(0, 1f, 0));
+                camController.SetOverrideTarget(speaker.transform.position + new Vector3(0, -1f, 0));
             }
             else
             {

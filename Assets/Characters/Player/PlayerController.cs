@@ -221,4 +221,9 @@ public class PlayerController : MonoBehaviour, IDamageable
         // Revert to the original color
         material.SetColor("_TintColor", Color.white);
     }
+
+    public void SetTargetRotation(float targetRotationY)
+    {
+        this.targetRotationY = targetRotationY;
+    }
 }
