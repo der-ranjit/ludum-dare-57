@@ -54,6 +54,7 @@ public class SpriteSetupHelper : MonoBehaviour
             Debug.LogError("Renderer component not found on the GameObject.");
         }
 
+        DestroyImmediate(this);
     }
 #endif
 }

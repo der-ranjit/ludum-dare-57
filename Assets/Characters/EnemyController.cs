@@ -3,6 +3,8 @@ using UnityEngine;
 
 [RequireComponent(typeof(SlitVictim))]
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(BoxCollider))]
+
 public class Enemy : MonoBehaviour, IDamageable
 {
 
@@ -29,7 +31,9 @@ public class Enemy : MonoBehaviour, IDamageable
             playerTransform = player.transform;
             playerHeadAimPoint = player.transform.Find("PlayerHeadAimPoint");
             // disable collision between capsule collider and player collider
-            CapsuleCollider enemyCollider = GetComponent<CapsuleCollider>();
+            CapsuleCollider enemyCapsuleCollider = GetComponent<CapsuleCollider>();
+            SphereCollider enemySphereCollider = GetComponent<SphereCollider>();
+            Collider enemyCollider = enemyCapsuleCollider != null ? enemyCapsuleCollider : enemySphereCollider;
             BoxCollider playerCollider = player.GetComponent<BoxCollider>();
             if (enemyCollider != null && playerCollider != null)
             {
@@ -61,15 +65,21 @@ public class Enemy : MonoBehaviour, IDamageable
         if (DialogManager.Instance?.IsRunning() == true) return;
 
         // Make the enemy visible when the level starts
-        if (spriteRenderer != null && !spriteRenderer.enabled && !spriteIsActivating)
-        {
-            spriteIsActivating = true; // Prevent multiple calls to the coroutine
-            StartCoroutine(EnableSpriteRendererWithDelay());
-        }
+        HideSpriteInitially();
         if (spriteRenderer.enabled)
         {
             MoveTowardsPlayer();
             RotateTowardsPlayer();
+        }
+    }
+
+    protected void HideSpriteInitially()
+    {
+         // Make the enemy visible when the level starts
+        if (spriteRenderer != null && !spriteRenderer.enabled && !spriteIsActivating)
+        {
+            spriteIsActivating = true; // Prevent multiple calls to the coroutine
+            StartCoroutine(EnableSpriteRendererWithDelay());
         }
     }
 
@@ -98,6 +108,15 @@ public class Enemy : MonoBehaviour, IDamageable
         // Enable the SpriteRenderer
         spriteRenderer.enabled = true;
     }
+
+    protected void Unhide()
+    {
+        if (spriteRenderer != null && !spriteRenderer.enabled)
+        {
+            spriteRenderer.enabled = true;
+        }
+    }
+
 
     protected void MoveTowardsPlayer()
     {
