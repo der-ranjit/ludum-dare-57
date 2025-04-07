@@ -514,6 +514,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1228605522136474527}
   - component: {fileID: 8983326515007757104}
+  - component: {fileID: 6760295381921103259}
   m_Layer: 0
   m_Name: DeskPrefab
   m_TagString: Untagged
@@ -566,8 +567,29 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.45, y: 0.55, z: 3.95}
-  m_Center: {x: 0, y: 0.27, z: 0}
+  m_Size: {x: 1.34, y: 1.03, z: 2.2}
+  m_Center: {x: 0, y: 0.69, z: 0}
+--- !u!65 &6760295381921103259
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5373615018882857779}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: -0.12, y: 1, z: 1.12}
+  m_Center: {x: -0.24, y: 1.46, z: -0.12}
 --- !u!1 &5901380929442840355
 GameObject:
   m_ObjectHideFlags: 0

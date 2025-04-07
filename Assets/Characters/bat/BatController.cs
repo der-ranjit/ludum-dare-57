@@ -25,6 +25,10 @@ public class BatController : Enemy
 
     private void ShitPeriodically()
     {
+        if (playerTransform == null)
+        {
+            return;
+        }
         if (isShitting)
         {
             rb.velocity = Vector3.zero;
