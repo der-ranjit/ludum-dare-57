@@ -13,6 +13,7 @@ public class RangedController : MonoBehaviour
 
     public void Initialize(WeaponStats stats)
     {
+        IgnoreFriendlyFire(shooter);
         IgnoreCollisionWithShooter(shooter);
 
         damage = stats.damage;
@@ -33,6 +34,13 @@ public class RangedController : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
+        Collider[] shooterCollider = shooter.GetComponentsInChildren<Collider>();
+        bool isFriendlyFireBetweenEnemies = shooter.CompareTag("Enemy") && other.gameObject.CompareTag("Enemy");
+        if (isFriendlyFireBetweenEnemies)
+        {
+            return;
+        }
+
         if (other.gameObject.TryGetComponent<IDamageable>(out IDamageable damageable))
         {
             damageable.TakeDamage(damage);
@@ -52,7 +60,7 @@ public class RangedController : MonoBehaviour
                 Destroy(gameObject);
             }
         }
-                // Handle bouncing (optional)
+        // Handle bouncing (optional)
         if (bounce > 0)
         {
             // Implement bouncing logic here
@@ -73,6 +81,24 @@ public class RangedController : MonoBehaviour
             foreach (Collider collider in shooterCollider)
             {
                 Physics.IgnoreCollision(bulletCollider, collider);
+            }
+        }
+    }
+
+    private void IgnoreFriendlyFire(GameObject shooter)
+    {
+        if (shooter.CompareTag("Enemy"))
+        {
+            // get all enemies in the scene
+            EnemyController[] enemies = FindObjectsOfType<EnemyController>();
+            Collider bulletCollider = GetComponent<Collider>();
+
+            foreach (EnemyController enemy in enemies)
+            {
+                foreach (Collider enemyCollider in enemy.GetComponents<Collider>())
+                {
+                    Physics.IgnoreCollision(bulletCollider, enemyCollider);
+                }
             }
         }
     }

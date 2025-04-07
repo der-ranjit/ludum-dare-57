@@ -28,7 +28,13 @@ public class EnemyController : MonoBehaviour, IDamageable
         {
             playerTransform = player.transform;
             playerHeadAimPoint = player.transform.Find("PlayerHeadAimPoint");
-
+            // disable collision between capsule collider and player collider
+            CapsuleCollider enemyCollider = GetComponent<CapsuleCollider>();
+            BoxCollider playerCollider = player.GetComponent<BoxCollider>();
+            if (enemyCollider != null && playerCollider != null)
+            {
+                Physics.IgnoreCollision(enemyCollider, playerCollider);
+            }
         }
         else
         {
@@ -149,7 +155,7 @@ public class EnemyController : MonoBehaviour, IDamageable
         // Set the color to yellow
         material.SetColor("_TintColor", Color.yellow);
         // Wait for a short duration
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.3f);
         // Revert to the original color
         material.SetColor("_TintColor", Color.white);
     }
