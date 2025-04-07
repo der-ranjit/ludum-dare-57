@@ -7,7 +7,7 @@ using UnityEngine.Rendering;
 
 public static class RoomCreator
 {
-    private static bool startInBedroom = false; // Flag to indicate if the game starts in the bedroom    
+    private static bool startInBedroom = true; // Flag to indicate if the game starts in the bedroom    
     private static int roomsCreated = startInBedroom ? 0 : -1; // Counter for the number of rooms created
     public static GameObject DeleteAndGenerateRoom(Material wallMaterial, float planeWidth, float planeHeight, Material planeMaterial)
     {
@@ -166,8 +166,8 @@ public static class RoomCreator
         }
 
         // Create exit door
-        int doorPos = info.doorPos;
-        GameObject door = CreateDoor(doorPos, planeWidth, planeHeight);
+        Debug.Log($"Door position: {info.doorPos}");
+        GameObject door = CreateDoor(info.doorPos, planeWidth, planeHeight);
         doors = new GameObject[] { door };
         door.transform.parent = room.transform;
 
@@ -210,8 +210,10 @@ public static class RoomCreator
     }
 
 
-    private static GameObject CreateDoor(int wallId, float planeWidth, float planeHeight)
+    private static GameObject CreateDoor(float wallPos, float planeWidth, float planeHeight)
     {
+        // wallId is floor of wallPos
+        int wallId = Mathf.FloorToInt(wallPos);
         // Load door prefab from Resources folder
         GameObject doorPrefab = Resources.Load<GameObject>("Rooms/Forest/Doors/ForestDoorArchPrefab");
         GameObject doorInstance = Object.Instantiate(doorPrefab);
@@ -219,23 +221,30 @@ public static class RoomCreator
 
         doorInstance.transform.rotation = Quaternion.Euler(0f, 90f * wallId, 0f); // Reset rotation
 
-        // Random factor between -0.25 and +0.25
-        float randomFactor = Random.Range(-0.25f, 0.25f);
+        // If only wall side is specified and not exact position, use random factor between -0.25 and +0.25
+        float doorPosOnWall = wallPos - wallId;
+        if (doorPosOnWall == 0) {
+            doorPosOnWall = Random.Range(-0.25f, 0.25f);
+        } else {
+            doorPosOnWall -= 0.5f; // shift from [0,1] to [-0.5,0.5]
+        }
+
+        Debug.Log($"Door position on wall {wallId}: {doorPosOnWall} based on wallPos {wallPos}");
 
         // Set the position and rotation based on the wall ID
         switch (wallId)
         {
             case 0: // Top wall
-                doorInstance.transform.position = new Vector3(randomFactor * planeWidth, 0, planeHeight / 2f - 0.01f);
+                doorInstance.transform.position = new Vector3(doorPosOnWall * planeWidth, 0, planeHeight / 2f - 0.01f);
                 break;
             case 1: // Right wall
-                doorInstance.transform.position = new Vector3(planeWidth / 2f - 0.01f, 0, randomFactor * planeHeight);
+                doorInstance.transform.position = new Vector3(planeWidth / 2f - 0.01f, 0, doorPosOnWall * planeHeight);
                 break;
             case 2: // Bottom wall
-                doorInstance.transform.position = new Vector3(randomFactor * planeWidth, 0, -planeHeight / 2f + 0.01f);
+                doorInstance.transform.position = new Vector3(doorPosOnWall * planeWidth, 0, -planeHeight / 2f + 0.01f);
                 break;
             case 3: // Left wall
-                doorInstance.transform.position = new Vector3(-planeWidth / 2f + 0.01f, 0, randomFactor * planeHeight);
+                doorInstance.transform.position = new Vector3(-planeWidth / 2f + 0.01f, 0, doorPosOnWall * planeHeight);
                 break;
             default:
                 Debug.LogError("Invalid wall ID for door creation.");
