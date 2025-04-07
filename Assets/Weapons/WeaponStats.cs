@@ -29,4 +29,4 @@ public class WeaponStats : ScriptableObject
     public float bulletRange = 1f;
     public int bulletBounce = 0;
     public bool bulletGravity = true;
-}
+} 

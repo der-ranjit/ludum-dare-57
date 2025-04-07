@@ -90,16 +90,17 @@ public class Weapon : MonoBehaviour
         {
             nextFireTime = Time.time + 1f / upgradedStats.fireRate;
 
-            Transform firePoint = weaponHolder?.transform.Find("FirePoint");
+            Transform firePoint = transform.Find("FirePoint");
+            Debug.Log("FirePoint: " + firePoint);
             // If no fire point is set, use the weapon holder's position
-            if (firePoint == null)
-            {
-                firePoint = weaponHolder?.transform;
-            }
-            if (firePoint == null)
-            {
-                firePoint = transform;
-            }
+            // if (firePoint == null)
+            // {
+            //     firePoint = weaponHolder?.transform;
+            // }
+            // if (firePoint == null)
+            // {
+            //     firePoint = transform;
+            // }
             // Instantiate the bullet
             GameObject bullet = Instantiate(upgradedStats.bulletPrefab, firePoint.position, Quaternion.LookRotation(direction));
             RangedController bulletComponent = bullet.GetComponent<RangedController>();

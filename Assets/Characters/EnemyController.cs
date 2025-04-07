@@ -139,6 +139,8 @@ public class Enemy : MonoBehaviour, IDamageable
 
     protected void Attack()
     {
+        if (playerTransform == null) return;
+
         Transform aimPoint = playerHeadAimPoint != null ? playerHeadAimPoint : playerTransform;
         Vector3 direction = (aimPoint.position - transform.position).normalized;
         weapon?.Attack(direction);

@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 202adde9576ce8548b8fcb0ff9eebefb, type: 3}
-  m_Name: RedBlobWeapon
+  m_Name: GunzGun
   m_EditorClassIdentifier: 
-  weaponName: RedBlobWeapon
-  weaponPrefab: {fileID: 0}
+  weaponName: GunzGun
+  weaponPrefab: {fileID: 8991970708917087405, guid: 80adacf11b71e574197335c76b2b5d7a, type: 3}
   weaponType: 0
-  damage: 0
+  damage: 1
   fireRate: 1
   piercing: 0
   size: 1
   attackAngle: 0
-  pushForce: 5
-  bulletPrefab: {fileID: 4047089883397107581, guid: f2b355dbfbc714cb5a18d22177a83109, type: 3}
-  bulletLifetime: 5
+  pushForce: 1
+  bulletPrefab: {fileID: 4047089883397107581, guid: cba65a15e39922646a9554534902a124, type: 3}
+  bulletLifetime: 10
   bulletSpeed: 5
   bulletRange: 1
   bulletBounce: 0
