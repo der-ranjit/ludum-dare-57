@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum RoomStyle
@@ -382,8 +383,25 @@ public static class RoomConfigs
                     0, // fire count
                     0, // tree count
                     0, // stone count
-                    2, // enemy count
-                    4 // deco count
+                    3, // enemy count
+                    4, // deco count
+                    room => {
+                        DialogManager.Instance.StartDialog(new string[] {
+                            "!wait 4",
+                            // "!turn Player 90",
+                            // "!cam -2.8 3.1 -4.1",
+                            // "!wait 2",
+                            "1: Oh-oh!",
+                            "1: A dangerous dungeon!",
+                            "1: With dangerous monsters!",
+                            "1: A quick analysis leads me to see three viable strategies:",
+                            "1: 1. Attack them with my weapons. I can [TAB] switch between them and [CLICK] to attack.",
+                            "1: 2. Jump on their heads. A cool yet dangerous move.",
+                            "1: 3. Steer them into the crevices. I have a feeling they follow my [Q] [E] rotation, which I could exploit.",
+                            "1: But the latter only works for non-flying ones.",
+                            "1: Once all monsters are defeated, the door will surely open and allow me to proceed!"
+                        });
+                    }
                 );
             case 8:
                 return new RoomConfig(
