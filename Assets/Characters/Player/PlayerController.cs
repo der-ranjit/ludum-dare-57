@@ -186,6 +186,16 @@ public class PlayerController : MonoBehaviour, IDamageable
         currentWeapon.ApplyPlayerPowerUpStats(powerUpStats);
     }
 
+    public void ShowWeapon()
+    {
+        currentWeapon?.Show();
+    }
+
+    public void HideWeapon()
+    {
+        currentWeapon?.Hide();
+    }
+
     string[] jumpTexts = new string[] { "Oof", "Haa", "Whee", "Wohoo" };
 
     void Jump()

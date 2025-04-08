@@ -148,7 +148,7 @@ public class GameManager : MonoBehaviour
         // Set the camera to a top-down view
         SetCameraToTopDownView(room);
         currentRoom = room;
-
+    
         // Start the transition to LevelStart
         yield return StartCoroutine(TransitionToLevelStart());
     }

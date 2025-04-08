@@ -173,4 +173,28 @@ public class Weapon : MonoBehaviour
         // End of swing
         isSwinging = false;
     }
+
+    public void Show()
+    {
+        if (weaponHolder != null)
+        {
+            SpriteRenderer weaponSprite = weaponHolder.GetComponentInChildren<SpriteRenderer>();
+            if (weaponSprite != null)
+            {
+                weaponSprite.enabled = true; // Show the weapon sprite
+            }
+        }
+    }
+
+    public void Hide()
+    {
+        if (weaponHolder != null)
+        {
+            SpriteRenderer weaponSprite = weaponHolder.GetComponentInChildren<SpriteRenderer>();
+            if (weaponSprite != null)
+            {
+                weaponSprite.enabled = false; // Show the weapon sprite
+            }
+        }
+    }
 }
