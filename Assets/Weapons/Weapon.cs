@@ -155,6 +155,10 @@ public class Weapon : MonoBehaviour
         float elapsed = 0f;
         while (elapsed < swingDuration)
         {
+            if (playerTransform == null)
+            {
+                yield break; // Exit if the player or sword transform is not found
+            }
             float t = elapsed / swingDuration;
             float angle = Mathf.Lerp(90f, -90f, t); // From -90 to +90 degrees
             Vector3 swingDir = Quaternion.AngleAxis(angle, playerTransform.up) * forwardOffsetVec.normalized;
