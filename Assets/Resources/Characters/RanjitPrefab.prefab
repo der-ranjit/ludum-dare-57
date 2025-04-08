@@ -335,14 +335,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerStats:
-    maxHealth: 25
-    currentHealth: 25
+    maxHealth: 15
+    currentHealth: 15
   rangedWeaponStats: {fileID: 11400000, guid: 66ffcf8ef808027489d0fec1da99e4ef, type: 2}
   meleeWeaponPrefabStats: {fileID: 11400000, guid: c602b1500d4c16340b279dc23c65b716, type: 2}
   moveSpeed: 4
   jumpForce: 4.35
   rotationSpeed: 5
   powerUpStats: {fileID: 0}
+  hideWeaponOnAttach: 0
 --- !u!114 &-1654908713474548803
 MonoBehaviour:
   m_ObjectHideFlags: 0

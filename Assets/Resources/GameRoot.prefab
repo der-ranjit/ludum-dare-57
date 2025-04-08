@@ -45,12 +45,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2c3f6b7f8857834da76c0c2e5675d72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  preStartDuration: 2
-  enemyCount: 6
-  killedEnemies: 0
+  playerPrefab: {fileID: 0}
+  CurrentState: 0
+  preventRoomCreation: 0
+  preStartDuration: 0.5
   noSpawnRadius: 4
   cameraHeightOffset: 10
-  cameraTransitionDuration: 3
+  cameraTransitionDuration: 2.3
+  kevinToUse: 
 --- !u!114 &9090147023688717874
 MonoBehaviour:
   m_ObjectHideFlags: 0

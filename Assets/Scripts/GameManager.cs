@@ -18,12 +18,12 @@ public class GameManager : MonoBehaviour
     public bool preventRoomCreation = false; // Prevent room creation for debugging purposes
 
     [Header("Room Start Settings")]
-    public float preStartDuration = 5f; // Duration of the PreStart state
+    public float preStartDuration = 0.5f; // Duration of the PreStart state
 
     public float noSpawnRadius = 10f; // Radius around the center of the room to spawn enemies
 
     public float cameraHeightOffset = 10f; // Adjustable height offset for the top-down view
-    public float cameraTransitionDuration = 3f; // Duration of the camera transition
+    public float cameraTransitionDuration = 2f; // Duration of the camera transition
 
     private bool allowEndingLevel = false; // Flag to allow ending the level. Falsed when level ending is started, and true'd only once fade-in is complete, to prevent weird issues with double level skips.
     private float proceedToNextRoomTimer = 0f; // Timer for proceeding to the next room
