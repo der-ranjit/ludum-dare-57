@@ -111,17 +111,19 @@ public class PlayerController : MonoBehaviour, IDamageable
         }
 
         // Change Weapon 
-        if (Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown(KeyCode.JoystickButton3))
+        if (Input.GetKeyDown(KeyCode.Tab) || Input.GetButtonDown("Fire3"))
         {
             if (currentWeapon != null)
             {
                 if (currentWeapon.baseStats.weaponType == WeaponStats.WeaponType.Melee)
                 {
                     currentWeapon.baseStats = rangedWeaponStats;
-                }
-                else
+                } else if (currentWeapon.baseStats.weaponType == WeaponStats.WeaponType.Ranged)
                 {
                     currentWeapon.baseStats = meleeWeaponPrefabStats;
+                } else
+                {
+                    currentWeapon.baseStats = rangedWeaponStats;
                 }
                 currentWeapon.ApplyPlayerPowerUpStats(powerUpStats);
                 currentWeapon.AttachToCharacter();
@@ -129,6 +131,12 @@ public class PlayerController : MonoBehaviour, IDamageable
         }
     }
 
+    public void EquipRangedWeapon()
+    {
+        currentWeapon.baseStats = rangedWeaponStats;
+        currentWeapon.ApplyPlayerPowerUpStats(powerUpStats);
+        currentWeapon.AttachToCharacter();
+    }
 
     public void TakeDamage(float damage)
     {

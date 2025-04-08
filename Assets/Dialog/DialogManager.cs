@@ -73,7 +73,7 @@ public class DialogManager : MonoBehaviour
         string displayText = currentText.Substring(0, Mathf.Min(charactersToDisplay, currentText.Length));
         textComponent.text = currentName + ": " + displayText;
 
-        bool userTriesToProceed = Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space);
+        bool userTriesToProceed = Input.GetKeyDown(KeyCode.Return) || Input.GetButtonDown("Jump");
         bool isFullText = displayText == currentText;
         if (userTriesToProceed) {
             if (isFullText)
