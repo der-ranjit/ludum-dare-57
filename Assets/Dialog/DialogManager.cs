@@ -45,6 +45,11 @@ public class DialogManager : MonoBehaviour
         SetUIOpacity(0);
     }
 
+    public void PreventPreventingNextDialog()
+    {
+        nextPrevented = false;
+    }
+
     public void PreventNextDialog()
     {
         nextPrevented = true;

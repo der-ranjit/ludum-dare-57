@@ -74,6 +74,8 @@ public class GameManager : MonoBehaviour
             levelFinished = ComputeIsRoomComplete();
             if (levelFinished)
             {
+                // reset dialog prevention mechanism configuration status
+                DialogManager.Instance?.PreventPreventingNextDialog();
                 Debug.Log("Level completed!");
                 if (levelHadEnemies)
                 {
