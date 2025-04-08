@@ -84,6 +84,9 @@ public class Weapon : MonoBehaviour
 
     public void Attack(Vector3 direction)
     {
+        if (Time.time < nextFireTime) return;
+
+        nextFireTime = Time.time + 1f / upgradedStats.fireRate;
         if (upgradedStats.weaponType == WeaponStats.WeaponType.Ranged)
         {
             FireRangedWeapon(direction);
@@ -96,26 +99,21 @@ public class Weapon : MonoBehaviour
 
     public void FireRangedWeapon(Vector3 direction)
     {
-        if (Time.time >= nextFireTime)
+        Transform firePoint = attachedWeaponPrefab?.transform.Find("FirePoint");
+        // If no fire point is set, use the weapon holder's position
+        if (firePoint == null)
         {
-            nextFireTime = Time.time + 1f / upgradedStats.fireRate;
-
-            Transform firePoint = attachedWeaponPrefab?.transform.Find("FirePoint");
-            // If no fire point is set, use the weapon holder's position
-            if (firePoint == null)
-            {
-                firePoint = weaponHolder?.transform;
-            }
-            if (firePoint == null)
-            {
-                firePoint = transform;
-            }
-            // Instantiate the bullet
-            GameObject bullet = Instantiate(upgradedStats.bulletPrefab, firePoint.position, Quaternion.LookRotation(direction));
-            RangedController bulletComponent = bullet.GetComponent<RangedController>();
-            bulletComponent.shooter = gameObject; // Set the shooter to the current weapon
-            bulletComponent.Initialize(upgradedStats);
+            firePoint = weaponHolder?.transform;
         }
+        if (firePoint == null)
+        {
+            firePoint = transform;
+        }
+        // Instantiate the bullet
+        GameObject bullet = Instantiate(upgradedStats.bulletPrefab, firePoint.position, Quaternion.LookRotation(direction));
+        RangedController bulletComponent = bullet.GetComponent<RangedController>();
+        bulletComponent.shooter = gameObject; // Set the shooter to the current weapon
+        bulletComponent.Initialize(upgradedStats);
     }
 
     public void PerformMeleeAttack(Vector3 direction)
@@ -133,7 +131,7 @@ public class Weapon : MonoBehaviour
         StartCoroutine(SwingSword());
     }
 
-      private IEnumerator SwingSword()
+    private IEnumerator SwingSword()
     {
         isSwinging = true;
 
@@ -170,7 +168,7 @@ public class Weapon : MonoBehaviour
 
         // Step 4: Reset the sword to its original position and rotation
         swordTransform.localRotation = initialRotation;
-        swordTransform.position= initialPosition;
+        swordTransform.position = initialPosition;
 
         // End of swing
         isSwinging = false;
