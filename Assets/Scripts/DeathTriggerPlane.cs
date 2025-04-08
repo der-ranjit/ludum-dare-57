@@ -27,6 +27,7 @@ public class DeathTriggerPlane : MonoBehaviour
     
         meshCollider = GetComponent<MeshCollider>();
         meshCollider.isTrigger = true;
+        meshCollider.convex = true;
         // scale the plane's (0) height down to make the collider smaller 
         Vector3 localScale = transform.localScale;
         localScale.y = 0.2f;
