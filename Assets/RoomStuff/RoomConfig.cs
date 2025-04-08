@@ -202,7 +202,7 @@ public static class RoomConfigs
                             "1: I will go over and demand my depth back."
                         });
 
-                        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().hideWeaponOnAttach = true;
+                        GameObject.FindGameObjectWithTag("Player").GetComponent<Weapon>().Disable();
                     }
                 );
             case 9:
@@ -261,7 +261,7 @@ public static class RoomConfigs
 
                         if (roomNum == 2)
                         {
-                            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().hideWeaponOnAttach = true;
+                            GameObject.FindGameObjectWithTag("Player").GetComponent<Weapon>().Disable();
                             // Initial dialog
                             DialogManager.Instance.StartDialog(new string[] {
                                 "!wait 3",

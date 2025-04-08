@@ -20,7 +20,6 @@ public class PlayerController : MonoBehaviour, IDamageable
     private float lastTextTime = 0;
     public WeaponStats powerUpStats;
     private IsGroundedCheck isGroundedCheck; // Reference to the IsGroundedCheck component
-    public bool hideWeaponOnAttach = false;
 
     void Start()
     {
@@ -114,7 +113,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         // Change Weapon 
         if (Input.GetKeyDown(KeyCode.Tab) || Input.GetButtonDown("Fire3"))
         {
-            if (currentWeapon != null)
+            if (currentWeapon != null && currentWeapon.IsEnabled())
             {
                 if (currentWeapon.baseStats.weaponType == WeaponStats.WeaponType.Melee)
                 {
@@ -185,16 +184,6 @@ public class PlayerController : MonoBehaviour, IDamageable
         // Equip a new weapon and update its adjusted stats
         currentWeapon = newWeapon;
         currentWeapon.ApplyPlayerPowerUpStats(powerUpStats);
-    }
-
-    public void ShowWeapon()
-    {
-        currentWeapon?.Show();
-    }
-
-    public void HideWeapon()
-    {
-        currentWeapon?.Hide();
     }
 
     string[] jumpTexts = new string[] { "Oof", "Haa", "Whee", "Wohoo" };

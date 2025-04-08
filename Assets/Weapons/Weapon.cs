@@ -13,7 +13,7 @@ public class Weapon : MonoBehaviour
     public float forwardOffset = 0.1f;
     public float swingRadius = 0.5f;
     private bool isSwinging = false;
-    private bool isVisible = true;
+    private bool isEnabled = true;
 
     public void Start()
     {
@@ -27,7 +27,7 @@ public class Weapon : MonoBehaviour
 
         AttachToCharacter();
         PlayerController playerController = GetComponent<PlayerController>();
-        if (playerController != null && playerController.hideWeaponOnAttach)
+        if (!isEnabled)
         {
             Hide();
         }
@@ -90,7 +90,8 @@ public class Weapon : MonoBehaviour
 
     public void Attack(Vector3 direction)
     {
-        if (!isVisible || Time.time < nextFireTime) return;
+        if (!isEnabled || Time.time < nextFireTime) return;
+
         float randomAttackDelay = gameObject.CompareTag("Enemy") ? Random.Range(0f, 0.5f) : 0;
         nextFireTime = Time.time + (1f / upgradedStats.fireRate) + randomAttackDelay;
         if (upgradedStats.weaponType == WeaponStats.WeaponType.Ranged)
@@ -137,6 +138,11 @@ public class Weapon : MonoBehaviour
         StartCoroutine(SwingSword());
     }
 
+    public bool IsEnabled()
+    {
+        return isEnabled;
+    }
+
     private IEnumerator SwingSword()
     {
         isSwinging = true;
@@ -180,7 +186,19 @@ public class Weapon : MonoBehaviour
         isSwinging = false;
     }
 
-    public void Show()
+    public void Enable()
+    {
+        isEnabled = true;
+        Show();
+    }
+
+    public void Disable()
+    {
+        isEnabled = false;
+        Hide();
+    }
+
+    private void Show()
     {
         if (weaponHolder != null)
         {
@@ -188,7 +206,6 @@ public class Weapon : MonoBehaviour
             if (weaponSprite != null)
             {
                 weaponSprite.enabled = true; // Show the weapon sprite
-                isVisible = true;
                 Vector3 textTransform = transform.position;
                 if (attachedWeaponPrefab != null)
                 {
@@ -199,7 +216,7 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    public void Hide()
+    private void Hide()
     {
         if (weaponHolder != null)
         {
@@ -207,7 +224,6 @@ public class Weapon : MonoBehaviour
             if (weaponSprite != null)
             {
                 weaponSprite.enabled = false; // Show the weapon sprite
-                isVisible = false;
             }
         }
     }

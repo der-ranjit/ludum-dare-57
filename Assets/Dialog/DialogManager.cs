@@ -152,9 +152,8 @@ public class DialogManager : MonoBehaviour
 
         if (sentence.StartsWith("!GIVEGUN"))
         {
-            PlayerController playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-            playerController.ShowWeapon();
-            playerController.hideWeaponOnAttach = false;
+            Weapon playerWeapon = GameObject.FindGameObjectWithTag("Player").GetComponent<Weapon>();
+            playerWeapon.Enable();
             DisplayNextSentence();
             return;
         }
