@@ -140,6 +140,7 @@ public class GameManager : MonoBehaviour
 
     public void ReplayRoomIn(float delay) {
         RoomCreator.StayInRoom();
+        DialogManager.Instance.PreventNextDialog();
         ProceedToNextRoomIn(delay);
     }
 
