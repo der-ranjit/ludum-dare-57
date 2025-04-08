@@ -132,7 +132,7 @@ public class Enemy : MonoBehaviour, IDamageable
 
         Vector3 directionToPlayer = (playerTransform.position - transform.position).normalized;
         // Calculate the target position for the next frame
-        Vector3 targetPosition = transform.position + directionToPlayer * moveSpeed * Time.fixedDeltaTime;
+        Vector3 targetPosition = transform.position + directionToPlayer * moveSpeed * Time.deltaTime;
         rb.MovePosition(targetPosition);
     }
 
@@ -142,7 +142,7 @@ public class Enemy : MonoBehaviour, IDamageable
 
         // Smoothly rotate to face the same direction as the player
         Quaternion targetRotation = playerTransform.rotation;
-        rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime));
+        rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime));
     }
 
     protected void Attack()

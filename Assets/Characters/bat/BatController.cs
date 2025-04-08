@@ -21,6 +21,7 @@ public class BatController : Enemy
     // Update is called once per frame
     protected override void Update()
     {
+        LockHeight();
         if (GameManager.Instance?.CurrentState != GameManager.GameState.Playing) return;
         if (DialogManager.Instance?.IsRunning() == true) return;
 
@@ -48,8 +49,7 @@ public class BatController : Enemy
         {
             Vector3 directionToPlayer = (playerTransform.position - transform.position).normalized;
             // Calculate the target position for the next frame
-            Vector3 targetPosition = transform.position + directionToPlayer * moveSpeed * Time.fixedDeltaTime;
-            targetPosition.y = lockedHeight;
+            Vector3 targetPosition = transform.position + directionToPlayer * moveSpeed * Time.deltaTime;
             transform.position = targetPosition;
         }
         // Check if enough time has passed since the last shitting action
@@ -59,6 +59,12 @@ public class BatController : Enemy
         }
     }
 
+    private void LockHeight()
+    {
+        Vector3 position = transform.position;
+        position.y = lockedHeight;
+        transform.position = position;
+    }
 
     private IEnumerator PerformShitting()
     {

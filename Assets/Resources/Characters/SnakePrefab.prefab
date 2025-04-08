@@ -270,10 +270,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 2
-  moveSpeed: 1
-  rotationSpeed: 1.5
-  strollSpeed: 1
-  dashSpeed: 5
+  moveSpeed: 3
+  rotationSpeed: 3
+  hideInitially: 1
+  strollSpeed: 2
+  dashSpeed: 10
   dashInterval: 5
   dashDuration: 1
   directionChangeInterval: 2
@@ -292,3 +293,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseStats: {fileID: 11400000, guid: 563cd65230f8d514790617a702fd7403, type: 2}
+  swingDuration: 0.5
+  forwardOffset: 0.1
+  swingRadius: 0.5

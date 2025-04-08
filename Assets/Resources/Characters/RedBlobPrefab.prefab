@@ -167,6 +167,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseStats: {fileID: 11400000, guid: 0d9b29d28d53649c7a09225c9bfd87ff, type: 2}
+  swingDuration: 0.5
+  forwardOffset: 0.1
+  swingRadius: 0.5
 --- !u!65 &1788792032237093047
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -212,10 +215,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ff3dc5f3e75f2e43b5e177172924642, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 2
-  moveSpeed: 1
-  rotationSpeed: 1.5
-  jumpInterval: 2
+  maxHealth: 5
+  moveSpeed: 2
+  rotationSpeed: 3
+  hideInitially: 1
+  jumpInterval: 1
   jumpForce: 5
 --- !u!1 &5500541063661676165
 GameObject:

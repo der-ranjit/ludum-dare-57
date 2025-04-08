@@ -167,6 +167,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseStats: {fileID: 11400000, guid: 57bdc43cf320167498f8008c8bd7e78e, type: 2}
+  swingDuration: 0.5
+  forwardOffset: 0.1
+  swingRadius: 0.5
 --- !u!65 &1788792032237093047
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -213,8 +216,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 2
-  moveSpeed: 1
-  rotationSpeed: 1.5
+  moveSpeed: 2.5
+  rotationSpeed: 3
+  hideInitially: 1
   jumpInterval: 2
   jumpForce: 5
 --- !u!1 &5500541063661676165
