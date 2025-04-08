@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour, IDamageable
     private float currentHealth;
     public float moveSpeed = 1f; // Speed at which the enemy moves
     public float rotationSpeed = 1.5f; // Speed at which the enemy rotates to face the player
+    public bool hideInitially = true;
     protected Transform playerTransform; // Reference to the player's transform
     protected Transform playerHeadAimPoint;
     protected Rigidbody rb; // Reference to the Rigidbody component
@@ -53,7 +54,7 @@ public class Enemy : MonoBehaviour, IDamageable
         if (spriteRenderer != null)
         {
             // Make the enemy invisible initially
-            spriteRenderer.enabled = false;
+            spriteRenderer.enabled = !hideInitially;
         }
 
         weapon = GetComponentInChildren<Weapon>();
@@ -65,7 +66,7 @@ public class Enemy : MonoBehaviour, IDamageable
         if (DialogManager.Instance?.IsRunning() == true) return;
 
         // Make the enemy visible when the level starts
-        HideSpriteInitially();
+        UnhideSprite();
         if (spriteRenderer.enabled)
         {
             MoveTowardsPlayer();
@@ -73,13 +74,13 @@ public class Enemy : MonoBehaviour, IDamageable
         }
     }
 
-    protected void HideSpriteInitially()
+    protected void UnhideSprite()
     {
          // Make the enemy visible when the level starts
         if (spriteRenderer != null && !spriteRenderer.enabled && !spriteIsActivating)
         {
             spriteIsActivating = true; // Prevent multiple calls to the coroutine
-            StartCoroutine(EnableSpriteRendererWithDelay());
+            StartCoroutine(EnableSpriteRendererWithRandomDelay());
         }
     }
 
@@ -99,7 +100,7 @@ public class Enemy : MonoBehaviour, IDamageable
         Destroy(gameObject);
     }
 
-    private IEnumerator EnableSpriteRendererWithDelay()
+    private IEnumerator EnableSpriteRendererWithRandomDelay()
     {
         // Wait for a random delay between 0 and 1 second
         float randomDelay = Random.Range(0f, 1f);
@@ -108,15 +109,6 @@ public class Enemy : MonoBehaviour, IDamageable
         // Enable the SpriteRenderer
         spriteRenderer.enabled = true;
     }
-
-    protected void Unhide()
-    {
-        if (spriteRenderer != null && !spriteRenderer.enabled)
-        {
-            spriteRenderer.enabled = true;
-        }
-    }
-
 
     protected void MoveTowardsPlayer()
     {

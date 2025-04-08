@@ -20,9 +20,14 @@ public class BatController : Enemy
     {
         if (GameManager.Instance?.CurrentState != GameManager.GameState.Playing) return;
         if (DialogManager.Instance?.IsRunning() == true) return;
-        Unhide();
-        RotateTowardsPlayer();
-        ShitPeriodically();
+
+        // Make the enemy visible when the level starts
+        UnhideSprite();
+        if (spriteRenderer.enabled)
+        {
+            RotateTowardsPlayer();
+            ShitPeriodically();
+        }
     }
 
     private void ShitPeriodically()

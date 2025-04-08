@@ -20,7 +20,6 @@ public class SnakeController : Enemy
     protected override void Start()
     {
         base.Start();
-        Unhide();
 
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         if (spriteRenderer != null)
@@ -32,22 +31,27 @@ public class SnakeController : Enemy
 
     protected override void Update()
     {
-        Unhide();
         if (GameManager.Instance?.CurrentState != GameManager.GameState.Playing) return;
         if (DialogManager.Instance?.IsRunning() == true) return;
-        if (isDashing)
-        {
-            DashTowardPlayer();
-        }
-        else
-        {
-            StrollRandomly();
-            CheckForDash();
-        }
 
-        RotateTowardsPlayer();
-        Attack();
-        AnimateConstriction();
+        // Make the enemy visible when the level starts
+        UnhideSprite();
+        if (spriteRenderer.enabled)
+        {
+            if (isDashing)
+            {
+                DashTowardPlayer();
+            }
+            else
+            {
+                StrollRandomly();
+                CheckForDash();
+            }
+
+            RotateTowardsPlayer();
+            Attack();
+            AnimateConstriction();
+        }
     }
 
     private void StrollRandomly()
