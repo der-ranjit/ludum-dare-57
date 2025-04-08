@@ -483,7 +483,7 @@ public static class RoomConfigs
                     // UnityEngine.Random.Range(0, 4), // stone count
                     0,
                     0,
-                    UnityEngine.Random.Range(1, 10) + roomProgress, // enemy count
+                    UnityEngine.Random.Range(1, 5) + roomProgress / 3, // enemy count
                     UnityEngine.Random.Range(2, 10) // deco count
                 );
         }

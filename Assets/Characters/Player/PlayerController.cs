@@ -157,7 +157,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         HealthUI[] healthUIs = FindObjectsOfType<HealthUI>();
         foreach (HealthUI healthUI in healthUIs)
         {
-            int intHp = Mathf.CeilToInt(hp / 5);
+            int intHp = Mathf.CeilToInt(hp);
             healthUI.SetHitpoints(intHp);
         }
     }

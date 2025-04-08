@@ -29,7 +29,7 @@ public class BillboardDuplicator : MonoBehaviour
             duplicate.name = spriteRenderer.gameObject.name + "_Duplicate_" + i; // Rename the duplicate for clarity
             duplicate.transform.position = spriteRenderer.transform.position;
             duplicate.transform.localRotation = Quaternion.Euler(0, angleStep * i, 0);
-            Debug.Log("Angle is " + angleStep * i + " vs original " + spriteRenderer.transform.rotation.eulerAngles.y);
+            // Debug.Log("Angle is " + angleStep * i + " vs original " + spriteRenderer.transform.rotation.eulerAngles.y);
             // Add to parent
             duplicate.transform.parent = transform; // Set the parent to the original object
         }
