@@ -40,13 +40,13 @@ public class PowerUp : MonoBehaviour
         powerUpStats = ScriptableObject.CreateInstance<WeaponStats>();
         powerUpStats.weaponName = "Random Power-Up";
         powerUpStats.damage = Random.Range(1.05f, 1.1f);
-        powerUpStats.bulletSpeed = Random.Range(1.05f, 1.1f);
-        powerUpStats.size = Random.Range(1.02f, 1.05f);
-        if (Random.value > 0.9f)
+        powerUpStats.bulletSpeed = Random.Range(1.1f, 1.2f);
+        powerUpStats.size = Random.Range(1.1f, 1.15f);
+        if (Random.value > 0.85f)
         {
             powerUpStats.piercing = 1;
         }
-        if (Random.value > 0.9f)
+        if (Random.value > 0.85f)
         {
             powerUpStats.bulletBounce = 1;
         }
