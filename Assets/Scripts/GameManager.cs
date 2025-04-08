@@ -1,5 +1,5 @@
 using System.Collections;
-using Unity.VisualScripting;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -33,7 +33,12 @@ public class GameManager : MonoBehaviour
     private float timeSpentInCurrentRoom = 0f; // Time spent in the current room
     private float fadeInDuration = 0.5f; // Duration for fading in
 
+    private bool levelFinished = false;
+    private bool levelHadEnemies = false;
+
     private Camera mainCamera;
+
+    private GameObject currentRoom;
 
     public void SetState(GameState newState)
     {
@@ -63,6 +68,19 @@ public class GameManager : MonoBehaviour
         float fadeInAlpha = 1 - (timeSpentInCurrentRoom / fadeInDuration);
         float alpha = Mathf.Clamp01(Mathf.Max(fadeOutAlpha, fadeInAlpha));
         ScreenFader.Instance?.setCurrentFadeAlpha(alpha);
+
+
+        // Check if the level is finished
+        if (!levelFinished) {
+            levelFinished = ComputeIsRoomComplete();
+            if (levelFinished)
+            {
+                Debug.Log("Level completed!");
+                if (levelHadEnemies) {
+                    SpawnPowerUpsInRoom(currentRoom, 1);
+                }
+            }
+        }
     }
 
     public void EnemyKilled()
@@ -116,9 +134,14 @@ public class GameManager : MonoBehaviour
         int enemies = 0; // Random.Range(1, 10); // DeleteAndGenerateRoom now spawns enemies on its own
         GameObject room = RoomCreator.DeleteAndGenerateRoom(null, width, height, null, playerPrefab);
         SpawnEnemies(room, enemies, noSpawnRadius);
+        levelFinished = false; // Reset level finished state for the new room
+        // room is a game object, it contains children, count those that have tag 'Enemy'
+        // Count enemies in the room to determine when the level is complete
+        levelHadEnemies = CountEnemies(room) > 0;
 
         // Set the camera to a top-down view
         SetCameraToTopDownView(room);
+        currentRoom = room;
 
         // Start the transition to LevelStart
         yield return StartCoroutine(TransitionToLevelStart());
@@ -153,6 +176,7 @@ public class GameManager : MonoBehaviour
         while (spawned < spawnCount && attempts < maxAttempts)
         {
             attempts++;
+            // NOTE: not used anymore, spawning happens in RoomCreator
 
             // Generate random position within plane bounds
             float randX = Random.Range(-planeSize.x / 2f, planeSize.x / 2f);
@@ -190,17 +214,25 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public bool IsRoomComplete()
+
+    public bool IsRoomComplete() {
+        return levelFinished;
+    }
+    private bool ComputeIsRoomComplete()
     {
         if (CurrentState != GameState.Playing)
         {
             return false;
         }
-        // Count the number of enemies in the scene
-        Enemy[] enemies = FindObjectsOfType<Enemy>();
-        int enemyCount = enemies.Length;
         // Check if all enemies are defeated
-        return enemyCount < 2;
+        return CountEnemies(currentRoom) < 1;
+    }
+
+    private int CountEnemies(GameObject room)
+    {
+        // Count the number of enemies in the room
+        Enemy[] enemies = FindObjectsOfType<Enemy>();
+        return enemies.Length;
     }
 
     // Regular method that can be called directly
@@ -301,6 +333,7 @@ public class GameManager : MonoBehaviour
 
     public void SpawnPowerUpsInRoom(GameObject room, int count)
     {
+        Debug.Log($"Spawning {count} power-ups in room: {room.name}");
         GameObject floor = room.transform.Find("Floor").gameObject;
         Vector3 roomCenter = floor.transform.position;
         Vector3 roomSize = floor.transform.localScale * 10f;
@@ -309,18 +342,48 @@ public class GameManager : MonoBehaviour
         {
             float randX = Random.Range(-roomSize.x / 2f, roomSize.x / 2f);
             float randZ = Random.Range(-roomSize.z / 2f, roomSize.z / 2f);
+            Debug.Log($"Random X: {randX}, Random Z: {randZ}");
             Vector3 spawnPosition = new Vector3(roomCenter.x + randX, roomCenter.y + 0.5f, roomCenter.z + randZ);
 
-            SpawnRandomPowerUp(spawnPosition);
+            SpawnRandomPowerUp(spawnPosition, room);
         }
     }
 
-    private void SpawnRandomPowerUp(Vector3 position)
+    private void SpawnRandomPowerUp(Vector3 position, GameObject room)
     {
-        GameObject powerUpPrefab = Resources.Load<GameObject>("PowerUps/PowerUpPrefab");
+        GameObject powerUpPrefab = Resources.Load<GameObject>("Rooms/All/PowerUpPrefab");
         if (powerUpPrefab != null)
         {
-            Instantiate(powerUpPrefab, position, Quaternion.identity);
+            GameObject powerup = Instantiate(powerUpPrefab, position, Quaternion.identity);
+            powerup.transform.parent = room.transform; // Set the parent to the room
+            Debug.Log($"Spawned power-up at {position}");
         }
+
     }
+
+    private GameObject[] GetChildrenWithTag(GameObject parent, string tag)
+    {
+        List<GameObject> taggedChildren = new List<GameObject>();
+        
+        // Check all immediate children
+        foreach (Transform child in parent.transform)
+        {
+            if (child.CompareTag(tag))
+            {
+                taggedChildren.Add(child.gameObject);
+            }
+            
+            // Also check all descendants recursively
+            foreach (Transform grandchild in child)
+            {
+                if (grandchild.CompareTag(tag))
+                {
+                    taggedChildren.Add(grandchild.gameObject);
+                }
+            }
+        }
+        
+        return taggedChildren.ToArray();
+    }
+
 }

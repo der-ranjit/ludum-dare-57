@@ -29,11 +29,14 @@ public class IsGroundedCheck : MonoBehaviour
         }
         Enemy enemyController = other.GetComponent<Enemy>();
         PlayerController playerController = transform.parent.GetComponent<PlayerController>();
-        float playerVelY = playerController.gameObject.GetComponent<Rigidbody>().velocity.y;
-        if (enemyController != null && playerController != null && playerVelY < -0.2f)
+        if (enemyController != null && playerController != null)
         {
-            playerController.JumpFromEnemy();
-            enemyController.TakeDamage(playerController.powerUpStats.damage);
+            float playerVelY = playerController.gameObject.GetComponent<Rigidbody>().velocity.y;
+            if (playerVelY < -0.2f)
+            {
+                playerController.JumpFromEnemy();
+                enemyController.TakeDamage(playerController.powerUpStats.damage);
+            }
         }
     }
 
