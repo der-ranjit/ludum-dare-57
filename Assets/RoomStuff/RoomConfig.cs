@@ -461,10 +461,17 @@ public static class RoomConfigs
             default:
                 Debug.LogError("Invalid room number. Creating default room.");
                 int roomProgress = roomNum - 5;
+                availableStyles = Enum.GetValues(typeof(RoomStyle))
+                    .Cast<RoomStyle>()
+                    .Where(style => style != RoomStyle.All) // Exclude "All" style
+                    .ToArray();
+
+                // Get a random style from the filtered list
+                randomStyle = availableStyles[UnityEngine.Random.Range(0, availableStyles.Length)];
                 return new RoomConfig(
                     "RandomRoom",
-                    new RoomStyle[] { RoomStyle.Forest },
-                    new RoomStyle[] { RoomStyle.All, RoomStyle.Forest },
+                    new RoomStyle[] { randomStyle },
+                    new RoomStyle[] { randomStyle },
                     UnityEngine.Random.Range(10f, 25f) + roomProgress, // width
                     UnityEngine.Random.Range(10f, 25f) + roomProgress, // height
                     0.5f,
