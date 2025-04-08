@@ -201,6 +201,8 @@ public static class RoomConfigs
                             "1: My neighbor Kevin!!! Any time something strange happens, you can be sure he's at fault.",
                             "1: I will go over and demand my depth back."
                         });
+
+                        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().hideWeaponOnAttach = true;
                     }
                 );
             case 9:
@@ -220,7 +222,8 @@ public static class RoomConfigs
                     0, // stone count
                     0, // enemy count
                     0, // deco count
-                    room => {
+                    room =>
+                    {
                         // Create Kevin
                         string prefabName = GameManager.Instance.kevinToUse;
                         GameObject kevinPrefab = Resources.Load<GameObject>("Characters/" + prefabName);
@@ -256,7 +259,9 @@ public static class RoomConfigs
                         lampInstance.transform.parent = room.transform;
                         lampInstance.name = "Lamp";
 
-                        if (roomNum == 2) {
+                        if (roomNum == 2)
+                        {
+                            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().hideWeaponOnAttach = true;
                             // Initial dialog
                             DialogManager.Instance.StartDialog(new string[] {
                                 "!wait 3",
@@ -286,14 +291,18 @@ public static class RoomConfigs
                                 "!type",
                                 "!turn Kevin 180",
                                 "!wait 2",
-                                "!cam 3.12 0.65 0.18",
+                                "!cam 3.38 0.53 0.51",
                                 "!wait 2",
                                 "1: (Alright then, same procedure as every time. I have to hypnotize him.)",
                                 "1: (And for that, I need the legendary pendulum of hypnotic depth.)",
                                 "1: (Which I will surely find by fighting my way through hordes of flat monsters!)",
+                                "!GIVEGUN",
+                                "1: ...",
                                 "!turn Player 180",
                             });
-                        } else {
+                        }
+                        else
+                        {
                             // Ending dialog
                             DialogManager.Instance.StartDialog(new string[] {
                                 "!wait 2",
@@ -351,7 +360,8 @@ public static class RoomConfigs
                     0, // stone count
                     0, // enemy count
                     0, // deco count
-                    room => {
+                    room =>
+                    {
                         // Create 3 slits
                         GameObject slitPrefab = Resources.Load<GameObject>("Rooms/SlitPrefab");
                         for (int i = 0; i < 8; i++)
@@ -393,7 +403,8 @@ public static class RoomConfigs
                     0, // stone count
                     0, // enemy count
                     0, // deco count
-                    room => {
+                    room =>
+                    {
                         LoadInPrefabContents(room, "FullRooms/Room4Prefab");
                     }
                 );
@@ -413,7 +424,8 @@ public static class RoomConfigs
                     0, // stone count
                     3, // enemy count
                     4, // deco count
-                    room => {
+                    room =>
+                    {
                         DialogManager.Instance.StartDialog(new string[] {
                             "!wait 4",
                             // "!turn Player 90",
@@ -447,7 +459,8 @@ public static class RoomConfigs
                     0, // stone count
                     0, // enemy count
                     0, // deco count
-                    room => {
+                    room =>
+                    {
                         // Spawn PendulumPrefab in middle of room
                         GameObject pendulumPrefab = Resources.Load<GameObject>("Rooms/All/PendulumPrefab");
                         GameObject pendulumInstance = UnityEngine.Object.Instantiate(pendulumPrefab);
@@ -479,8 +492,8 @@ public static class RoomConfigs
                     UnityEngine.Random.Range(0, 4), // door pos
                     UnityEngine.Random.Range(0, 10) + roomProgress, // slit count
                     UnityEngine.Random.Range(0f, 1f) < 0.4f ? 1 : 0, // fire count
-                    // UnityEngine.Random.Range(0, 4), // tree count
-                    // UnityEngine.Random.Range(0, 4), // stone count
+                                                                     // UnityEngine.Random.Range(0, 4), // tree count
+                                                                     // UnityEngine.Random.Range(0, 4), // stone count
                     0,
                     0,
                     UnityEngine.Random.Range(1, 5) + roomProgress / 3, // enemy count

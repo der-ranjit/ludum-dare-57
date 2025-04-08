@@ -103,7 +103,7 @@ public class DialogManager : MonoBehaviour
         isRunning = true;
 
         // Set player as target
-        GameObject player = GameObject.Find("Player");
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
             Camera.main.GetComponent<CameraController>().SetOverrideTarget(player.transform.position + new Vector3(0,1f,0)); // Set camera target to player
@@ -132,6 +132,15 @@ public class DialogManager : MonoBehaviour
 
         Debug.Log("Displaying sentence: " + sentence);
 
+        if (sentence.StartsWith("!GIVEGUN"))
+        {
+            PlayerController playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+            playerController.ShowWeapon();
+            playerController.hideWeaponOnAttach = false;
+            DisplayNextSentence();
+            return;
+        }
+        
         // If sentence starts with "!wait", we wait for the specified time
         if (sentence.StartsWith("!wait"))
         {

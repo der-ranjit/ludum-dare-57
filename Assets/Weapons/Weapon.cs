@@ -25,6 +25,11 @@ public class Weapon : MonoBehaviour
         }
 
         AttachToCharacter();
+        PlayerController playerController = GetComponent<PlayerController>();
+        if (playerController != null && playerController.hideWeaponOnAttach)
+        {
+            Hide();
+        }
     }
 
     public void ApplyPlayerPowerUpStats(WeaponStats playerPowerUpStats)

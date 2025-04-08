@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour, IDamageable
     private float lastTextTime = 0;
     public WeaponStats powerUpStats;
     private IsGroundedCheck isGroundedCheck; // Reference to the IsGroundedCheck component
+    public bool hideWeaponOnAttach = false;
 
     void Start()
     {
