@@ -85,8 +85,8 @@ public class Weapon : MonoBehaviour
     public void Attack(Vector3 direction)
     {
         if (Time.time < nextFireTime) return;
-
-        nextFireTime = Time.time + 1f / upgradedStats.fireRate;
+        float randomAttackDelay = gameObject.CompareTag("Enemy") ? Random.Range(0f, 0.5f) : 0;
+        nextFireTime = Time.time + (1f / upgradedStats.fireRate) + randomAttackDelay;
         if (upgradedStats.weaponType == WeaponStats.WeaponType.Ranged)
         {
             FireRangedWeapon(direction);

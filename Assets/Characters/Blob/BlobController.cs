@@ -12,6 +12,8 @@ public class BlobController : Enemy
     {
         base.Start();
         isGroundedCheck = GetComponentInChildren<IsGroundedCheck>(); // Get the IsGroundedCheck component
+        jumpInterval += Random.Range(0.8f, 1.2f);
+        jumpForce *= Random.Range(0.9f, 1.5f);
     }
 
     // Update is called once per frame

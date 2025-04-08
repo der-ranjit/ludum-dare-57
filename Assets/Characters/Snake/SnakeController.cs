@@ -26,6 +26,14 @@ public class SnakeController : Enemy
         {
             originalScale = spriteRenderer.transform.localScale;
         }
+
+        directionChangeInterval *= Random.Range(0.9f, 1.2f);
+        dashInterval *= Random.Range(0.9f, 1.2f);
+        dashDuration *= Random.Range(0.9f, 1.2f);
+        dashSpeed *= Random.Range(0.9f, 1.2f);
+        strollSpeed *= Random.Range(0.9f, 1.2f);
+        constrictionScaleFactor *= Random.Range(0.9f, 1.2f);
+
         ChangeRandomDirection(); // Initialize the first random direction
     }
 
@@ -38,6 +46,8 @@ public class SnakeController : Enemy
         UnhideSprite();
         if (spriteRenderer.enabled)
         {
+            EnableAttack();
+
             if (isDashing)
             {
                 DashTowardPlayer();

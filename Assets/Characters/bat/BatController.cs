@@ -13,6 +13,9 @@ public class BatController : Enemy
     protected override void Start()
     {
         base.Start();
+        shittingTime *= Random.Range(0.9f, 1.2f);
+        shittingInterval *= Random.Range(0.9f, 1.2f);
+        lockedHeight *= Random.Range(0.8f, 1.1f);
     }
 
     // Update is called once per frame
@@ -25,6 +28,7 @@ public class BatController : Enemy
         UnhideSprite();
         if (spriteRenderer.enabled)
         {
+            EnableAttack();
             RotateTowardsPlayer();
             ShitPeriodically();
         }

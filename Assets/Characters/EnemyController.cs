@@ -19,6 +19,8 @@ public class Enemy : MonoBehaviour, IDamageable
     protected SpriteRenderer spriteRenderer; // Reference to the enemy's SpriteRenderer
     protected Weapon weapon;
     private bool spriteIsActivating = false;
+    private float firstAttackDelay = Random.Range(2.5f, 3.5f);
+    private bool canAttack = false;
 
     protected virtual void Start()
     {
@@ -58,6 +60,7 @@ public class Enemy : MonoBehaviour, IDamageable
         }
 
         weapon = GetComponentInChildren<Weapon>();
+        moveSpeed *= Random.Range(0.85f, 1.3f);
     }
 
     protected virtual void Update()
@@ -69,14 +72,26 @@ public class Enemy : MonoBehaviour, IDamageable
         UnhideSprite();
         if (spriteRenderer.enabled)
         {
+            EnableAttack();
             MoveTowardsPlayer();
             RotateTowardsPlayer();
         }
     }
+    
+    protected void EnableAttack()
+    {
+        StartCoroutine(EnableAttackAfterDelay());
+    }
+
+    private IEnumerator EnableAttackAfterDelay()
+    {
+        yield return new WaitForSeconds(firstAttackDelay);
+        canAttack = true;
+    }
 
     protected void UnhideSprite()
     {
-         // Make the enemy visible when the level starts
+        // Make the enemy visible when the level starts
         if (spriteRenderer != null && !spriteRenderer.enabled && !spriteIsActivating)
         {
             spriteIsActivating = true; // Prevent multiple calls to the coroutine
@@ -131,7 +146,7 @@ public class Enemy : MonoBehaviour, IDamageable
 
     protected void Attack()
     {
-        if (playerTransform == null) return;
+        if (playerTransform == null || !canAttack) return;
 
         Transform aimPoint = playerHeadAimPoint != null ? playerHeadAimPoint : playerTransform;
         Vector3 direction = (aimPoint.position - transform.position).normalized;

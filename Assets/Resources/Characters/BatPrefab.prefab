@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3747601438853620772}
   - component: {fileID: 8821378083710318502}
   - component: {fileID: 2765437756379946398}
-  - component: {fileID: 4259884176121680222}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -107,18 +106,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &4259884176121680222
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2050527116778729756}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c9c32f89edfe93468483e2d4d33de52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7553380287488706251
 GameObject:
   m_ObjectHideFlags: 0
@@ -254,7 +241,8 @@ MonoBehaviour:
   maxHealth: 3
   moveSpeed: 2
   rotationSpeed: 1.5
-  lockedHeight: 1.5
+  hideInitially: 1
+  lockedHeight: 2.3
   shittingTime: 2
   shittingInterval: 4
 --- !u!114 &5158678722896429877
@@ -270,6 +258,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseStats: {fileID: 11400000, guid: 247837b37eb326c4393afb3618dd6056, type: 2}
+  swingDuration: 0.5
+  forwardOffset: 0.1
+  swingRadius: 0.5
 --- !u!1 &8973725113708986189
 GameObject:
   m_ObjectHideFlags: 0
