@@ -32,9 +32,9 @@ public class SnakeController : Enemy
 
     protected override void Update()
     {
+        Unhide();
         if (GameManager.Instance?.CurrentState != GameManager.GameState.Playing) return;
         if (DialogManager.Instance?.IsRunning() == true) return;
-        Unhide();
         if (isDashing)
         {
             DashTowardPlayer();
