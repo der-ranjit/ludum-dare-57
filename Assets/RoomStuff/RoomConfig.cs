@@ -178,6 +178,13 @@ public static class RoomConfigs
                         bookshelfInstance.transform.position = new Vector3(-2.35f, 0f, 4.99f);
                         bookshelfInstance.transform.parent = room.transform;
                         bookshelfInstance.name = "Bookshelf";
+                        // Lamp
+                        GameObject lampPrefab = Resources.Load<GameObject>("Rooms/Bedroom/Deco/LampPrefab");
+                        GameObject lampInstance = UnityEngine.Object.Instantiate(lampPrefab);
+                        lampInstance.transform.position = new Vector3(1.6f, 0, 4.56f);
+                        lampInstance.transform.rotation = Quaternion.Euler(0f, 90f, 0f);
+                        lampInstance.transform.parent = room.transform;
+                        lampInstance.name = "Lamp";
 
                         DialogManager.Instance.StartDialog(new string[] {
                             "!wait 4",
