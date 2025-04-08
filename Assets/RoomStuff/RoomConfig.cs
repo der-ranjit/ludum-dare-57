@@ -222,7 +222,8 @@ public static class RoomConfigs
                     0, // deco count
                     room => {
                         // Create Kevin
-                        GameObject kevinPrefab = Resources.Load<GameObject>("Characters/KevinPrefab");
+                        string prefabName = GameManager.Instance.kevinToUse;
+                        GameObject kevinPrefab = Resources.Load<GameObject>("Characters/" + prefabName);
                         GameObject kevinInstance = UnityEngine.Object.Instantiate(kevinPrefab);
                         kevinInstance.transform.position = new Vector3(-4.58f, 0f, 2.4f);
                         kevinInstance.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
