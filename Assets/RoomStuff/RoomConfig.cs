@@ -468,6 +468,8 @@ public static class RoomConfigs
 
                 // Get a random style from the filtered list
                 randomStyle = availableStyles[UnityEngine.Random.Range(0, availableStyles.Length)];
+                if (roomNum == 6) { randomStyle = RoomStyle.Forest; }
+                if (roomNum == 7) { randomStyle = RoomStyle.Cave; }
                 return new RoomConfig(
                     "RandomRoom",
                     new RoomStyle[] { randomStyle },
