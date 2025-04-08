@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class DialogManager : MonoBehaviour
 {
+
+    private bool nextPrevented = false;
+
     public static DialogManager Instance;
 
     private void Awake()
@@ -40,6 +43,11 @@ public class DialogManager : MonoBehaviour
         // this.StartDialog(new string[] { "1: Hello, how are you?", "1: I'm fine, thank you!", "1: What about you?" });
         // Hide the dialog UI here by setting this canvas's opacity to 0 (the game object)
         SetUIOpacity(0);
+    }
+
+    public void PreventNextDialog()
+    {
+        nextPrevented = true;
     }
 
     // Update is called once per frame
@@ -99,6 +107,11 @@ public class DialogManager : MonoBehaviour
 
     public void StartDialog(string[] sentencesArray)
     {
+        if (nextPrevented) {
+            Debug.Log("Dialog prevented.");
+            nextPrevented = false; // Reset the prevention flag
+            return;
+        }
         sentences = new Queue<string>();
         isRunning = true;
 
