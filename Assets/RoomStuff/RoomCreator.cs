@@ -19,8 +19,10 @@ public static class RoomCreator
     // System time now. Used for random seed.
     private static int startTime = System.DateTime.Now.Millisecond;
 
-    public static void StayInRoom() {
-        if (!stayingInRoom) {
+    public static void StayInRoom()
+    {
+        if (!stayingInRoom)
+        {
             stayingInRoom = true;
             roomsCreated--;
         }
@@ -41,6 +43,42 @@ public static class RoomCreator
         }
     }
 
+    // Based on created rooms, dims the main camera skylight color from its current to black, and changes the global directional light intensity, based on mins of both values.
+    // current min should be reached after 8 rooms
+    public static void DimTheLights()
+    {
+        // Define the maximum number of rooms after which the lights are fully dimmed
+        int maxRooms = 10;
+
+        // Customizable minimum values
+        float minLightIntensity = 0.1f; // Minimum directional light intensity
+        Color startColor = new Color(0.27f, 0.68f, 0.69f); // Starting color (#46AEB0)
+        Color minAmbientColor = Color.black; // Minimum ambient light color (fully black)
+        Color minBackgroundColor = Color.black; // Minimum background color for the main camera
+
+        // Calculate the dimming factor based on the number of rooms created
+        float dimFactor = Mathf.Clamp01((float)roomsCreated / maxRooms);
+
+        // Dim the ambient light color (from startColor to minAmbientColor)
+        RenderSettings.ambientLight = Color.Lerp(startColor, minAmbientColor, dimFactor);
+
+        // Find the global directional light in the scene
+        Light directionalLight = GameObject.FindObjectOfType<Light>();
+        if (directionalLight != null && directionalLight.type == LightType.Directional)
+        {
+            // Dim the directional light intensity (from 1 to minLightIntensity)
+            directionalLight.intensity = Mathf.Lerp(1f, minLightIntensity, dimFactor);
+        }
+
+        // Find the main camera and adjust its background color
+        Camera mainCamera = Camera.main;
+        if (mainCamera != null && mainCamera.clearFlags == CameraClearFlags.SolidColor)
+        {
+            // Dim the background color (from startColor to minBackgroundColor)
+            mainCamera.backgroundColor = Color.Lerp(startColor, minBackgroundColor, dimFactor);
+        }
+    }
+
     public static GameObject GenerateRoom(float planeWidth, float planeHeight, GameObject playerPrefab)
     {
         Sprite[] allSprites = Resources.LoadAll<Sprite>("Rooms/Forest/Walls");
@@ -48,7 +86,7 @@ public static class RoomCreator
         {
             Debug.Log($"Sprite name: {sprite.name}");
         }
-
+        DimTheLights();
         roomsCreated++; // Increment the room counter
         stayingInRoom = false; // Reset the staying in room flag
         Random.InitState(startTime + roomsCreated); // Initialize the random seed with the room number
@@ -187,21 +225,21 @@ public static class RoomCreator
             playerPrefab = Resources.Load<GameObject>("Characters/PlayerPrefab");
         }
         if (playerPrefab != null)
-            {
-                GameObject player = Object.Instantiate(playerPrefab, spawner.transform);
-                player.name = "Player";
-                player.transform.parent = room.transform;
-                // Look towards origin (but only apply to y axis)
-                Vector3 lookAt = new Vector3(0, player.transform.position.y, 0);
-                player.transform.LookAt(lookAt);
-                // Then round y angle to nearest 90° step
-                float yAngle = player.transform.eulerAngles.y;
-                yAngle = Mathf.Round(yAngle / 90f) * 90f;
-                player.transform.eulerAngles = new Vector3(0, yAngle, 0);
+        {
+            GameObject player = Object.Instantiate(playerPrefab, spawner.transform);
+            player.name = "Player";
+            player.transform.parent = room.transform;
+            // Look towards origin (but only apply to y axis)
+            Vector3 lookAt = new Vector3(0, player.transform.position.y, 0);
+            player.transform.LookAt(lookAt);
+            // Then round y angle to nearest 90° step
+            float yAngle = player.transform.eulerAngles.y;
+            yAngle = Mathf.Round(yAngle / 90f) * 90f;
+            player.transform.eulerAngles = new Vector3(0, yAngle, 0);
 
-                // Remove the spawner and its indicator after spawning the player
-                Object.DestroyImmediate(spawner);
-            }
+            // Remove the spawner and its indicator after spawning the player
+            Object.DestroyImmediate(spawner);
+        }
 
         // Create slits
         int slit_count = info.slitCount;
@@ -268,34 +306,35 @@ public static class RoomCreator
             }
             CreateThemedDecoElements(allDecoStyles, info.decoCount, room, planeWidth, planeHeight);
         }
-        
+
         // Spawn enemies with position filter
-        System.Func<Vector3, bool> enemyPositionFilter = (Vector3 pos) => {
+        System.Func<Vector3, bool> enemyPositionFilter = (Vector3 pos) =>
+        {
             // Avoid spawning too close to player spawn position
             float playerSpawnX = (info.playerSpawnX - 0.5f) * planeWidth;
             float playerSpawnZ = (info.playerSpawnY - 0.5f) * planeHeight;
             Vector3 playerSpawnPos = new Vector3(playerSpawnX, 0, playerSpawnZ);
             float minPlayerDistance = 5.0f;
-            
+
             if (Vector3.Distance(new Vector3(pos.x, 0, pos.z), playerSpawnPos) < minPlayerDistance)
             {
                 return false;
             }
-            
+
             // Avoid spawning too close to other room objects
             foreach (Transform child in room.transform)
             {
                 // Skip objects that are enemies themselves
                 if (child.name.StartsWith("Enemy_"))
                     continue;
-                    
+
                 float minAssetDistance = 1.5f;
                 if (Vector3.Distance(new Vector3(pos.x, 0, pos.z), new Vector3(child.position.x, 0, child.position.z)) < minAssetDistance)
                 {
                     return false;
                 }
             }
-            
+
             return true;
         };
 
@@ -337,7 +376,7 @@ public static class RoomCreator
         }
         Debug.Log($"Spawning {enemyCount} enemies of theme {theme} in room {room.name}");
         Debug.Log($"Enemy names: {string.Join(", ", enemyNames)}");
-        
+
         // Load all prefabs
         List<GameObject> enemyPrefabs = new List<GameObject>();
         foreach (string enemyName in enemyNames)
@@ -352,19 +391,19 @@ public static class RoomCreator
                 Debug.LogError($"Enemy prefab not found: {enemyName}");
             }
         }
-        
+
         // Create enemies
         for (int i = 0; i < enemyCount; i++)
         {
             // Select a random prefab from the list
             GameObject selectedPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Count)];
-            
+
             // Try up to 50 positions until we find a valid one
             Vector3 position = Vector3.zero;
             bool foundValidPosition = false;
             int attempts = 0;
             int maxAttempts = 50;
-            
+
             if (positionFilter != null)
             {
                 // Keep trying positions until we find one that passes the filter
@@ -374,10 +413,10 @@ public static class RoomCreator
                     foundValidPosition = positionFilter(position);
                     attempts++;
                 }
-                
+
                 if (!foundValidPosition)
                 {
-                    Debug.LogWarning($"Failed to find valid position for enemy {i+1} after {maxAttempts} attempts. Using last attempted position.");
+                    Debug.LogWarning($"Failed to find valid position for enemy {i + 1} after {maxAttempts} attempts. Using last attempted position.");
                 }
             }
             else
@@ -385,17 +424,17 @@ public static class RoomCreator
                 // No filter function provided, use default position generation
                 position = GetRandomPosition(1.5f, planeWidth, planeHeight);
             }
-            
+
             // Create an instance of the prefab
             GameObject enemyInstance = Object.Instantiate(selectedPrefab);
-            
+
             // Set position and rotation
             enemyInstance.transform.position = position;
             enemyInstance.transform.rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
-            
+
             // Parent the enemy to the room
             enemyInstance.transform.parent = room.transform;
-            
+
             // Name the enemy
             enemyInstance.name = $"Enemy_{selectedPrefab.name}_{i + 1}";
         }
@@ -416,9 +455,12 @@ public static class RoomCreator
 
         // If only wall side is specified and not exact position, use random factor between -0.25 and +0.25
         float doorPosOnWall = wallPos - wallId;
-        if (doorPosOnWall == 0) {
+        if (doorPosOnWall == 0)
+        {
             doorPosOnWall = Random.Range(-0.25f, 0.25f);
-        } else {
+        }
+        else
+        {
             doorPosOnWall -= 0.5f; // shift from [0,1] to [-0.5,0.5]
         }
 
@@ -505,53 +547,51 @@ public static class RoomCreator
         return material;
     }
 
-private static void CreateThemedDecoElements(RoomStyle[] RoomStyles, int decoCount, GameObject room, float planeWidth, float planeHeight)
-{
-    // List to store all eligible decoration prefabs
-    List<GameObject> eligiblePrefabs = new List<GameObject>();
-
-    // Load prefabs for each style in RoomStyles
-    foreach (RoomStyle style in RoomStyles)
+    private static void CreateThemedDecoElements(RoomStyle[] RoomStyles, int decoCount, GameObject room, float planeWidth, float planeHeight)
     {
-        string resourcePath = $"Rooms/{style.ToStringValue()}/Deco";
-        GameObject[] prefabs = Resources.LoadAll<GameObject>(resourcePath);
-        
-        Debug.Log($"Loaded {prefabs.Length} decoration prefabs from {resourcePath}");
-        
-        // Add all prefabs to the eligible list
-        foreach (GameObject prefab in prefabs)
+        // List to store all eligible decoration prefabs
+        List<GameObject> eligiblePrefabs = new List<GameObject>();
+
+        // Load prefabs for each style in RoomStyles
+        foreach (RoomStyle style in RoomStyles)
         {
-            eligiblePrefabs.Add(prefab);
+            string resourcePath = $"Rooms/{style.ToStringValue()}/Deco";
+            GameObject[] prefabs = Resources.LoadAll<GameObject>(resourcePath);
+
+            Debug.Log($"Loaded {prefabs.Length} decoration prefabs from {resourcePath}");
+
+            // Add all prefabs to the eligible list
+            foreach (GameObject prefab in prefabs)
+            {
+                eligiblePrefabs.Add(prefab);
+            }
+        }
+
+        // If no prefabs found, log error and return
+        if (eligiblePrefabs.Count == 0)
+        {
+            Debug.LogError("No decoration prefabs found for the specified styles.");
+            return;
+        }
+
+        // Create the specified number of decoration elements
+        for (int i = 0; i < decoCount; i++)
+        {
+            // Select a random prefab from the eligible list
+            GameObject selectedPrefab = eligiblePrefabs[Random.Range(0, eligiblePrefabs.Count)];
+            // Create an instance of the prefab
+            GameObject decoInstance = Object.Instantiate(selectedPrefab);
+            // Set a random position within the room
+            decoInstance.transform.position = GetRandomPosition(1.5f, planeWidth, planeHeight);
+            // Randomly rotate the decoration around the Y axis
+            decoInstance.transform.rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
+            // Parent the decoration to the room
+            decoInstance.transform.parent = room.transform;
+            // Name the decoration
+            decoInstance.name = $"Deco_{selectedPrefab.name}_{i + 1}";
+            // Add slight random scale variation for visual interest (optional)
+            // float scaleVariation = Random.Range(0.8f, 1.2f);
+            // decoInstance.transform.localScale *= scaleVariation;
         }
     }
-
-    // If no prefabs found, log error and return
-    if (eligiblePrefabs.Count == 0)
-    {
-        Debug.LogError("No decoration prefabs found for the specified styles.");
-        return;
-    }
-
-    // Create the specified number of decoration elements
-    for (int i = 0; i < decoCount; i++)
-    {
-        // Select a random prefab from the eligible list
-        GameObject selectedPrefab = eligiblePrefabs[Random.Range(0, eligiblePrefabs.Count)];
-        // Create an instance of the prefab
-        GameObject decoInstance = Object.Instantiate(selectedPrefab);
-        // Set a random position within the room
-        decoInstance.transform.position = GetRandomPosition(1.5f, planeWidth, planeHeight);
-        // Randomly rotate the decoration around the Y axis
-        decoInstance.transform.rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
-        // Parent the decoration to the room
-        decoInstance.transform.parent = room.transform;
-        // Name the decoration
-        decoInstance.name = $"Deco_{selectedPrefab.name}_{i + 1}";
-        // Add slight random scale variation for visual interest (optional)
-        // float scaleVariation = Random.Range(0.8f, 1.2f);
-        // decoInstance.transform.localScale *= scaleVariation;
-    }
 }
-}
-
-
