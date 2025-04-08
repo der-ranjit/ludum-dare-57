@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
     private float timeSpentInCurrentRoom = 0f; // Time spent in the current room
     private float fadeInDuration = 0.5f; // Duration for fading in
 
+    public string kevinToUse = "";
     private bool levelFinished = false;
     private bool levelHadEnemies = false;
 
@@ -122,6 +123,10 @@ public class GameManager : MonoBehaviour
             Debug.Log("Room creation is prevented for debugging purposes.");
             return;
         }
+        string playerPrefabName = Random.Range(0, 2) == 0 ? "RanjitPrefab" : "MarkusPrefab"; // Randomly choose between two player prefabs
+        playerPrefab = Resources.Load<GameObject>($"Characters/{playerPrefabName}");
+        kevinToUse = playerPrefabName == "RanjitPrefab" ? "KevinPrefab2" : "KevinPrefab"; // Set the kevin to use based on the chosen prefab
+
         StartCoroutine(CreateNextRoom());
     }
 
