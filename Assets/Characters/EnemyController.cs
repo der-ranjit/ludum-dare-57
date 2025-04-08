@@ -19,11 +19,12 @@ public class Enemy : MonoBehaviour, IDamageable
     protected SpriteRenderer spriteRenderer; // Reference to the enemy's SpriteRenderer
     protected Weapon weapon;
     private bool spriteIsActivating = false;
-    private float firstAttackDelay = Random.Range(2.5f, 3.5f);
+    private float firstAttackDelay;
     private bool canAttack = false;
 
     protected virtual void Start()
     {
+        firstAttackDelay = Random.Range(2.5f, 3.5f);
         currentHealth = maxHealth;
         gameObject.tag = "Enemy";
 
