@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -272,11 +273,18 @@ public class DialogManager : MonoBehaviour
 
     public void EndDialog()
     {
-        isRunning = false;
+        StartCoroutine(DelayedDialogEndSignaling());
         sentences.Clear();
         Camera.main.GetComponent<CameraController>().SetOverride(); // Reset camera override
         // Hide the dialog UI here
         Debug.Log("Dialog ended.");
+    }
+
+    private IEnumerator DelayedDialogEndSignaling()
+    {
+        // wait a frame so that dialog ending inputs do not trigger player inputs SHOULD SOMEONE EVER HAPPEN TO SMASH THE BUTTONS
+        yield return null;
+        isRunning = false;
     }
 
     public bool IsRunning()
