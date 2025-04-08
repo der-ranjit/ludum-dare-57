@@ -460,22 +460,23 @@ public static class RoomConfigs
 
             default:
                 Debug.LogError("Invalid room number. Creating default room.");
+                int roomProgress = roomNum - 5;
                 return new RoomConfig(
                     "RandomRoom",
                     new RoomStyle[] { RoomStyle.Forest },
                     new RoomStyle[] { RoomStyle.All, RoomStyle.Forest },
-                    UnityEngine.Random.Range(10f, 25f), // width
-                    UnityEngine.Random.Range(10f, 25f), // height
+                    UnityEngine.Random.Range(10f, 25f) + roomProgress, // width
+                    UnityEngine.Random.Range(10f, 25f) + roomProgress, // height
                     0.5f,
                     0.1f,
                     UnityEngine.Random.Range(0, 4), // door pos
-                    UnityEngine.Random.Range(0, 10), // slit count
+                    UnityEngine.Random.Range(0, 10) + roomProgress, // slit count
                     UnityEngine.Random.Range(0f, 1f) < 0.4f ? 1 : 0, // fire count
                     // UnityEngine.Random.Range(0, 4), // tree count
                     // UnityEngine.Random.Range(0, 4), // stone count
                     0,
                     0,
-                    UnityEngine.Random.Range(1, 10), // enemy count
+                    UnityEngine.Random.Range(1, 10) + roomProgress, // enemy count
                     UnityEngine.Random.Range(2, 10) // deco count
                 );
         }
