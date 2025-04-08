@@ -182,6 +182,12 @@ public class Weapon : MonoBehaviour
             if (weaponSprite != null)
             {
                 weaponSprite.enabled = true; // Show the weapon sprite
+                Vector3 textTransform = transform.position;
+                if (attachedWeaponPrefab != null)
+                {
+                    textTransform = attachedWeaponPrefab.transform.position;
+                }
+                TextParticleSystem.ShowEffect(textTransform + Vector3.up * 0.1f, "*murder*");
             }
         }
     }
