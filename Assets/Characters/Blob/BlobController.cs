@@ -18,6 +18,8 @@ public class BlobController : Enemy
     protected override void Update()
     {
         base.Update();
+        if (GameManager.Instance?.CurrentState != GameManager.GameState.Playing) return;
+        if (DialogManager.Instance?.IsRunning() == true) return;
         Attack();
         JumpPeriodically();
     }

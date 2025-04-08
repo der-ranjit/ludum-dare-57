@@ -10,6 +10,8 @@ public class AlienBroController : Enemy
     protected override void Update()
     {
         base.Update();
+        if (GameManager.Instance?.CurrentState != GameManager.GameState.Playing) return;
+        if (DialogManager.Instance?.IsRunning() == true) return;
         Attack();
         // Add wobble effect to the Y position
         float wobbleOffset = Mathf.Sin(Time.time * wobbleFrequency) * wobbleAmplitude;
