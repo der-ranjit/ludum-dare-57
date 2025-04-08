@@ -109,7 +109,7 @@ public class Enemy : MonoBehaviour, IDamageable
         }
     }
 
-    private void Die()
+    public void Die()
     {
         GameManager.Instance.EnemyKilled();
         Destroy(gameObject);
