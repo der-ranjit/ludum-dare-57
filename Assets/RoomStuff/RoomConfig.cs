@@ -178,6 +178,13 @@ public static class RoomConfigs
                         bookshelfInstance.transform.position = new Vector3(-2.35f, 0f, 4.99f);
                         bookshelfInstance.transform.parent = room.transform;
                         bookshelfInstance.name = "Bookshelf";
+                        // Lamp
+                        GameObject lampPrefab = Resources.Load<GameObject>("Rooms/Bedroom/Deco/LampPrefab");
+                        GameObject lampInstance = UnityEngine.Object.Instantiate(lampPrefab);
+                        lampInstance.transform.position = new Vector3(1.6f, 0, 4.56f);
+                        lampInstance.transform.rotation = Quaternion.Euler(0f, 90f, 0f);
+                        lampInstance.transform.parent = room.transform;
+                        lampInstance.name = "Lamp";
 
                         DialogManager.Instance.StartDialog(new string[] {
                             "!wait 4",
@@ -228,6 +235,25 @@ public static class RoomConfigs
                         deskInstance.transform.position = new Vector3(-4.6f, -0.37f, 3.4f);
                         deskInstance.transform.rotation = Quaternion.Euler(0f, 90f, 0f);
                         deskInstance.transform.parent = room.transform;
+                        // Bookshelf
+                        GameObject bookshelfPrefab = Resources.Load<GameObject>("Rooms/Bedroom/ShelfPrefab");
+                        GameObject bookshelfInstance = UnityEngine.Object.Instantiate(bookshelfPrefab);
+                        bookshelfInstance.transform.position = new Vector3(4.84f, 0, 4.35f);
+                        bookshelfInstance.transform.parent = room.transform;
+                        bookshelfInstance.name = "Bookshelf";
+                        // Bookshelf
+                        GameObject bookshelfInstance2 = UnityEngine.Object.Instantiate(bookshelfPrefab);
+                        bookshelfInstance2.transform.position = new Vector3(-6.48f, 0, -0.52f);
+                        bookshelfInstance2.transform.rotation = Quaternion.Euler(0f, 90f, 0f);
+                        bookshelfInstance2.transform.parent = room.transform;
+                        bookshelfInstance2.name = "Bookshelf 2";
+                        // Lamp
+                        GameObject lampPrefab = Resources.Load<GameObject>("Rooms/Bedroom/Deco/LampPrefab");
+                        GameObject lampInstance = UnityEngine.Object.Instantiate(lampPrefab);
+                        lampInstance.transform.position = new Vector3(-2.1f, 0, 4f);
+                        lampInstance.transform.rotation = Quaternion.Euler(0f, 90f, 0f);
+                        lampInstance.transform.parent = room.transform;
+                        lampInstance.name = "Lamp";
 
                         if (roomNum == 2) {
                             // Initial dialog
@@ -252,7 +278,8 @@ public static class RoomConfigs
                                 "1: What have you done? I'm flat!",
                                 "2: Ahhh yeah that, sorry, messed up with a commit last night and called the .flatten() method on the wrong object.",
                                 "1: Great! Can you please revert that???",
-                                "2: Hmmm no sorry. It's not a priority to fix that. It's crunch time, have to make the deadline to ship that thing I'm working on.",
+                                "2: Why are you so negative? My flat earther friends love it!",
+                                "2: Also it's not a priority to fix that. It's crunch time, have to make the deadline to ship that thing I'm working on.",
                                 "1: Unacceptable!",
                                 "2: Tell that to the PM. And now please let me deal with this merge conflict from hell...",
                                 "!type",
