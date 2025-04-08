@@ -337,8 +337,8 @@ MonoBehaviour:
   playerStats:
     maxHealth: 40
     currentHealth: 40
-  rangedWeaponStats: {fileID: 0}
-  meleeWeaponPrefabStats: {fileID: 0}
+  rangedWeaponStats: {fileID: 11400000, guid: 66ffcf8ef808027489d0fec1da99e4ef, type: 2}
+  meleeWeaponPrefabStats: {fileID: 11400000, guid: c602b1500d4c16340b279dc23c65b716, type: 2}
   moveSpeed: 4
   jumpForce: 4.35
   rotationSpeed: 5
