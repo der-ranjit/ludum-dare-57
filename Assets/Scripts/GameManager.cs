@@ -76,7 +76,8 @@ public class GameManager : MonoBehaviour
             if (levelFinished)
             {
                 Debug.Log("Level completed!");
-                if (levelHadEnemies) {
+                if (levelHadEnemies)
+                {
                     SpawnPowerUpsInRoom(currentRoom, 1);
                 }
             }

@@ -24,6 +24,9 @@ public class PowerUp : MonoBehaviour
             {
                 // Apply the power-up to the player's stats
                 player.ApplyPowerUp(powerUpStats);
+                string[] texts = new string[] { "something is better now?", "more stronger?", "more faster?", "more damage?" };
+                string randomString = texts[UnityEngine.Random.Range(0, texts.Length)];
+                TextParticleSystem.ShowEffect(transform.position + Vector3.up * 0.1f, randomString);
 
                 // Destroy the power-up object
                 Destroy(gameObject);
