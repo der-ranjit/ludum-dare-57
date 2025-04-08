@@ -3,6 +3,19 @@ using UnityEngine;
 [RequireComponent(typeof(MeshCollider))]
 public class DeathTriggerPlane : MonoBehaviour
 {
+
+    public static GameObject CreateDeathPlane(GameObject plane)
+    {
+        // create death plane 
+        GameObject deathPlane = GameObject.CreatePrimitive(PrimitiveType.Plane);
+        deathPlane.transform.localScale = plane.transform.localScale;
+        deathPlane.transform.position = plane.transform.position;
+        deathPlane.transform.rotation = plane.transform.rotation;
+        deathPlane.AddComponent<DeathTriggerPlane>();
+
+        return deathPlane;
+    }
+
     private MeshCollider meshCollider;
     private void Start()
     {

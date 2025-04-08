@@ -101,6 +101,11 @@ public static class RoomCreator
 
         // Create a parent GameObject for the room
         GameObject room = new GameObject("Room");
+        // It does what it sounds like
+        GameObject deathCube = new GameObject("DeathCube");
+        deathCube.transform.parent = room.transform;
+        // offset cube planes from main room
+        float deathCubeOffset = 1.4f;
 
         // Select random wall and floor materials based on the allowed styles
         RoomStyle wallStyle = info.wallStyles[Random.Range(0, info.wallStyles.Length)];
@@ -118,6 +123,12 @@ public static class RoomCreator
         plane.transform.position = Vector3.zero;
         plane.name = "Floor";
         plane.transform.parent = room.transform;
+        GameObject deathPlane = DeathTriggerPlane.CreateDeathPlane(plane);
+        Vector3 deathPlanePosition = deathPlane.transform.position;
+        deathPlanePosition.y = -deathCubeOffset;
+        deathPlane.transform.position = deathPlanePosition;
+        deathPlane.transform.localScale *= 5f;
+        deathPlane.transform.parent = deathCube.transform;
 
         if (floorMaterial != null)
         {
@@ -151,6 +162,9 @@ public static class RoomCreator
             ceiling.GetComponent<Renderer>().material.mainTextureScale = new Vector2(planeWidth / (ceilingSprite.texture.width / 25f), planeHeight / (ceilingSprite.texture.height / 25f));
             // Two-sided shadow casting
             ceiling.GetComponent<Renderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.TwoSided;
+
+            GameObject deathCeiling = DeathTriggerPlane.CreateDeathPlane(ceiling);
+            deathCeiling.transform.parent = deathCube.transform;
         }
 
         // Create walls
@@ -192,6 +206,8 @@ public static class RoomCreator
             // Two-sided shadow casting
             wall.GetComponent<Renderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.TwoSided;
 
+            GameObject deathWall = DeathTriggerPlane.CreateDeathPlane(wall);
+            deathWall.transform.parent = deathCube.transform;
 
             // Adjust tiling.x value of wallMaterial
             if (wallMaterial != null)
@@ -211,6 +227,9 @@ public static class RoomCreator
                 wall.GetComponent<Renderer>().material = tempWallMaterial;
             }
         }
+
+
+        deathCube.transform.localScale = Vector3.one * deathCubeOffset;
 
         // Create the player spawner.
         GameObject spawner = new GameObject("PlayerSpawner");
