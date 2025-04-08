@@ -22,11 +22,9 @@ public class Weapon : MonoBehaviour
         if (weaponHolderTransform != null)
         {
             weaponHolder = weaponHolderTransform.gameObject;
-            Debug.LogWarning("WeaponHolder not found. Weapon not attached.");
         }
 
         AttachToCharacter();
-        PlayerController playerController = GetComponent<PlayerController>();
         if (!isEnabled)
         {
             Hide();
