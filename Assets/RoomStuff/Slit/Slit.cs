@@ -73,11 +73,6 @@ public class Slit : MonoBehaviour
             if (angleDiff < 10 || Math.Abs(angleDiff - 180) < 10) {
                 // Trigger the slit victim if aligned
                 slitVictim.Trigger(); // Call the Trigger method on the SlitVictim script
-                Debug.Log($"Victim Angle: {victimAngle.y}, Slit Angle: {slitAngle.y}, Angle Difference: {angleDiff}");
-            }
-            else
-            {
-                Debug.Log("SlitVictim not aligned with the slit!");
             }
         }
     }

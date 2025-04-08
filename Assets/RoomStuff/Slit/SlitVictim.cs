@@ -14,7 +14,6 @@ public class SlitVictim : MonoBehaviour
     {
         if (isTriggered) return;
 
-        Debug.Log("SlitVictim Triggered!");
         isTriggered = true;
 
         // Disable physics interactions

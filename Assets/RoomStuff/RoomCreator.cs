@@ -446,6 +446,7 @@ public static class RoomCreator
 
             // Create an instance of the prefab
             GameObject enemyInstance = Object.Instantiate(selectedPrefab);
+            Debug.Log($"Spawned Enemy of prefab: {enemyInstance.name}");
 
             // Set position and rotation
             enemyInstance.transform.position = position;

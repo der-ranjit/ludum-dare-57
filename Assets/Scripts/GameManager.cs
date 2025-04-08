@@ -19,8 +19,6 @@ public class GameManager : MonoBehaviour
 
     [Header("Room Start Settings")]
     public float preStartDuration = 5f; // Duration of the PreStart state
-    public int enemyCount = 5; // Number of enemies to spawn
-    public int killedEnemies = 0;
 
     public float noSpawnRadius = 10f; // Radius around the center of the room to spawn enemies
 
@@ -82,19 +80,6 @@ public class GameManager : MonoBehaviour
                     SpawnPowerUpsInRoom(currentRoom, 1);
                 }
             }
-        }
-    }
-
-    public void EnemyKilled()
-    {
-        killedEnemies++;
-        UIManager.Instance.UpdateEnemyCount(killedEnemies, enemyCount);
-
-        if (killedEnemies >= enemyCount)
-        {
-            Debug.Log("All enemies killed!");
-            killedEnemies = 0; // Reset killed enemies for the next level
-            // Handle level completion
         }
     }
 
