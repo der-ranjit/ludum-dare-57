@@ -31,7 +31,10 @@ public class HealthUI : MonoBehaviour
         GameObject container = new GameObject("HeartsContainer");
         container.transform.SetParent(transform, false);
         heartsContainer = container.AddComponent<RectTransform>();
-        
+
+        // Set as first child
+        container.transform.SetSiblingIndex(0);
+            
         // Position in top right corner
         heartsContainer.anchorMin = new Vector2(1, 1);
         heartsContainer.anchorMax = new Vector2(1, 1);

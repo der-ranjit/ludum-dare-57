@@ -18,7 +18,7 @@ public class VioletBlobScript : MonoBehaviour
         // GetComponentInChildren<Animator>().SetBool("isJumping", isJumping);
 
         // TODO: death
-        bool isDead = false;
+        // bool isDead = false;
         // GetComponentInChildren<Animator>().SetBool("hasDied", isDead);
     }
 }
