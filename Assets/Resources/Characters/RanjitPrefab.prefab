@@ -335,9 +335,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerStats:
-    maxHealth: 1
-    currentHealth: 1
-  moveSpeed: 2
+    maxHealth: 40
+    currentHealth: 40
+  rangedWeaponStats: {fileID: 0}
+  meleeWeaponPrefabStats: {fileID: 0}
+  moveSpeed: 4
   jumpForce: 4.35
   rotationSpeed: 5
   powerUpStats: {fileID: 0}
@@ -366,3 +368,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseStats: {fileID: 11400000, guid: 66ffcf8ef808027489d0fec1da99e4ef, type: 2}
+  swingDuration: 0.5
+  forwardOffset: 1
+  swingRadius: 1.5

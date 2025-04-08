@@ -649,7 +649,11 @@ PlayerSettings:
   webGLMemoryGeometricGrowthStep: 0.2
   webGLMemoryGeometricGrowthCap: 96
   webGLPowerPreference: 2
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    Server: Directional;Light
+    Standalone: Directional;Light
+    WebGL: Directional;Light
+    Windows Store Apps: Directional;Light
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}
