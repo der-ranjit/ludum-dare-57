@@ -549,13 +549,13 @@ public static class RoomCreator
         // Clone the base material and set the sprite as its base map
         Material material = new Material(baseMaterial);
         material.mainTexture = randomSprite.texture;
-        if (isTransparent)
-        {
-            // enable alpha clipping
-            material.SetFloat("_AlphaClip", 1);
-            material.SetFloat("_Cutoff", 0.5f);
-            material.EnableKeyword("_ALPHATEST_ON");
-        }
+        // if (isTransparent)
+        // {
+        //     // enable alpha clipping
+        //     material.SetFloat("_AlphaClip", 1);
+        //     material.SetFloat("_Cutoff", 0.5f);
+        //     material.EnableKeyword("_ALPHATEST_ON");
+        // }
         // Repeat the texture if floor splite contains 'Tile' in name
         if (spriteFilter == "floor" && randomSprite.name.ToLower().Contains("tile"))
         {

@@ -8,6 +8,6 @@ public class DirectionalLightCirculator : MonoBehaviour
     private void Update()
     {
         // Rotate the light around its Y-axis
-        transform.Rotate(0f, rotationSpeed * Time.deltaTime, 0f);
+        // transform.rotation.Set(0f, rotationSpeed * Time.deltaTime, 0f);
     }
 }
