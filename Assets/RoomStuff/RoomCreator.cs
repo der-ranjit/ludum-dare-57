@@ -48,10 +48,10 @@ public static class RoomCreator
     public static void DimTheLights()
     {
         // Define the maximum number of rooms after which the lights are fully dimmed
-        int maxRooms = 10;
+        int maxRooms = 16;
 
         // Customizable minimum values
-        float minLightIntensity = 0.1f; // Minimum directional light intensity
+        float minLightIntensity = 0.15f; // Minimum directional light intensity
         Color startColor = new Color(0.27f, 0.68f, 0.69f); // Starting color (#46AEB0)
         Color minAmbientColor = Color.black; // Minimum ambient light color (fully black)
         Color minBackgroundColor = Color.black; // Minimum background color for the main camera
