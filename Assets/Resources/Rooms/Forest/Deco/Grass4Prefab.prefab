@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 567075520759087268}
   - component: {fileID: 4101165159005297114}
   m_Layer: 0
-  m_Name: sprite
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -94,6 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6650556682617409704}
   - component: {fileID: 6291739535385791832}
+  - component: {fileID: 9221916481289569247}
   m_Layer: 0
   m_Name: Grass4Prefab
   m_TagString: Untagged
@@ -130,3 +131,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numberOfBillboards: 1
+--- !u!114 &9221916481289569247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6084790989437382653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c9c32f89edfe93468483e2d4d33de52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

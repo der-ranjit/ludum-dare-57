@@ -7,6 +7,7 @@ public class SpriteSyncer : MonoBehaviour
 
     void Start()
     {
+        // original = transform.parent.GetComponentInParent<SpriteRenderer>();
         original = transform.parent.GetComponentInParent<SpriteRenderer>();
         clone = GetComponent<SpriteRenderer>();
     }
