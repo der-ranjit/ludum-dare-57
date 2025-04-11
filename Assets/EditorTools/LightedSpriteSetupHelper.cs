@@ -111,7 +111,7 @@ public class LightedSpriteSetupHelper : MonoBehaviour
         original.receiveShadows = true;
 
 
-        // Mark the prefab or scene as dirty ¬‿¬
+        // Make Editor save changes by marking the prefab or scene as dirty ¬‿¬
         if (PrefabUtility.IsPartOfPrefabInstance(gameObject))
         {
             PrefabUtility.RecordPrefabInstancePropertyModifications(gameObject);
