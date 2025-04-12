@@ -151,7 +151,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6117496558057403177}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 29ccb394f9bab4843ae979b6b3c102d8, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -205,6 +205,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseStats: {fileID: 11400000, guid: 57bdc43cf320167498f8008c8bd7e78e, type: 2}
+  swingDuration: 0.5
+  forwardOffset: 0.1
+  swingRadius: 0.5
 --- !u!136 &1846265130290053199
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -212,7 +215,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6117496558057403177}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 29ccb394f9bab4843ae979b6b3c102d8, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 64
@@ -255,5 +258,6 @@ MonoBehaviour:
   maxHealth: 2
   moveSpeed: 1
   rotationSpeed: 1.5
+  hideInitially: 1
   wobbleAmplitude: 0.5
   wobbleFrequency: 2

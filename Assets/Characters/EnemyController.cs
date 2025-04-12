@@ -52,6 +52,20 @@ public class Enemy : MonoBehaviour, IDamageable
         // Get the Rigidbody component
         rb = GetComponent<Rigidbody>();
 
+        Collider[] colliders = GetComponentsInChildren<Collider>();
+        PhysicMaterial frictionlessMaterial = Resources.Load<PhysicMaterial>("FrictionLess");
+        foreach (Collider collider in colliders)
+        {
+            if (collider is BoxCollider || collider is SphereCollider || collider is CapsuleCollider)
+            {
+                // Set the frictionless material to the collider
+                if (collider.material == null)
+                {
+                    collider.material = frictionlessMaterial;
+                }
+            }
+        }
+
         // Get the SpriteRenderer component
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         if (spriteRenderer != null)
@@ -78,7 +92,7 @@ public class Enemy : MonoBehaviour, IDamageable
             RotateTowardsPlayer();
         }
     }
-    
+
     protected void EnableAttack()
     {
         StartCoroutine(EnableAttackAfterDelay());

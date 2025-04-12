@@ -1,9 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public static class RoomCreator
 {
@@ -81,6 +77,8 @@ public static class RoomCreator
 
     public static GameObject GenerateRoom(float planeWidth, float planeHeight, GameObject playerPrefab)
     {
+        PhysicMaterial frictionLessMaterial = Resources.Load<PhysicMaterial>("FrictionLess");
+
         Sprite[] allSprites = Resources.LoadAll<Sprite>("Rooms/Forest/Walls");
         foreach (Sprite sprite in allSprites)
         {
@@ -123,6 +121,7 @@ public static class RoomCreator
         plane.transform.position = Vector3.zero;
         plane.name = "Floor";
         plane.transform.parent = room.transform;
+        plane.GetComponent<MeshCollider>().material = frictionLessMaterial;
         GameObject deathPlane = DeathTriggerPlane.CreateDeathPlane(plane);
         Vector3 deathPlanePosition = deathPlane.transform.position;
         deathPlanePosition.y = -deathCubeOffset;
@@ -156,6 +155,7 @@ public static class RoomCreator
             ceiling.transform.rotation = Quaternion.Euler(180f, 0f, 0f); // Rotate to face downward
             ceiling.name = "Ceiling";
             ceiling.transform.parent = room.transform;
+            ceiling.GetComponent<MeshCollider>().material = frictionLessMaterial;
             // Clone floor material
             ceiling.GetComponent<Renderer>().material = new Material(floorMaterial);
             ceiling.GetComponent<Renderer>().material.mainTexture = ceilingSprite.texture;
@@ -203,6 +203,8 @@ public static class RoomCreator
             wall.transform.rotation = wallRotations[i];
             wall.name = $"Wall_{i + 1}";
             wall.transform.parent = room.transform;
+            wall.GetComponent<MeshCollider>().material = frictionLessMaterial;
+
             // Two-sided shadow casting
             wall.GetComponent<Renderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.TwoSided;
 

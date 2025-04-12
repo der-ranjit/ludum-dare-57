@@ -31,6 +31,21 @@ public class PlayerController : MonoBehaviour, IDamageable
         currentWeapon = GetComponentInChildren<Weapon>(); // Get the weapon component
         isGroundedCheck = GetComponentInChildren<IsGroundedCheck>(); // Get the IsGroundedCheck component
         powerUpStats = ScriptableObject.CreateInstance<WeaponStats>(); // Initialize power-up stats
+
+        Collider[] colliders = GetComponentsInChildren<Collider>();
+        PhysicMaterial frictionlessMaterial = Resources.Load<PhysicMaterial>("FrictionLess");
+        foreach (Collider collider in colliders)
+        {
+            if (collider is BoxCollider || collider is SphereCollider || collider is CapsuleCollider)
+            {
+                // Set the frictionless material to the collider
+                if (collider.material == null)
+                {
+                    collider.material = frictionlessMaterial;
+                }
+            }
+        }
+
         // make sure player has a weapon holder transform
         setHp(playerStats.currentHealth); // Set initial health
     }
