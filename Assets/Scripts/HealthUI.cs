@@ -57,7 +57,7 @@ public class HealthUI : MonoBehaviour
         {
             heartImages[i].gameObject.SetActive(i < currentHitpoints);
             // Scale heart icon x8
-            heartImages[i].rectTransform.localScale = new Vector3(8, 8, 1);
+            heartImages[i].rectTransform.localScale = new Vector3(4, 4, 1);
         }
     }
     
@@ -67,14 +67,15 @@ public class HealthUI : MonoBehaviour
         RectTransform heartRect = newHeart.GetComponent<RectTransform>();
         
         // Set proper anchoring for positioning
-        heartRect.anchorMin = new Vector2(1, 0.5f);
-        heartRect.anchorMax = new Vector2(1, 0.5f);
-        heartRect.pivot = new Vector2(1, 0.5f);
+        heartRect.anchorMin = new Vector2(1, 0.5f); // center right
+        heartRect.anchorMax = new Vector2(1, 0.5f); // center right
+        heartRect.pivot = new Vector2(1, 0.5f); // top right
         
         // Position the heart
         float heartWidth = heartPrefab.rectTransform.rect.width;
         float xPosition = -(heartWidth + heartSpacing) * heartImages.Count;
-        heartRect.anchoredPosition = new Vector2(xPosition, 0);
+        float yPosition = 32f;
+        heartRect.anchoredPosition = new Vector2(xPosition, yPosition);
         
         heartImages.Add(newHeart);
     }

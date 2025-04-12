@@ -88,9 +88,10 @@ public static class RoomConfigs
 {
     public static RoomConfig GetBasicRoomInfo(int roomNum)
     {
+        Debug.Log("Creating room " + roomNum.ToString() + " with style " + RoomStyle.All.ToStringValue() + " and size " + 10f.ToString() + "x" + 10f.ToString() + ".");
         switch (roomNum)
         {
-            case 0:
+            case -1:
                 // Testing room
                 // Get all room styles except ones you want to exclude
                 var availableStyles = Enum.GetValues(typeof(RoomStyle))
@@ -120,6 +121,7 @@ public static class RoomConfigs
                     UnityEngine.Random.Range(1, 5), // enemy count
                     10
                 );
+            case 0: // <- hacky: room 0 is also harmless bedroom, this is behind title screen; once title screen is removed, we recreate room again to have fade-in and camera movement
             case 1:
                 return new RoomConfig(
                     "Bedroom",

@@ -234,6 +234,7 @@ public class GameManager : MonoBehaviour
     {
         proceedToNextRoomTimer = 0f; // Reset the timer
         timeSpentInCurrentRoom = 0f; // Reset the timer
+        StopAllCoroutines(); // e.g. in case we proceed to next room while roomStartTimer thing is still ongoing
         StartCoroutine(ProceedToNextRoomCoroutine());
     }
 

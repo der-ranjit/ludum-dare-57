@@ -4,7 +4,7 @@ using UnityEngine;
 public static class RoomCreator
 {
     private static bool startInBedroom = true; // Flag to indicate if the game starts in the bedroom    
-    private static int roomsCreated = startInBedroom ? 0 : -1; // Counter for the number of rooms created
+    private static int roomsCreated = startInBedroom ? -1 : -2; // Counter for the number of rooms created
     private static bool stayingInRoom = false;
     public static GameObject DeleteAndGenerateRoom(Material wallMaterial, float planeWidth, float planeHeight, Material planeMaterial, GameObject playerPrefab)
     {
