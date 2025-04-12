@@ -195,21 +195,25 @@ public class Weapon : MonoBehaviour
         isEnabled = false;
         Hide();
     }
-
     private void Show()
     {
         if (weaponHolder != null)
         {
-            SpriteRenderer weaponSprite = weaponHolder.GetComponentInChildren<SpriteRenderer>();
-            if (weaponSprite != null)
+            SpriteRenderer[] weaponSprites = weaponHolder.GetComponentsInChildren<SpriteRenderer>();
+            foreach (SpriteRenderer weaponSprite in weaponSprites)
             {
-                weaponSprite.enabled = true; // Show the weapon sprite
-                Vector3 textTransform = transform.position;
-                if (attachedWeaponPrefab != null)
+                if (weaponSprite != null)
                 {
-                    textTransform = attachedWeaponPrefab.transform.position;
+                    weaponSprite.enabled = true; 
+
+                    // show super funny text when enabling weapons
+                    Vector3 textTransform = transform.position;
+                    if (attachedWeaponPrefab != null)
+                    {
+                        textTransform = attachedWeaponPrefab.transform.position;
+                    }
+                    TextParticleSystem.ShowEffect(textTransform + Vector3.up * 0.1f, "*murder*");
                 }
-                TextParticleSystem.ShowEffect(textTransform + Vector3.up * 0.1f, "*murder*");
             }
         }
     }
@@ -218,10 +222,13 @@ public class Weapon : MonoBehaviour
     {
         if (weaponHolder != null)
         {
-            SpriteRenderer weaponSprite = weaponHolder.GetComponentInChildren<SpriteRenderer>();
-            if (weaponSprite != null)
+            SpriteRenderer[] weaponSprites = weaponHolder.GetComponentsInChildren<SpriteRenderer>();
+            foreach (SpriteRenderer weaponSprite in weaponSprites)
             {
-                weaponSprite.enabled = false; // Show the weapon sprite
+                if (weaponSprite != null)
+                {
+                    weaponSprite.enabled = false;
+                }
             }
         }
     }
