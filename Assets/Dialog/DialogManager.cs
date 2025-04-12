@@ -107,7 +107,7 @@ public class DialogManager : MonoBehaviour
     {
         // We just call it opacity, but actually we move the canvas down by 300px * opacity
         float f = 0.5f - 0.5f * Mathf.Cos(Mathf.PI * opacity);
-        float off = 0.5f * Screen.height;
+        float off = 250f;
         dialogContainer.transform.localPosition = new Vector3(0, -off * (1f - f), 0);
     }
 

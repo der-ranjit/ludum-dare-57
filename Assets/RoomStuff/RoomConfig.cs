@@ -201,7 +201,8 @@ public static class RoomConfigs
                             "1: This is unacceptable!",
                             "1: There is only one possible cause for this madness!",
                             "1: My neighbor Kevin!!! Any time something strange happens, you can be sure he's at fault.",
-                            "1: I will go over and demand my depth back."
+                            "1: I will go over and demand my depth back.",
+                            "!turn Player 270"
                         });
 
                         GameObject.FindGameObjectWithTag("Player").GetComponent<Weapon>().Disable();
@@ -300,7 +301,7 @@ public static class RoomConfigs
                                 "1: (Which I will surely find by fighting my way through hordes of flat monsters!)",
                                 "!GIVEGUN",
                                 "1: ...",
-                                "!turn Player 180",
+                                "!turn Player 90",
                             });
                         }
                         else
@@ -474,7 +475,7 @@ public static class RoomConfigs
                 );
 
             default:
-                Debug.LogError("Invalid room number. Creating default room.");
+                Debug.Log("Unspecific room number. Creating randomized room.");
                 int roomProgress = roomNum - 5;
                 availableStyles = Enum.GetValues(typeof(RoomStyle))
                     .Cast<RoomStyle>()
